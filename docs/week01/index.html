@@ -362,24 +362,12 @@ body.laser-on #laser{display:block}
 
 <!-- ===== Part 1 · A simulation is a loop with state (L03–L09) ===== -->
 
-<!-- L03 · type: question -->
-<section class="slide" data-track="lecture" data-section="Part 1 · A simulation is a loop with state" data-time="30 min" data-title="Two orders, one mass">
+<!-- L03 · type: question, built as a step scene (storyboard l03) -->
+<section class="slide" data-track="lecture" data-section="Part 1 · A simulation is a loop with state" data-time="30 min" data-title="Two orders, one mass" data-scene="l03">
   <span class="kicker">Part 1 · A simulation is a loop with state</span>
   <h2>Two programs differ by the order of two lines. Does the mass care?</h2>
-  <div class="q" style="font-size:27px;padding:18px 26px">A 0.50 kg mass on a spring ($k = 2.0\ \text{N/m}$) starts at $x = 0.10\ \text{m}$ at rest. Two programs step it with $\Delta t = 0.05\ \text{s}$ for 10 periods (628 steps). They differ only in the order of the two update lines. What amplitude does each report at the end?</div>
-  <div class="cols">
-<pre>for n in range(628):             # A: both lines use the old state
-    x, v = x + v*dt, v - w*w*x*dt
-
-for n in range(628):             # B: new v first, then x with it
-    v = v - w*w*x*dt
-    x = x + v*dt</pre>
-    <div class="stack">
-      <div class="card amber step"><span class="tag predict">Predict · 1 min</span><p style="margin-top:8px">Most say "both 0.10 m: same equations, energy is conserved"; a few say "both slightly off".</p></div>
-      <div class="res step"><p>A: $2.27\ \text{m}$, $22.7\times$ the start</p><p>B: $0.100\ \text{m}$</p></div>
-      <div class="card green step"><span class="tag check">Settles</span><p style="margin-top:8px">A multiplies the energy by exactly $1 + (\omega\Delta t)^2 = 1.01$ every step: $1.01^{628} \approx e^{6.25} \approx 517$, so the amplitude grows by $\sqrt{517} \approx 22.7$.</p></div>
-    </div>
-  </div>
+  <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
+  <div class="rail"></div>
   <aside class="notes"><p>Display-only code (the full programs, with x, v = 0.10, 0 before each loop, are in the notebook appendix). Show both programs, collect votes (1 min): "same", "A wrong", "B wrong". ω = √(k/m) = 2.0 rad/s, period π s, ωΔt = 0.10. Do not explain yet; L06 derives the factor. Transition: "to see why, look at what a loop actually does".</p></aside>
 </section>
 
@@ -461,31 +449,12 @@ print(x, round(v, 3))</pre>
   <aside class="notes"><p>Start at Δt = 0.05 s, A: E/E₀ = 517. Slide to 0.025: 23.1; 0.01: 3.51; 0.005 (ten times smaller): 1.87 (✗, 87 % off). Toggle B at Δt = 0.05: 1.0006 (✓). Swapping two lines beats a ten times smaller step. B's energy still wobbles by ±5 % inside each period (L06); the readout is taken after whole periods. Numbers from numbers.py (L07).</p></aside>
 </section>
 
-<!-- L08 · type: concept -->
-<section class="slide" data-track="lecture" data-section="Part 1 · A simulation is a loop with state" data-time="30 min" data-title="Selection stops the loop">
+<!-- L08 · type: concept, built as a step scene (storyboard l08) -->
+<section class="slide" data-track="lecture" data-section="Part 1 · A simulation is a loop with state" data-time="30 min" data-title="Selection stops the loop" data-scene="l08">
   <span class="kicker">Part 1 · A simulation is a loop with state</span>
   <h2>Selection stops the loop when the ball reaches the floor</h2>
-  <div class="cols">
-    <div class="stack">
-      <div class="card blue"><ul>
-        <li>A dropped ball: we do not know how many steps, so the loop runs until an event</li>
-        <li>Selection: <span class="key">if y &lt; 0: break</span>; the loop stops one step after the crossing</li>
-        <li>Exact fall time from 20 m: $t = \sqrt{2h/g} = 2.019\ \text{s}$</li>
-      </ul></div>
-      <div class="card green step"><span class="tag check">Magnitude</span><p style="margin-top:8px">The last point is $0.6\ \text{m}$ below the floor and $81\ \text{ms}$ late; a straight line between the last two points gives $2.069\ \text{s}$, closer, and the rest is Euler's own error (L13).</p></div>
-    </div>
-    <div class="stack">
-<pre>g, dt = 9.81, 0.1
-t, y, v = 0.0, 20.0, 0.0
-while True:
-    y, v, t = y + v*dt, v - g*dt, t + dt
-    if y &lt; 0:
-        break
-print(round(t, 3), round(y, 2))</pre>
-<pre class="out step">2.1 -0.6</pre>
-      <div class="res step"><p>Loop: $t = 2.100\ \text{s}$ · exact: $t = 2.019\ \text{s}$</p></div>
-    </div>
-  </div>
+  <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
+  <div class="rail"></div>
   <aside class="notes"><p>Ask: "the loop says 2.100 s. Where did the ball cross y = 0?" Draw the last two points on the board and interpolate. Students know the exact answer from kinematics: that is our test.</p></aside>
 </section>
 
@@ -514,27 +483,13 @@ print([round(fall_time(20, d), 4) for d in (0.1, 0.01, 0.001)])</pre>
 
 <!-- ===== Part 2 · Is the simulation right? (L10–L15) ===== -->
 
-<!-- L10 · question -->
-<section class="slide" data-track="lecture" data-section="Part 2 · Is the simulation right?" data-time="26 min" data-title="while t &lt; 1.0: how many steps?">
-  <span class="kicker">Part 2 · Is the simulation right?</span>
+<!-- L10 · question as a lecture scene: the float clock overshoots -->
+<section class="slide" data-track="lecture" data-section="Part 2 · Is the simulation right?" data-time="26 min" data-title="while t &lt; 1.0: how many steps?" data-scene="l10">
+  <span class="kicker">Part 2 · Step by step</span>
   <h2>while t &lt; 1.0 with steps of 0.1: how many steps?</h2>
-  <div class="q">A loop advances the clock with <span class="key">t += 0.1</span> while <span class="key">t &lt; 1.0</span>. How many steps does it take, and what is $t$ at the end?</div>
-  <div class="cols">
-    <div class="stack">
-<pre>t, n = 0.0, 0
-while t &lt; 1.0:
-    t += 0.1
-    n += 1
-print(n, t)</pre>
-      <div class="card amber step"><span class="tag predict">Predict · 1 min</span><p style="margin-top:10px">Almost everyone says 10 steps, $t = 1.0$.</p></div>
-    </div>
-    <div class="stack">
-<pre class="out step">11 1.0999999999999999</pre>
-      <div class="card green step"><span class="tag check">Reveal</span><p style="margin-top:10px">11 steps; $t = 1.0999999999999999$.</p></div>
-      <div class="card step"><span class="tag result">Settles</span><p style="margin-top:10px">After ten additions $t = 0.9999999999999999$, still less than 1.0, so the loop runs once more.</p></div>
-    </div>
-  </div>
-  <aside class="notes"><p>Votes first. An array sized for 10 states would overflow on step 11: the same trap waits in any while loop on a float clock. Transition: why is 0.1 not exact?</p></aside>
+  <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
+  <div class="rail"></div>
+  <aside class="notes"><p>Votes first, at step 1: how many steps, and what is t at the end? Step 2 shows the code (t, n = 0.0, 0; while t &lt; 1.0: t += 0.1; n += 1; print(n, t)) and the usual prediction, 10 steps and t = 1.0. Let the ten jumps run, then ask: "is the 10th dot on the line?" before the zoom. The zoom shows 0.9999999999999999, still left of 1.0, so the loop runs once more: 11 steps, output 11 1.0999999999999999. An array sized for 10 states would overflow on step 11: the same trap waits in any while loop on a float clock. Transition: why is 0.1 not exact?</p></aside>
 </section>
 
 <!-- L11 · concept -->
@@ -719,22 +674,13 @@ print(d["height_cm"][:3], d["time_s"][:3])</pre>
   <aside class="notes"><p>Week 0 used pandas for the same job; genfromtxt keeps us close to arrays. Either is fine in the lab. Three minutes.</p></aside>
 </section>
 
-<!-- L19 · concept -->
-<section class="slide" data-track="lecture" data-section="Part 3 · A measurement file becomes a data structure" data-time="28 min" data-title="A mask and one division">
-  <span class="kicker">Part 3 · A measurement file becomes a data structure</span>
+<!-- L19 · lecture scene: the mask step (storyboard) -->
+<section class="slide" data-track="lecture" data-section="Part 3 · A measurement file becomes a data structure" data-time="28 min" data-title="A mask and one division" data-scene="l19">
+  <span class="kicker">Part 3 · Step by step</span>
   <h2>A boolean mask removes the missed trigger; one division fixes the unit</h2>
-  <ul>
-    <li>Selection on a whole column: <span class="key">good = time &gt; 0</span> is an array of True/False</li>
-    <li><span class="key">h[good]</span> keeps only the rows that passed</li>
-    <li>Convert once, at the start: cm → m</li>
-  </ul>
-<pre>good = d["time_s"] &gt; 0                 # a missed trigger is 0.0000
-h = d["height_cm"][good] / 100         # cm -&gt; m
-t = d["time_s"][good]
-print(good.sum(), "of", good.size, "rows;", round((2 * h / t**2).mean(), 2))</pre>
-<pre class="out step">14 of 15 rows; 9.79</pre>
-  <div class="card green step"><span class="tag check">Check</span><p style="margin-top:8px">Count: 15 rows − 1 missed trigger = 14. Magnitude: $9.79\ \text{m/s}^2$ is within 0.2 % of standard gravity.</p></div>
-  <aside class="notes"><p>Ask: "why not just delete the row in Excel?" The mask keeps the raw file untouched and the decision visible in code. Four minutes.</p></aside>
+  <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
+  <div class="rail"></div>
+  <aside class="notes"><p>Stop at step 1 for the prediction (most say about 9.8). At step 3 let the column fill and ask what one 0.0000 does to a mean. At step 5 ask: "why not just delete the row in Excel?" The mask keeps the raw file untouched and the decision visible in code. At step 6 point at the header: height_cm. The file is plan/freefall.csv (illustrative). Four minutes.</p></aside>
 </section>
 
 <!-- L20 · concept -->
@@ -817,24 +763,19 @@ print(f"g = {g_fit:.2f} ± {dg:.2f} m/s², b = {p[1]*1e3:.1f} mm")</pre>
   <aside class="notes"><p>Show the 10-bin plot first and ask for the number of peaks. Source of energies: LNHB/DDEP tables (1173.228 and 1332.492 keV). Resolution FWHM 6 % at 1.33 MeV is illustrative.</p><p>Steps: prediction, the reveal (one bump, 5855 and 8303 counts), the 100 keV histogram (two peaks), then why: 200 keV bins against 159 keV separation and σ ≈ 33 keV.</p></aside>
 </section>
 
-<!-- L24 · concept -->
-<section class="slide" data-track="lecture" data-section="Part 4 · A spectrum is an array of counters" data-time="26 min" data-title="A histogram is an array of counters">
+<!-- L24 · concept, built as a step scene (storyboard) -->
+<section class="slide" data-track="lecture" data-section="Part 4 · A spectrum is an array of counters" data-time="26 min" data-title="A histogram is an array of counters" data-scene="l24">
   <span class="kicker">Part 4 · A spectrum is an array of counters</span>
   <h2>A histogram is an array of counters indexed by the value</h2>
-  <ul>
-    <li>Event list: one energy per photon; spectrum: one count per bin</li>
-    <li>Bin index $i = \lfloor (E - E_0)/\Delta E \rfloor$, then <span style="font-family:var(--mono)">counts[i] += 1</span></li>
-    <li><span style="font-family:var(--mono)">np.histogram</span> does the same loop; the counts add up to the number of events</li>
-  </ul>
-<pre>E = np.array([1180.2, 1325.7, 640.0, 1171.9, 1338.4])   # keV, five events
+  <div class="scene"><svg class="fig" viewBox="0 0 900 420" style="height:420px"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
+  <div class="rail"></div>
+<pre style="font-size:16px;line-height:1.35;padding:8px 14px;width:900px;box-sizing:border-box">E = np.array([1180.2, 1325.7, 640.0, 1171.9, 1338.4])   # keV, five events
 counts = np.zeros(100, dtype=int)                        # 20 keV bins, 0–2000 keV
 for e in E:
     counts[int(e // 20)] += 1
 c2, edges = np.histogram(E, bins=np.arange(0, 2020, 20))
 print(np.nonzero(counts)[0], (counts == c2).all())</pre>
-<pre class="out step">[32 58 59 66] True</pre>
-  <div class="card green step"><span class="tag check">Check · by hand</span><p style="margin-top:10px">$1325.7 // 20 = 66$ and $1338.4 // 20 = 66$ share a bin: 4 non-empty bins for 5 events; the sum of counts is 5.</p></div>
-  <aside class="notes"><p>Ask: "which data structure is a spectrum?" An integer array whose index is energy. For the 20 000 events the counts add up to 19 955 (events outside 0–2000 keV are dropped: check that sum).</p></aside>
+  <aside class="notes"><p>Ask: "which data structure is a spectrum?" An integer array whose index is energy. For the 20 000 events the counts add up to 19 955 (events outside 0–2000 keV are dropped: check that sum).</p><p>The figure shows only bins 31–33, 57–60 and 65–67 of the 100 (axis breaks). Steps: ask "how many non-empty bins?" before any photon drops; the photons fall in the order of the array E (1180.2, 1325.7, 640.0, 1171.9, 1338.4). Stop before the fifth photon: "where does 1338.4 go?" It lands in bin 66 beside 1325.7 and the counter goes 1 → 2. Result: 4 non-empty bins [32 58 59 66], sum 5; the printed output is [32 58 59 66] True. Checks: np.histogram gives the same array; 1325.7 // 20 = 1338.4 // 20 = 66 by hand; the trap "one photon per bin" (5 bins) is crossed out.</p></aside>
 </section>
 
 <!-- L25 · widget -->
@@ -2261,6 +2202,250 @@ scene('l05', {
   ],
 });
 
+/* =====================================================================================================
+   L03 · Two update orders, one mass. Two springs (A top, B bottom), each with its x(t) trace underneath.
+   The masses oscillate at the true period (π s); the spring is a row of coils, coil i moves amp·i/9, so it
+   stretches. A's amplitude per step = the Euler amplitude after 1, 3, 10 periods (computed below, as in
+   numbers.py: ωΔt = 0.1, 628 steps). Row scale: 0.10 m = 90 px, then rescaled so 2.27 m = 300 px.
+   ===================================================================================================== */
+const L03 = (() => {
+  const w = 2.0, dt = 0.05, N = 628, A = [0.10], B = [0.10];
+  let xa = 0.10, va = 0, xb = 0.10, vb = 0;
+  for (let i = 1; i <= N; i++) {
+    const xn = xa + va * dt; va = va - w * w * xa * dt; xa = xn; A.push(xa);       // A: both from the old state
+    vb = vb - w * w * xb * dt; xb = xb + vb * dt; B.push(xb);                      // B: new v first
+  }
+  const amp = (xs, n) => Math.max(...xs.slice(Math.max(0, n - 63), n + 1).map(Math.abs));
+  return { A, B, amp, P: Math.PI / w };
+})();
+scene('l03', {
+  build(h) {
+    const XE = 430, WALL = 70, NC = 8, T0 = 90, T1 = 700;
+    const rows = { a: { yc: 70, c: 215, xs: L03.A, name: 'A' }, b: { yc: 370, c: 515, xs: L03.B, name: 'B' } };
+    h.line(null, 20, 300, 880, 300, 'k-grid');
+    for (const k in rows) {
+      const { yc, c, xs, name } = rows[k];
+      h.text(null, 24, yc + 14, name, 'big c-text');
+      h.line(null, WALL, yc - 38, WALL, yc + 38, 'k-stroke c-muted');
+      h.line(null, XE, yc - 34, XE, yc + 34, 'k-dash c-muted');
+      for (let i = 1; i <= NC; i++) {                                      // coils: group l03-<k>c<i> at rest position
+        const g = h.group('l03-' + k + 'c' + i, null, null, '');
+        h.path(null, `M${WALL + (XE - 25 - WALL) * i / (NC + 1)},${yc - 20} a7,20 0 1,0 0.1,0`, 'k-thin c-concept', g);
+      }
+      const m = h.group('l03-' + k + 'm');
+      h.rect(null, XE - 25, yc - 25, 50, 50, 'k-soft c-concept', m);
+      // x(t) chart: time axis 0..10 periods across T0..T1, ±65 px
+      h.line(null, T0, c, T1, c, 'k-axis');
+      h.line(null, T0, c - 68, T0, c + 68, 'k-axis');
+      const path = (n, s) => 'M' + xs.slice(0, n + 1).map((x, i) => `${(T0 + (T1 - T0) * i / 628).toFixed(1)},${(c - x * s).toFixed(1)}`).join(' L');
+      const small = 65 / 0.30, big = 65 / 2.4;
+      h.path('l03-' + k + 'x1', path(63, small), 'k-stroke c-concept');
+      h.path('l03-' + k + 'x3', path(189, small), 'k-stroke c-concept');
+      h.path('l03-' + k + 'x10', path(628, big), 'k-stroke c-concept');
+      h.line('l03-' + k + 'g1', T0, c - 0.10 * small, T1, c - 0.10 * small, 'k-dash c-muted');
+      h.tag('l03-' + k + 's1', T0, c - 0.10 * small, '0.10 m', 'small c-muted', 'w');
+    }
+    h.tag('l03-x0', XE + 115, 45, 'x₀ = 0.10 m', 'c-ask', 'e');
+    h.text('l03-ma', 90, 134, 'A: old x, old v', 'c-concept');
+    h.text('l03-mb', 90, 434, 'B: new v first', 'c-concept');
+    h.tag('l03-per', T1, 215, '10 periods', 'small c-muted', 'e');
+    h.tag('l03-s10', T0, 215 - 2.27 * 65 / 2.4, '2.27 m', 'small c-ask', 'w');
+    h.rect('l03-ea', 852, 160, 30, 120, 'k-fill c-ask');
+    h.text('l03-eal', 884, 150, 'E ×517', 'c-ask', null, 'end');
+    h.rect('l03-eb', 852, 576, 30, 4, 'k-fill c-ok');
+    h.text('l03-ebl', 884, 566, 'E ×1.00', 'c-ok', null, 'end');
+    h.tag('l03-bok', T0 + 380, 515, '0.100 m', 'c-ok', 'n', null, 20);
+    h.tag('l03-trap', T1, 172, 'not the same', 'c-trap', 'e');
+  },
+  steps: (() => {
+    const P = L03.P, NC = 8, S1 = 90 / 0.10, S10 = 300 / 2.27;
+    const osc = (ampA, ampB, still) => {                              // mass and coils of both rows, one clock
+      const o = {};
+      [['a', ampA], ['b', ampB]].forEach(([k, a]) => {
+        o['l03-' + k + 'm'] = { amp: a, period: P, still };
+        for (let i = 1; i <= NC; i++) o['l03-' + k + 'c' + i] = { amp: a * i / (NC + 1), period: P, still };
+      });
+      return o;
+    };
+    return [
+      { stage: 'Setup', oscillate: osc(90, 90, true), show: 'l03-x0',
+        tex: '$m = 0.50\\ \\text{kg}$, $k = 2.0\\ \\text{N/m}$, released at rest',
+        note: '$\\omega = 2.0\\ \\text{rad/s}$, period $\\pi\\ \\text{s}$, $\\Delta t = 0.05\\ \\text{s}$, $\\omega\\Delta t = 0.10$',
+        ask: 'Two programs step it for 10 periods (628 steps); only the order of two lines differs. What amplitude does each report at the end?' },
+      { stage: 'Model', show: ['l03-ma', 'l03-mb'],
+        tex: ['A: $\\texttt{x, v = x + v*dt, v - w*w*x*dt}$', 'B: $\\texttt{v = v - w*w*x*dt}$, then $\\texttt{x = x + v*dt}$'],
+        note: 'Typical vote: “both 0.10 m, same equations”' },
+      { stage: 'Derive', hide: 'l03-x0', oscillate: osc(L03.amp(L03.A, 63) * S1, 90), draw: ['l03-ax1', 'l03-bx1'],
+        show: ['l03-ag1', 'l03-as1', 'l03-bg1', 'l03-bs1'], dur: 1600,
+        tex: 'One period (63 steps): the swings look almost alike' },
+      { stage: 'Derive', oscillate: osc(L03.amp(L03.A, 189) * S1, 90), hide: ['l03-ax1', 'l03-bx1'], draw: ['l03-ax3', 'l03-bx3'], dur: 1800,
+        tex: 'Three periods: A swings visibly wider, B does not' },
+      { stage: 'Derive', oscillate: osc(300, 0.10 * S10), hide: ['l03-ax3', 'l03-bx3', 'l03-ag1', 'l03-as1', 'l03-bg1', 'l03-bs1'],
+        draw: ['l03-ax10', 'l03-bx10'], show: ['l03-per', 'l03-s10', 'l03-ea', 'l03-eal', 'l03-eb', 'l03-ebl'], dur: 2400,
+        tex: '628 steps: A reaches $2.27\\ \\text{m}$ (rescaled), B stays at $0.100\\ \\text{m}$' },
+      { stage: 'Result', clear: true, ask: null,
+        box: 'A: $2.27\\ \\text{m}$, $22.7\\times$ the start · B: $0.100\\ \\text{m}$' },
+      { stage: 'Check', mark: { 'l03-ea': 'ok', 'l03-eal': 'ok' },
+        ok: 'A multiplies the energy by $1 + (\\omega\\Delta t)^2 = 1.01$ every step: $1.01^{628} \\approx e^{6.25} \\approx 517$, amplitude $\\sqrt{517} \\approx 22.7$' },
+      { stage: 'Check', mark: { 'l03-bx10': 'ok' }, show: 'l03-bok',
+        ok: 'B is back at $0.10\\ \\text{m}$ after every period' },
+      { stage: 'Check', mark: { 'l03-ax10': 'trap' }, show: 'l03-trap',
+        trap: '“Same equations, same result”: swapping two lines turns $0.100\\ \\text{m}$ into $2.27\\ \\text{m}$' },
+    ];
+  })(),
+});
+
+/* =====================================================================================================
+   L08 · Selection stops the loop. Left: the ball falls in a column; right: y(t), a dot every 0.1 s.
+   Euler as in the code: y_n = 20 - g dt² n(n-1)/2; y20 = 1.361 m (t = 2.0 s), y21 = -0.601 m (t = 2.1 s).
+   The fall plays at real speed (one 0.1 s step per 100 ms). Result cuts to a zoom of the last two points:
+   the straight line between them meets y = 0 at 2.069 s; exact √(2h/g) = 2.019 s.
+   ===================================================================================================== */
+const L08 = (() => { const g = 9.81, dt = 0.1, y = [20], v = [0];
+  for (let n = 0; n < 21; n++) { y.push(y[n] + v[n] * dt); v.push(v[n] - g * dt); }
+  return { y }; })();
+scene('l08', {
+  build(h) {
+    const svg = h.group(null).parentNode;
+    const inGroup = (id, fn) => { const g = h.group(id), n0 = svg.children.length; const r = fn(); [...svg.children].slice(n0).filter(e => e.tagName === 'g').forEach(e => g.appendChild(e)); return r; };
+    const COLX = 130;
+    const ax = inGroup('l08-main', () => h.axes({ x: [0, 2.4], y: [-2, 22], box: [260, 30, 870, 560], xt: 0.5, yt: 5, xlabel: 't (s)', ylabel: 'y (m)' }));
+    const main = svg.querySelector('#l08-main');
+    h.line('l08-floor', 70, ax.Y(0), 200, ax.Y(0), 'k-stroke c-muted', main);
+    h.tag(null, 70, ax.Y(0), 'floor', 'small c-muted', 's', main, 22);
+    h.line(null, COLX, ax.Y(20), COLX, ax.Y(0), 'k-dash c-muted', main);
+    for (let n = 1; n <= 21; n++) h.circle('l08-d' + n, ax.X(n / 10), ax.Y(L08.y[n]), 6, 'k-fill c-concept', main);
+    h.circle(null, ax.X(0), ax.Y(20), 6, 'k-fill c-concept', main);
+    [[5, '0.5 s'], [10, '1 s'], [15, '1.5 s'], [20, '2 s']].forEach(([n, s]) => h.tag('l08-t' + n, ax.X(n / 10), ax.Y(L08.y[n]), s, 'small c-muted', 'ne', main));
+    h.tag('l08-brk', ax.X(2.1), ax.Y(L08.y[21]), 'y = −0.6 m', 'c-trap', 's', main, 28);
+    h.tag('l08-h', COLX, ax.Y(20), '20 m', 'c-ask', 'e', main, 24);
+    const ball = h.group('l08-ball', null, main, `translate(${COLX},${ax.Y(20)})`);
+    h.circle(null, 0, 0, 14, 'k-fill c-ask', ball);
+    // zoom on the last two points
+    const z = inGroup('l08-zoom', () => h.axes({ x: [1.95, 2.15], y: [-1, 2], box: [120, 40, 860, 540], xt: 0.05, yt: 0.5, xlabel: 't (s)', ylabel: 'y (m)' }));
+    const zg = svg.querySelector('#l08-zoom');
+    const p20 = [z.X(2.0), z.Y(L08.y[20])], p21 = [z.X(2.1), z.Y(L08.y[21])], ti = 2.0 + 0.1 * L08.y[20] / (L08.y[20] - L08.y[21]);
+    h.line('l08-zl', p20[0], p20[1], p21[0], p21[1], 'k-stroke c-concept', zg);
+    h.circle(null, p20[0], p20[1], 9, 'k-fill c-concept', zg);
+    h.circle('l08-z21', p21[0], p21[1], 9, 'k-fill c-concept', zg);
+    h.tag(null, p20[0], p20[1], '2.0 s: 1.36 m', 'c-concept', 'e', zg);
+    h.tag('l08-z21l', p21[0], p21[1], '2.100 s', 'c-concept', 'w', zg);
+    h.circle('l08-zi', z.X(ti), z.Y(0), 9, 'k-fill c-ask', zg);
+    h.tag('l08-zil', z.X(ti), z.Y(0), '2.069 s', 'c-ask', 'ne', zg);
+    h.circle('l08-ze', z.X(2.0193), z.Y(0), 9, 'k-fill c-ok', zg);
+    h.tag('l08-zel', z.X(2.0193), z.Y(0), 'exact 2.019 s', 'c-ok', 'nw', zg);
+    h.line('l08-zgap', z.X(2.0193), z.Y(-0.55), z.X(ti), z.Y(-0.55), 'k-thin c-ok', zg);
+    h.tag('l08-zgapl', (z.X(2.0193) + z.X(ti)) / 2, z.Y(-0.55), '50 ms', 'c-ok', 's', zg);
+    h.tag('l08-ztrap', p21[0], p21[1], '81 ms late', 'c-trap', 's', zg, 22);
+  },
+  steps: (() => {
+    const Y = y => 560 - (y + 2) * 530 / 24, COLX = 130, dy = n => Y(L08.y[n]) - Y(20);
+    const fall = (n, last) => {                                      // one Euler step per 100 ms: ball moves, dot appears
+      const s = { move: { 'l08-ball': [0, dy(n)] }, show: ['l08-d' + n].concat(n % 5 === 0 && n <= 20 ? ['l08-t' + n] : []), dur: 100, wait: 100 };
+      if (n < last) s.after = fall(n + 1, last);
+      return s;
+    };
+    const dots = Array.from({ length: 21 }, (_, i) => 'l08-d' + (i + 1));
+    return [
+      { stage: 'Setup', show: 'l08-h',
+        tex: 'Dropped: $h = 20\\ \\text{m}$, $g = 9.81\\ \\text{m/s}^2$, $\\Delta t = 0.1\\ \\text{s}$',
+        note: 'Unknown number of steps: $\\texttt{while True}$',
+        ask: 'The loop stops when $y \\lt 0$. At what time does it stop, and where is the ball then?' },
+      { stage: 'Model',
+        tex: ['$\\texttt{y, v, t = y + v*dt, v - g*dt, t + dt}$', 'Selection: $\\texttt{if y}\\lt\\texttt{0: break}$'],
+        note: 'The loop stops one step after the crossing' },
+      Object.assign({ stage: 'Derive', hide: 'l08-h', tex: 'A dot every $0.1\\ \\text{s}$; at $2.0\\ \\text{s}$ still $1.36\\ \\text{m}$ up' }, { after: fall(1, 20), dur: 100, wait: 100 }),
+      { stage: 'Derive', move: { 'l08-ball': [0, dy(21)] }, show: ['l08-d21', 'l08-brk'], mark: { 'l08-floor': 'trap' }, dur: 300,
+        tex: ['One more step: $y \\lt 0$, the break fires', 'Output: $\\texttt{2.1 -0.6}$'] },
+      { stage: 'Result', clear: true, ask: null, hide: 'l08-main', show: 'l08-zoom', draw: 'l08-zl', dur: 900,
+        tex: 'Zoom: the straight line between the last two points meets $y = 0$',
+        box: 'Loop: $t = 2.100\\ \\text{s}$ · line between the last two points: $t = 2.069\\ \\text{s}$' },
+      { stage: 'Check', show: ['l08-ze', 'l08-zel'],
+        ok: 'Exact: $t = \\sqrt{2h/g} = 2.019\\ \\text{s}$' },
+      { stage: 'Check', show: ['l08-zgap', 'l08-zgapl'],
+        ok: 'The $50\\ \\text{ms}$ left after the line is Euler’s own error (L13)' },
+      { stage: 'Check', mark: { 'l08-z21': 'trap', 'l08-z21l': 'trap' }, show: 'l08-ztrap',
+        trap: '“The loop says 2.100 s”: the last point is $0.6\\ \\text{m}$ below the floor and $81\\ \\text{ms}$ late' },
+    ];
+  })(),
+});
+
+/* ---------- L10 lecture scene: the float clock t += 0.1 crosses 1.0 only on the 11th jump (ids l10-…) ---------- */
+(() => {
+  const Y = 230, X = t => 60 + t * 636, DX = 63.6;                  // number line 0 … 1.1 s
+  const ZY = 470, ZC = 600, ZS = 636e15;                            // zoom inset: ×10¹⁵ around 1.0
+  const ZX = t => ZC + (t - 1) * ZS;
+  const jump = k => ({ move: { 'l10-dot': [k * DX, 0] }, draw: 'l10-j' + k, show: 'l10-p' + k, dur: 420,
+    count: { 'l10-n': { to: k, pre: 'n = ' }, 'l10-t': { to: k / 10, digits: 1, pre: 't = ' } } });
+  let ten = { ...jump(10), tex: '$t = 0.1,\\ 0.2,\\ \\ldots$ until the counter reads $n = 10$',
+    note: 'The 10th dot seems to sit on the stop line.' };
+  for (let k = 9; k >= 1; k--) ten = { ...jump(k), after: ten };
+
+  scene('l10', {
+    build(h){
+      h.line(null, X(0) - 20, Y, X(1.1) + 30, Y, 'k-axis');
+      for (let k = 0; k <= 11; k++) { h.line(null, X(k / 10), Y - 8, X(k / 10), Y + 8, 'k-axis');
+        h.text(null, X(k / 10), Y + 34, (k / 10).toFixed(1), 'k-tick', null, 'middle'); }
+      h.text(null, X(1.1) + 30, Y + 34, 't (s)', 'c-muted it', null, 'start');
+      h.line('l10-stop', X(1), Y - 90, X(1), Y + 14, 'k-stroke c-text');
+      h.tag('l10-tstop', X(1), Y - 90, 'stop at 1.0', 'c-text', 'n');
+      for (let k = 1; k <= 11; k++) h.path('l10-j' + k, `M${X((k - 1) / 10)},${Y - 14} Q${X((k - 0.5) / 10)},${Y - 58} ${X(k / 10)},${Y - 14}`, 'k-thin ' + (k === 11 ? 'c-ask' : 'c-concept'));
+      const tr = h.group('l10-tr', 'c-concept');
+      for (let k = 1; k <= 10; k++) h.circle('l10-p' + k, X(k / 10), Y, 5, 'k-fill', tr);
+      h.circle('l10-p11', X(1.1), Y, 5, 'k-fill c-ask');
+      h.tag('l10-t11', X(1.05), Y - 47, '11th jump', 'c-ask', 'ne', null, 22);
+      const dot = h.group('l10-dot', 'c-ask'); h.circle(null, X(0), Y, 11, 'k-fill', dot);
+      const rd = h.group('l10-read');
+      h.rect(null, 20, 20, 340, 104, 'k-panel', rd);
+      h.text('l10-n', 40, 70, 'n = 0', 'mono big c-ask', rd);
+      h.text('l10-t', 40, 106, 't = 0.0', 'mono c-text', rd);
+      // zoom: the marker around 1.0 on the line, two connectors, the inset
+      h.rect('l10-zm', X(1) - 22, Y - 18, 44, 64, 'k-dash c-muted');
+      h.line('l10-c1', X(1) - 22, Y + 46, ZC - 220, 340, 'k-thin c-muted');
+      h.line('l10-c2', X(1) + 22, Y + 46, ZC + 220, 340, 'k-thin c-muted');
+      const z = h.group('l10-zoom');
+      h.rect(null, 40, 340, 820, 236, 'k-panel', z);
+      h.text(null, 64, 380, '×10¹⁵', 'c-muted it', z);
+      h.line(null, 70, ZY, 830, ZY, 'k-axis', z);
+      for (let k = -6; k <= 1; k++) { const x = ZX(1 + (k < 0 ? k * 2 ** -53 : k * 2 ** -52)); h.line(null, x, ZY - 7, x, ZY + 7, 'k-axis', z); }
+      h.line(null, ZC, ZY - 70, ZC, ZY + 40, 'k-stroke c-text', z);
+      h.tag(null, ZC, ZY - 70, '1.0', 'c-text', 'n', z);
+      const d10 = ZX(0.9999999999999999);
+      h.circle(null, d10, ZY, 11, 'k-fill c-ask', z);
+      h.tag(null, d10, ZY - 6, '0.9999999999999999', 'mono c-ask', 'nw', z, 18);
+      h.line(null, d10, ZY + 52, ZC, ZY + 52, 'k-thin c-muted', z);
+      h.tag(null, (d10 + ZC) / 2, ZY + 52, '1.1×10⁻¹⁶', 'c-muted small', 's', z, 6);
+      // check marks
+      h.tag('l10-tok', X(0.6), Y - 70, 'range(10): 10 steps', 'c-ok', 'n');
+      h.tag('l10-t01', X(0), Y - 70, '0.1000000000000000055…', 'c-ok small', 'ne', null, 4);
+      h.circle('l10-guess', ZC, ZY, 17, 'k-thin c-trap');
+      h.tag('l10-tg', ZC, ZY, 'guess: 10 steps', 'c-trap', 'ne', null, 22);
+    },
+    steps: [
+      { stage: 'Setup', show: ['l10-stop', 'l10-tstop', 'l10-dot'],
+        ask: 'A loop advances the clock with t += 0.1 while t < 1.0. How many steps does it take, and what is t at the end?' },
+      { stage: 'Model', show: 'l10-read',
+        tex: ['$\\texttt{t, n = 0.0, 0}$', '$\\texttt{while t}<\\texttt{1.0: t += 0.1; n += 1}$'],
+        note: 'Prediction: almost everyone says 10 steps, $t = 1.0$.' },
+      { stage: 'Derive', ...ten },
+      { stage: 'Derive', show: ['l10-zm', 'l10-zoom'], draw: ['l10-c1', 'l10-c2'], dur: 1000,
+        count: { 'l10-t': { to: 0.9999999999999999, digits: 16, pre: 't = ' } },
+        tex: ['After ten additions $t = 0.9999999999999999$', '$0.9999999999999999 \\lt 1.0$: the test is still true'],
+        note: 'Still less than 1.0, so the loop runs once more.' },
+      { stage: 'Result', clear: true, ask: null, ...jump(11), dur: 900, show: ['l10-p11', 'l10-t11'], mark: { 'l10-n': 'ok' },
+        count: { 'l10-n': { to: 11, pre: 'n = ' }, 'l10-t': { to: 1.0999999999999999, digits: 16, pre: 't = ' } },
+        tex: ['$\\texttt{print(n, t)}$ prints $\\texttt{11 1.0999999999999999}$'],
+        box: '11 steps; $t = 1.0999999999999999$' },
+      { stage: 'Check', mark: { 'l10-tr': 'ok' }, show: 'l10-tok',
+        ok: 'Integer loop: $\\texttt{for n in range(10)}$ stops at $n = 10$, no float test' },
+      { stage: 'Check', show: 'l10-t01',
+        ok: '$0.1$ is stored as $0.1000000000000000055\\ldots$; every addition rounds again' },
+      { stage: 'Check', show: ['l10-guess', 'l10-tg'],
+        trap: 'Trap: "10 steps, $t = 1.0$". The 10th value is $0.9999999999999999$, below the stop line.' },
+    ],
+  });
+})();
+
 /* ---------- L14 lecture scene: Euler staircases close on the free-fall parabola (ids l14-…) ---------- */
 scene('l14', {
   build(h){
@@ -2336,6 +2521,85 @@ scene('l14', {
       trap: 'Trap: "16 digits are to blame". Round-off is about $\\varepsilon \\times 20\\ \\text{m} \\sim 10^{-15}\\ \\text{m}$ and would grow as $\\Delta t$ shrinks.' },
   ],
 });
+
+/* ---------- L19 lecture scene: the mask step, g = 2h/t² row by row, mask, cm → m (ids l19-…) ---------- */
+scene('l19', (() => {
+  // plan/freefall.csv, row by row (height_cm, time_s); g = 2h/t² computed from the file
+  const R = [[20,0.2023],[20,0.2020],[20,0.2025],[40,0.2853],[40,0.2861],[40,0.2856],
+             [60,0.3501],[60,0.0000],[60,0.3497],[80,0.4042],[80,0.4034],[80,0.4045],
+             [100,0.4521],[100,0.4511],[100,0.4526]];
+  const bad = 7, ok = [...R.keys()].filter(i => i !== bad), gcm = ([hc, t]) => 2 * hc / (t * t);
+  const Y = i => 92 + 31 * i, XH = 85, XT = 235, XG = 405, XM = 560;
+  // the g column fills one row at a time (chained steps), then the mean cell
+  const fill = R.reduceRight((next, _, i) => ({ show: 'l19-g' + i, dur: 160, wait: 160, after: next }), { show: 'l19-minf', dur: 400 });
+  return {
+    build(h){
+      // ∞ drawn as a path: the label fonts render the ∞ glyph too small to read
+      const inf = (id, cx, cy, a, cls, parent) => h.path(id, `M${cx},${cy} C${cx + a / 2},${cy - a * 0.65} ${cx + a},${cy - a * 0.65} ${cx + a},${cy} `
+        + `C${cx + a},${cy + a * 0.65} ${cx + a / 2},${cy + a * 0.65} ${cx},${cy} C${cx - a / 2},${cy - a * 0.65} ${cx - a},${cy - a * 0.65} ${cx - a},${cy} `
+        + `C${cx - a},${cy + a * 0.65} ${cx - a / 2},${cy + a * 0.65} ${cx},${cy} Z`, cls, parent);
+      h.text('l19-hcm', XH, 56, 'height_cm', 'c-concept', null, 'middle');
+      h.text('l19-hm', XH, 56, 'h (m)', 'c-concept', null, 'middle');
+      h.text(null, XT, 56, 'time_s', 'c-concept', null, 'middle');
+      h.rect(null, XG - 65, 68, 130, 472, 'k-thin c-concept');
+      h.text('l19-gh', XG, 56, 'g', 'c-concept it', null, 'middle');
+      h.text('l19-gf', XG, 56, 'g = 2h/t²', 'c-concept', null, 'middle');
+      const m = h.group('l19-mask');
+      h.rect(null, XM - 50, 68, 100, 472, 'k-thin c-concept', m);
+      h.text(null, XM, 56, 'good', 'c-concept', m, 'middle');
+      R.forEach(([hc, t], i) => {
+        const r = h.group('l19-row' + i), c = i === bad ? 'c-trap' : 'c-text';
+        h.text('l19-h' + i, XH, Y(i), String(hc), 'mono ' + c, r, 'middle');
+        h.text(null, XT, Y(i), t.toFixed(4), 'mono ' + c, r, 'middle');
+        if (t > 0) h.text('l19-g' + i, XG, Y(i), gcm(R[i]).toFixed(0), 'mono ' + c, r, 'middle');
+        else inf('l19-g' + i, XG, Y(i) - 8, 13, 'k-thin c-trap', r);
+        h.text('l19-m' + i, XM, Y(i), t > 0 ? 'True' : 'False', 'mono ' + (t > 0 ? 'c-ok' : 'c-trap'), r, 'middle');
+      });
+      h.line(null, 30, 552, 630, 552, 'k-thin c-muted');
+      h.text(null, XH, 582, 'mean', 'c-muted', null, 'middle');
+      inf('l19-minf', XG, 574, 13, 'k-thin c-trap');
+      h.text('l19-mval', XG, 582, (ok.reduce((s, i) => s + gcm(R[i]), 0) / ok.length).toFixed(0), 'mono c-text', null, 'middle');   // 979
+      h.text('l19-n14', XM, 582, '14 True', 'c-ok small', null, 'middle');
+      h.text('l19-gref', 765, 582, 'g₀ = 9.80665', 'c-ok', null, 'middle');
+      // trap: the blind results, crossed out
+      [['l19-xinf', 230, null, 30, 12], ['l19-x979', 360, '979', 42, 16]].forEach(([id, y, str, w, d]) => {
+        const tg = h.group(id);
+        if (str) h.text(null, 765, y, str, 'big c-trap', tg, 'middle'); else inf(null, 765, y - 12, 24, 'k-stroke c-trap', tg);
+        h.path(null, `M${765 - w},${y - 14 + d} L${765 + w},${y - 14 - d} L${765 + w},${y - 10 - d} L${765 - w},${y - 10 + d} Z`, 'k-fill c-trap', tg);
+      });
+    },
+    steps: [
+      { stage: 'Setup', note: '15 rows of plan/freefall.csv (illustrative); one time reads 0.0000.',
+        ask: 'We compute $g = 2h/t^2$ for every row. What is the mean?' },
+      { stage: 'Model', hide: 'l19-gh', show: 'l19-gf',
+        tex: '$g_i = 2h_i/t_i^2$ for every row: arithmetic on a whole column' },
+      { stage: 'Derive', ...fill,
+        tex: '$2h/0^2 = \\infty$: one infinity makes the mean $\\infty$' },
+      { stage: 'Derive', clear: true, show: ['l19-mask', ...R.map((_, i) => 'l19-m' + i)],
+        tex: '$\\footnotesize\\texttt{good = d["time\\_s"]}\\gt\\texttt{0}$',
+        note: 'Selection on a whole column: an array of True/False.' },
+      { stage: 'Derive', dur: 1000, move: Object.fromEntries([['l19-row' + bad, [720, 0]], ...R.map((_, i) => i).filter(i => i > bad).map(i => ['l19-row' + i, [0, -31]])]),
+        after: { hide: ['l19-row' + bad, 'l19-minf'], show: 'l19-mval', dur: 400 },
+        tex: '$\\footnotesize\\texttt{t = d["time\\_s"][good]}$',
+        note: 'h[good] keeps the 14 rows that passed; the mean is now 979, not 9.8.' },
+      { stage: 'Derive', dur: 1400, hide: 'l19-hcm', show: 'l19-hm',
+        count: Object.fromEntries([...ok.map(i => ['l19-h' + i, { to: R[i][0] / 100, digits: 1 }]),
+                                   ...ok.map(i => ['l19-g' + i, { to: gcm(R[i]) / 100, digits: 2 }]),
+                                   ['l19-mval', { to: 9.79, digits: 2 }]]),
+        tex: '$\\footnotesize\\texttt{h = d["height\\_cm"][good] / 100}$',
+        note: 'Convert once, at the start: cm → m.' },
+      { stage: 'Result', clear: true, ask: null,
+        tex: ['$\\footnotesize\\texttt{print(good.sum(), "of", good.size, "rows;",}$',
+              '$\\footnotesize\\quad\\texttt{round((2 * h / t**2).mean(), 2))}$',
+              '$\\footnotesize\\texttt{14 of 15 rows; 9.79}$'],
+        box: '14 of 15 rows: mean $g = 9.79\\ \\text{m/s}^2$' },
+      { stage: 'Check', show: ['l19-n14', 'l19-gref'], mark: { 'l19-mval': 'ok' },
+        ok: ['Count: 15 rows $-$ 1 missed trigger $= 14$', '$9.79\\ \\text{m/s}^2$ is within 0.2 % of $9.80665$'] },
+      { stage: 'Check', show: ['l19-xinf', 'l19-x979'],
+        trap: 'Blind mean: $\\infty$ (the 0.0000 row), then $979$ (cm read as m)' },
+    ],
+  };
+})());
 
 /* ---------- L22 lecture scene: from raw rows to g, through text, arrays, mask, dict and fit (ids l22-…) ---------- */
 scene('l22', {
@@ -2444,6 +2708,67 @@ scene('l22', {
   ],
 });
 
+/* L24 · a histogram is an array of counters. Five photons (array order of E) drop into 20 keV bins.
+   Only bins 31-33, 57-60, 65-67 are drawn (axis breaks between). numbers.py: indices [32 58 59 66], sum 5. */
+const L24BIN = { 31: 130, 32: 190, 33: 250, 57: 355, 58: 415, 59: 475, 60: 535, 65: 640, 66: 700, 67: 760 };   // left edge, 60 px per bin
+const L24E = [[1180.2, 59], [1325.7, 66], [640.0, 32], [1171.9, 58], [1338.4, 66]];
+const L24LAND = [266, 266, 266, 266, 232];                                   // the fifth photon sits on top of the second
+function l24drop(k, to, more = {}) {                                         // photon k falls into its bin, then the counter counts
+  const b = L24E[k][1];
+  return Object.assign({ trace: { ['l24-p' + k]: ['l24-tr' + k, 1500] }, dur: 1500, wait: 1500,
+    after: { hide: 'l24-pl' + k, count: { ['l24-c' + b]: { to } }, mark: { ['l24-c' + b]: 'ask', ['l24-i' + b]: 'ask', ['l24-b' + b]: 'ask' }, dur: 600 } }, more);
+}
+scene('l24', {
+  build(h) {
+    const Y0 = 285;
+    for (const b in L24BIN) {
+      const x = L24BIN[b];
+      h.rect('l24-b' + b, x + 3, 115, 54, Y0 - 115, 'k-area c-muted');
+      h.rect(null, x + 4, 321, 52, 44, 'k-thin c-muted');
+      h.text('l24-c' + b, x + 30, 351, '0', 'mono c-text', null, 'middle');
+      h.text('l24-i' + b, x + 30, 392, b, 'small c-muted', null, 'middle');
+    }
+    [[125, 315], [350, 600], [635, 825]].forEach(([a, c]) => h.line(null, a, Y0, c, Y0, 'k-axis'));
+    [118, 313, 338, 598, 623].forEach(x => h.line(null, x, Y0 + 9, x + 10, Y0 - 9, 'k-axis'));   // break marks
+    [[640, 190], [660, 250], [1160, 415], [1180, 475], [1200, 535], [1320, 700], [1340, 760]].forEach(([E, x]) => {
+      h.line(null, x, Y0, x, Y0 + 7, 'k-axis'); h.text(null, x, Y0 + 28, E, 'small c-muted', null, 'middle'); });
+    h.text(null, 838, Y0 + 7, 'keV', 'c-muted it');
+    h.text(null, 20, 351, 'counts', 'c-muted');
+    h.text(null, 34, 392, 'i', 'c-muted it');
+    L24E.forEach(([E, b], k) => {
+      const x0 = 200 + 130 * k, xb = L24BIN[b] + 30;
+      const O = 50;   // contents drawn around (O, O): the audit reads label boxes in group coordinates, which must stay positive
+      h.path('l24-tr' + k, `M${x0 - O},${62 - O} L${xb - O},${100 - O} L${xb - O},${L24LAND[k] - O}`, 'k-hide');
+      const g = h.group('l24-p' + k, 'c-ask', null, `translate(${x0 - O},${62 - O})`);
+      h.circle(null, O, O, 13, 'k-fill', g);
+      h.tag('l24-pl' + k, O, O, E.toFixed(1), 'c-ask', 'n', g, 18);
+    });
+    h.tag('l24-t1', 730, 266, '1325.7', 'c-ok', 'e', null, 20);
+    h.tag('l24-t2', 730, 232, '1338.4', 'c-ok', 'e', null, 20);
+    h.text('l24-res', 450, 80, '4 bins, sum 5', 'big c-ok', null, 'middle');
+    h.text('l24-np', 30, 80, 'np.histogram: same', 'c-ok');
+    h.text('l24-trap', 780, 80, '5 bins', 'big c-trap', null, 'middle').style.textDecoration = 'line-through';
+  },
+  steps: [
+    { stage: 'Setup', ask: 'Five photons fall into 20 keV bins. How many bins end up non-empty?',
+      note: 'Event list: one energy per photon; spectrum: one count per bin.' },
+    { stage: 'Model', tex: '$i = \\lfloor (E - E_0)/\\Delta E \\rfloor$, then $\\texttt{counts[i] += 1}$', note: '$E_0 = 0$, $\\Delta E = 20\\ \\text{keV}$' },
+    l24drop(0, 1, { stage: 'Derive', tex: '$1180.2 // 20 = 59$: counter 59 $0 \\to 1$' }),
+    l24drop(1, 1, { stage: 'Derive', tex: '$1325.7 // 20 = 66$: counter 66 $0 \\to 1$' }),
+    { stage: 'Derive', ...l24drop(2, 1), tex: '$640.0 // 20 = 32$, then $1171.9 // 20 = 58$',
+      after: { ...l24drop(2, 1).after, wait: 700, after: l24drop(3, 1) } },
+    l24drop(4, 2, { stage: 'Derive', tex: '$1338.4 // 20 = 66$ again: counter 66 $1 \\to 2$' }),
+    { stage: 'Result', clear: true, ask: null, show: 'l24-res',
+      box: 'Non-empty bins $\\texttt{[32 58 59 66]}$; sum of counts $= 5$' },
+    { stage: 'Check', show: 'l24-np',
+      ok: '$\\texttt{np.histogram}$ runs the same loop: output $\\texttt{[32 58 59 66] True}$; the counts add up to 5 events.' },
+    { stage: 'Check', show: ['l24-t1', 'l24-t2'], mark: { 'l24-c66': 'ok', 'l24-i66': 'ok', 'l24-b66': 'ok' },
+      ok: 'By hand: $1325.7 // 20 = 1338.4 // 20 = 66$: one bin, two counts; 4 non-empty bins for 5 events.' },
+    { stage: 'Check', show: 'l24-trap',
+      trap: '“One photon per bin” predicts 5 non-empty bins: wrong, two photons share bin 66.' },
+  ],
+});
+
 /* L28 · net counts in a peak window. Illustrative spectrum segment, 10 keV bins, 800-1200 keV.
    Window 950-1050 keV = 400 counts; side bands 850-950 + 1050-1150 keV (total width 2x window) = 600 counts.
    numbers.py: B = 300, net = 100 +/- 23.5 -> 4.3 sigma. */
@@ -2513,242 +2838,306 @@ function axesG(h, id, o){
   ax.g = g; return ax;
 }
 
+/* real motion without new engine code: film(ms, fn) chains `after` frames (~30 per second); fn(f, fp) returns the
+   keys of the frame at fraction f of the clip (fp = previous frame), e.g. a `move` of a ball or an `orbit … still`
+   angle taken from the simulation. Stepping back applies every frame at once, so the clip's last state shows. */
+function film(ms, fn, fps = 30){
+  const n = Math.max(1, Math.round(ms / 1000 * fps)); let s = null;
+  for (let i = n; i >= 1; i--) { const f = Object.assign({ dur: 1, wait: ms / n }, fn(i / n, (i - 1) / n)); if (s) f.after = s; s = f; }
+  return s;
+}
+/* ids whose time t lies in (tp, t]: what a frame has to reveal */
+const crossed = (list, tp, t) => list.filter(o => o.t > tp + 1e-9 && o.t <= t + 1e-9).map(o => o.id);
+
 /* ===== p1 · Air drag: m = 0.16 kg, k = 0.004 kg/m, dt = 0.01 s -> v(10 s) = 19.81 m/s = v_t; trap g t = 98.1 m/s ===== */
-scene('p1', {
-  build(h) {
-    const m = 0.16, k = 0.004, g = 9.81, dt = 0.01, vt = Math.sqrt(m * g / k), V = [0];
-    for (let n = 0; n < 1000; n++) { const v = V[n]; V.push(v + (g - k * v * v / m) * dt); }
-    const vs = t => V[Math.min(1000, Math.round(t / dt))];
-    // the ball and its two forces (arrow length proportional to the force; mg = 160 px)
-    const bx = 140, by = 270, R = 32, F = 160;
-    h.circle('p1-ball', bx, by, R, 'k-soft');
-    h.arrow('p1-mg', bx, by + R, bx, by + R + F, 'c-concept');
-    h.tag('p1-mgl', bx, by + R + F, 'mg', 'c-concept it', 'e');
-    const d2 = F * (vs(2) / vt) ** 2;
-    h.arrow('p1-d2', bx, by - R, bx, by - R - d2, 'c-ask');
-    h.tag('p1-d2l', bx, by - R - d2, 'kv²', 'c-ask it', 'e');
-    h.arrow('p1-d10', bx, by - R, bx, by - R - F, 'c-ask');
-    h.tag('p1-d10l', bx, by - R - F, 'kv² = mg', 'c-ask', 'e');
-    // v(t)
-    const ax = h.axes({ x: [0, 10], y: [0, 25], box: [330, 40, 880, 540], xt: 2, yt: 5, xlabel: 't (s)', ylabel: 'v (m/s)' });
-    h.line('p1-vt', ax.X(0), ax.Y(vt), ax.X(10), ax.Y(vt), 'k-dash c-muted');
-    h.tag('p1-vtl', ax.X(5.5), ax.Y(vt), 'vₜ = 19.81 m/s', 'c-muted', 'n');
-    h.curve('p1-c1', ax, vs, 0, 2, 'k-stroke c-concept', null, 200);
-    h.curve('p1-c2', ax, vs, 2, 10, 'k-stroke c-concept', null, 800);
-    h.circle('p1-pt2', ax.X(2), ax.Y(vs(2)), 7, 'k-fill c-ask');
-    h.tag('p1-pt2l', ax.X(2), ax.Y(vs(2)), '15.02 m/s', 'c-ask', 'se');
-    h.circle('p1-pt10', ax.X(10), ax.Y(vs(10)), 7, 'k-fill c-ok');
-    h.tag('p1-pt10l', ax.X(10), ax.Y(vs(10)), '19.81 m/s', 'c-ok', 'sw', null, 16);
-    h.curve('p1-tanh', ax, t => vt * Math.tanh(g * t / vt), 0, 10, 'k-dash c-ok');
-    h.tag('p1-tanhl', ax.X(1), ax.Y(vt * Math.tanh(g / vt)), 'exact tanh', 'c-ok', 'se', null, 16);
-    h.curve('p1-ff', ax, t => g * t, 0, 3, 'k-stroke c-trap');
-    h.tag('p1-ffl', ax.X(2.45), ax.Y(24), 'gt → 98.1 m/s', 'c-trap', 'e');
-  },
-  steps: [
-    { stage: 'Setup', draw: 'p1-mg', show: 'p1-mgl',
-      ask: 'The ball falls from rest for $10\\ \\text{s}$ with $\\Delta t = 0.01\\ \\text{s}$. What is $v$ at the end?' },
-    { stage: 'Model', draw: 'p1-vt', show: 'p1-vtl',
-      tex: ['$a = g - \\dfrac{k}{m}\\,v^2$ (down positive)', '$a = 0$ when $v = v_t = \\sqrt{mg/k}$'] },
-    { stage: 'Derive', draw: ['p1-c1', 'p1-d2'], show: ['p1-d2l', 'p1-pt2', 'p1-pt2l'],
-      tex: 'Each step: $a = g - kv^2/m$, then $v \\leftarrow v + a\\,\\Delta t$',
-      note: 'At $2\\ \\text{s}$ the drag has grown to more than half of $mg$.' },
-    { stage: 'Derive', draw: ['p1-c2', 'p1-d10'], hide: ['p1-d2', 'p1-d2l'], show: ['p1-d10l', 'p1-pt10', 'p1-pt10l'], dur: 1400,
-      tex: '$a$ falls from $9.81\\ \\text{m/s}^2$ towards $0$',
-      note: '90 % of $v_t$ is reached at $2.97\\ \\text{s}$.' },
-    { stage: 'Result', clear: true, ask: null,
-      box: '$v(10\\ \\text{s}) = 19.81\\ \\text{m/s}$, $a = 1.9\\times10^{-3}\\ \\text{m/s}^2$' },
-    { stage: 'Check', draw: 'p1-tanh', show: 'p1-tanhl',
-      ok: 'Exact $v = v_t\\tanh(gt/v_t)$: $15.01\\ \\text{m/s}$ at $2\\ \\text{s}$; simulated $15.02\\ \\text{m/s}$.' },
-    { stage: 'Check', mark: { 'p1-mg': 'ok', 'p1-d10': 'ok', 'p1-d10l': 'ok' },
-      ok: 'Forces balance: $\\sqrt{0.16\\cdot 9.81/0.004} = 19.81\\ \\text{m/s}$ by hand.' },
-    { stage: 'Check', draw: 'p1-ff', show: 'p1-ffl',
-      trap: 'Free fall $v = gt = 98.1\\ \\text{m/s}$: five times too fast; it ignores the force that depends on the state.' },
-  ],
-});
+{
+  const m = 0.16, k = 0.004, g = 9.81, dt = 0.01, vt = Math.sqrt(m * g / k), V = [0], Y = [0];
+  for (let n = 0; n < 1000; n++) { const v = V[n]; V.push(v + (g - k * v * v / m) * dt); Y.push(Y[n] + v * dt); }
+  const at = (A, t) => A[Math.max(0, Math.min(1000, Math.round(t / dt)))];
+  const vs = t => at(V, t);
+  // the drop column: ball centre from y0 (t = 0) to y1 (t = 10 s); arrows proportional to the force (mg = 64 px)
+  const bx = 140, y0 = 105, y1 = 480, R = 24, F = 64, py = t => (y1 - y0) * at(Y, t) / Y[1000];
+  // the curve in 0.1 s / 0.2 s pieces, revealed by the frame that reaches their end (the pen follows the ball)
+  const C1 = [...Array(20)].map((_, i) => ({ id: `p1-c${i}`, a: i * 0.1, t: (i + 1) * 0.1 }));
+  const C2 = [...Array(40)].map((_, i) => ({ id: `p1-c${20 + i}`, a: 2 + i * 0.2, t: 2 + (i + 1) * 0.2 }));
+  // the drag arrow grows: one arrow per moment, the frame swaps them
+  const D = [1.25, 1.5, 1.75, 2, 2.5, 3, 3.5, 4].map(t => ({ id: t === 2 ? 'p1-d2' : `p1-d${t * 100}`, t })).concat([{ id: 'p1-d10', t: 6 }]);
+  const drag = (tp, t) => { const cur = x => D.filter(o => o.t <= x + 1e-9).pop(), a = cur(tp), b = cur(t);
+    return a === b ? {} : { show: a ? b.id : [b.id, 'p1-dl'], hide: a ? a.id : [] }; };
+  const frame = (t, tp, extra = {}) => { const d = drag(tp, t), sh = crossed(C1.concat(C2), tp, t).concat(d.show || [], extra.show || []);
+    return { move: { 'p1-B': [0, py(t)] }, show: sh, hide: [].concat(d.hide || [], extra.hide || []) }; };
+  scene('p1', {
+    build(h) {
+      // the ball and its forces, drawn at the start of the column; the group moves down it
+      h.line('p1-col', bx, y0, bx, y1 + R, 'k-dash c-muted');
+      const B = h.group('p1-B');
+      h.circle('p1-ball', bx, y0, R, 'k-soft', B);
+      h.arrow('p1-mg', bx, y0 + R, bx, y0 + R + F, 'c-concept', B);
+      h.tag('p1-mgl', bx, y0 + R + F, 'mg', 'c-concept it', 'e', B);
+      D.forEach(o => h.arrow(o.id, bx, y0 - R, bx, y0 - R - F * (o.t === 6 ? 1 : (vs(o.t) / vt) ** 2), 'c-ask', B));
+      h.tag('p1-dl', bx, y0 - R - 20, 'kv²', 'c-ask it', 'e', B);
+      h.tag('p1-d10l', bx, y0 - R - F, 'kv² = mg', 'c-ask', 'e', B);
+      // v(t)
+      const ax = h.axes({ x: [0, 10], y: [0, 25], box: [330, 40, 880, 540], xt: 2, yt: 5, xlabel: 't (s)', ylabel: 'v (m/s)' });
+      h.line('p1-vt', ax.X(0), ax.Y(vt), ax.X(10), ax.Y(vt), 'k-dash c-muted');
+      h.tag('p1-vtl', ax.X(5.5), ax.Y(vt), 'vₜ = 19.81 m/s', 'c-muted', 'n');
+      C1.concat(C2).forEach(o => h.curve(o.id, ax, vs, o.a, o.t, 'k-stroke c-concept', null, 20));
+      h.circle('p1-pt2', ax.X(2), ax.Y(vs(2)), 7, 'k-fill c-ask');
+      h.tag('p1-pt2l', ax.X(2), ax.Y(vs(2)), '15.02 m/s', 'c-ask', 'se');
+      h.circle('p1-pt10', ax.X(10), ax.Y(vs(10)), 7, 'k-fill c-ok');
+      h.tag('p1-pt10l', ax.X(10), ax.Y(vs(10)), '19.81 m/s', 'c-ok', 'sw', null, 16);
+      h.curve('p1-tanh', ax, t => vt * Math.tanh(g * t / vt), 0, 10, 'k-dash c-ok');
+      h.tag('p1-tanhl', ax.X(1), ax.Y(vt * Math.tanh(g / vt)), 'exact tanh', 'c-ok', 'se', null, 16);
+      h.curve('p1-ff', ax, t => g * t, 0, 3, 'k-stroke c-trap');
+      h.tag('p1-ffl', ax.X(2.45), ax.Y(24), 'gt → 98.1 m/s', 'c-trap', 'e');
+    },
+    steps: [
+      { stage: 'Setup', draw: 'p1-mg', show: 'p1-mgl',
+        ask: 'The ball falls from rest for $10\\ \\text{s}$ with $\\Delta t = 0.01\\ \\text{s}$. What is $v$ at the end?' },
+      { stage: 'Model', draw: 'p1-vt', show: 'p1-vtl',
+        tex: ['$a = g - \\dfrac{k}{m}\\,v^2$ (down positive)', '$a = 0$ when $v = v_t = \\sqrt{mg/k}$'] },
+      // 0 -> 2 s at real speed
+      { stage: 'Derive', wait: 0,
+        tex: 'Each step: $a = g - kv^2/m$, then $v \\leftarrow v + a\\,\\Delta t$',
+        note: 'At $2\\ \\text{s}$ the drag has grown to more than half of $mg$.',
+        after: film(2000, (f, fp) => frame(2 * f, 2 * fp, f === 1 ? { show: ['p1-pt2', 'p1-pt2l'] } : {})) },
+      // 2 -> 10 s at double speed
+      { stage: 'Derive', wait: 0,
+        tex: '$a$ falls from $9.81\\ \\text{m/s}^2$ towards $0$',
+        note: '90 % of $v_t$ is reached at $2.97\\ \\text{s}$ (played at double speed).',
+        after: film(4000, (f, fp) => frame(2 + 8 * f, 2 + 8 * fp,
+          f === 1 ? { show: ['p1-pt10', 'p1-pt10l'] } : 2 + 8 * f >= 6 && 2 + 8 * fp < 6 ? { show: 'p1-d10l', hide: 'p1-dl' } : {})) },
+      { stage: 'Result', clear: true, ask: null,
+        box: '$v(10\\ \\text{s}) = 19.81\\ \\text{m/s}$, $a = 1.9\\times10^{-3}\\ \\text{m/s}^2$' },
+      { stage: 'Check', draw: 'p1-tanh', show: 'p1-tanhl',
+        ok: 'Exact $v = v_t\\tanh(gt/v_t)$: $15.01\\ \\text{m/s}$ at $2\\ \\text{s}$; simulated $15.02\\ \\text{m/s}$.' },
+      { stage: 'Check', mark: { 'p1-mg': 'ok', 'p1-d10': 'ok', 'p1-d10l': 'ok' },
+        ok: 'Forces balance: $\\sqrt{0.16\\cdot 9.81/0.004} = 19.81\\ \\text{m/s}$ by hand.' },
+      { stage: 'Check', draw: 'p1-ff', show: 'p1-ffl',
+        trap: 'Free fall $v = gt = 98.1\\ \\text{m/s}$: five times too fast; it ignores the force that depends on the state.' },
+    ],
+  });
+}
 
 /* ===== p2 · Landing point: 20 m/s at 45 deg, dt = 0.1 s -> last point 41.01 m (2.90 s), interpolated 40.77 m (2.883 s) ===== */
-scene('p2', {
-  build(h) {
-    const g = 9.81, v0 = 20 * Math.SQRT1_2;
-    const fly = dt => { let x = 0, y = 0, vy = v0; const P = [[0, 0]];
-      for (;;) { x += v0 * dt; y += vy * dt - g * dt * dt / 2; vy -= g * dt; P.push([x, y]); if (y < 0) return P; } };
-    const P = fly(0.1), [xo, yo] = P[P.length - 2], [xl, yl] = P[P.length - 1], [xf, yf] = fly(0.01).pop();
-    // full view
-    const ax = axesG(h, 'p2-full', { x: [0, 45], y: [-1, 11], box: [80, 40, 880, 540], xt: 5, yt: 2, xlabel: 'x (m)', ylabel: 'y (m)' });
-    const full = ax.g;
-    h.arrow('p2-v0', ax.X(0), ax.Y(0), ax.X(3.5), ax.Y(3.5), 'c-concept', full);
-    h.tag('p2-v0l', ax.X(3.5), ax.Y(3.5), '20 m/s at 45°', 'c-concept', 'se', full);
-    const dots = h.group('p2-dots', 'c-concept', full);
-    P.slice(0, -1).forEach(([x, y]) => h.circle(null, ax.X(x), ax.Y(y), 6, 'k-fill', dots));
-    h.circle('p2-last', ax.X(xl), ax.Y(yl), 7, 'k-fill c-ask', full);
-    h.tag('p2-lastl', ax.X(xl), ax.Y(yl), 'first y < 0', 'c-ask', 'sw', full, 40);
-    // zoom on the last two points
-    const z = h.group('p2-zoom'), ZX = x => 70 + (x - 39.4) * 426, ZY = y => 453 - y * 300;
-    h.line(null, 60, ZY(0), 880, ZY(0), 'k-stroke c-muted', z);
-    h.tag(null, 90, ZY(0), 'y = 0', 'c-muted', 'ne', z);
-    h.line('p2-chord', ZX(xo), ZY(yo), ZX(xl), ZY(yl), 'k-stroke c-concept', z);
-    let d = ''; for (let i = 0; i <= 100; i++) { const x = 39.42 + 1.83 * i / 100; d += (i ? 'L' : 'M') + ZX(x).toFixed(1) + ',' + ZY(x - g * x * x / (2 * v0 * v0)).toFixed(1); }
-    h.path('p2-ex', d, 'k-dash c-ok', z);
-    h.circle(null, ZX(xo), ZY(yo), 9, 'k-fill c-concept', z);
-    h.tag(null, ZX(xo), ZY(yo), '(xₒ, yₒ)', 'c-concept', 'ne', z);
-    h.circle('p2-B', ZX(xl), ZY(yl), 9, 'k-fill c-ask', z);
-    h.tag('p2-Bl', ZX(xl), ZY(yl), '41.01 m', 'c-ask', 'sw', z, 16);
-    const xc = xo + (xl - xo) * yo / (yo - yl);
-    h.circle('p2-cross', ZX(xc), ZY(0), 9, 'k-fill c-ok', z);
-    h.tag('p2-crossl', ZX(xc), ZY(0), '40.77 m', 'c-ok', 'ne', z, 16);
-    h.circle('p2-c01', ZX(xf), ZY(yf), 8, 'k-fill c-muted', z);
-    h.tag('p2-c01l', ZX(xf), ZY(yf), 'Δt = 0.01 s', 'c-muted', 'sw', z, 16);
-  },
-  steps: [
-    { stage: 'Setup', draw: 'p2-v0', show: 'p2-v0l',
-      ask: 'The loop stops at the first $y \\lt 0$. Which $x$ is the range: the last point, or something else?' },
-    { stage: 'Model', show: 'p2-dots',
-      tex: ['Exact update every $\\Delta t = 0.1\\ \\text{s}$: $y \\mathrel{+}= v_y\\Delta t - \\tfrac12 g\\Delta t^2$', 'Selection: if $y \\lt 0$, break'] },
-    { stage: 'Derive', show: ['p2-last', 'p2-lastl'],
-      tex: 'The loop stops one step past the ground: $x = 41.01\\ \\text{m}$ at $t = 2.90\\ \\text{s}$' },
-    { stage: 'Derive', hide: 'p2-full', show: 'p2-zoom',
-      tex: 'Keep $(x_o, y_o)$ before each step: the crossing lies between the last two points' },
-    { stage: 'Derive', draw: 'p2-chord',
-      tex: '$x_\\text{land} = x_o + (x - x_o)\\,\\dfrac{y_o}{y_o - y}$' },
-    { stage: 'Result', clear: true, ask: null, show: ['p2-cross', 'p2-crossl'],
-      box: '$x = 40.77\\ \\text{m}$, $t = 2.883\\ \\text{s}$' },
-    { stage: 'Check', draw: 'p2-ex',
-      ok: '$R = v_0^2\\sin 2\\theta/g = 20^2\\sin 90^\\circ/9.81 = 40.77\\ \\text{m}$: the exact parabola meets the ground there.' },
-    { stage: 'Check', show: ['p2-c01', 'p2-c01l'],
-      ok: 'Convergence: $\\Delta t = 0.01\\ \\text{s}$ gives a last point of $40.87\\ \\text{m}$ and again $40.77\\ \\text{m}$ interpolated.' },
-    { stage: 'Check', mark: { 'p2-B': 'trap', 'p2-Bl': 'trap' },
-      trap: 'The last point, $41.01\\ \\text{m}$, is 24 cm too far; $\\Delta t = 0.05\\ \\text{s}$ still gives $41.01\\ \\text{m}$.' },
-  ],
-});
+{
+  const g = 9.81, v0 = 20 * Math.SQRT1_2;
+  const fly = dt => { let x = 0, y = 0, vy = v0; const P = [[0, 0]];
+    for (;;) { x += v0 * dt; y += vy * dt - g * dt * dt / 2; vy -= g * dt; P.push([x, y]); if (y < 0) return P; } };
+  const P = fly(0.1), [xo, yo] = P[P.length - 2], [xl, yl] = P[P.length - 1], [xf, yf] = fly(0.01).pop();
+  const AX = { x: [0, 45], y: [-1, 11], box: [80, 40, 880, 540] }, sx = 800 / 45, sy = 500 / 12;
+  // the ball's offset from the origin at time t (exact parabola: the 0.1 s points lie on it)
+  const pos = t => [v0 * t * sx, -(v0 * t - g * t * t / 2) * sy];
+  const dots = P.slice(0, -1).map((_, i) => ({ id: `p2-d${i}`, t: i * 0.1 }));
+  scene('p2', {
+    build(h) {
+      // full view
+      const ax = axesG(h, 'p2-full', Object.assign({ xt: 5, yt: 2, xlabel: 'x (m)', ylabel: 'y (m)' }, AX));
+      const full = ax.g;
+      h.arrow('p2-v0', ax.X(0), ax.Y(0), ax.X(3.5), ax.Y(3.5), 'c-concept', full);
+      h.tag('p2-v0l', ax.X(3.5), ax.Y(3.5), '20 m/s at 45°', 'c-concept', 'se', full);
+      const dg = h.group('p2-dots', 'c-concept', full);
+      P.slice(0, -1).forEach(([x, y], i) => h.circle(`p2-d${i}`, ax.X(x), ax.Y(y), 6, 'k-fill', dg));
+      h.circle('p2-last', ax.X(xl), ax.Y(yl), 7, 'k-fill c-ask', full);
+      h.tag('p2-lastl', ax.X(xl), ax.Y(yl), 'first y < 0', 'c-ask', 'sw', full, 40);
+      const ball = h.group('p2-ball', 'c-ask', full);
+      h.circle(null, ax.X(0), ax.Y(0), 11, 'k-fill', ball);
+      // zoom on the last two points
+      const z = h.group('p2-zoom'), ZX = x => 70 + (x - 39.4) * 426, ZY = y => 453 - y * 300;
+      h.line(null, 60, ZY(0), 880, ZY(0), 'k-stroke c-muted', z);
+      h.tag(null, 90, ZY(0), 'y = 0', 'c-muted', 'ne', z);
+      h.line('p2-chord', ZX(xo), ZY(yo), ZX(xl), ZY(yl), 'k-stroke c-concept', z);
+      let d = ''; for (let i = 0; i <= 100; i++) { const x = 39.42 + 1.83 * i / 100; d += (i ? 'L' : 'M') + ZX(x).toFixed(1) + ',' + ZY(x - g * x * x / (2 * v0 * v0)).toFixed(1); }
+      h.path('p2-ex', d, 'k-dash c-ok', z);
+      h.circle(null, ZX(xo), ZY(yo), 9, 'k-fill c-concept', z);
+      h.tag(null, ZX(xo), ZY(yo), '(xₒ, yₒ)', 'c-concept', 'ne', z);
+      h.circle('p2-B', ZX(xl), ZY(yl), 9, 'k-fill c-ask', z);
+      h.tag('p2-Bl', ZX(xl), ZY(yl), '41.01 m', 'c-ask', 'sw', z, 16);
+      const xc = xo + (xl - xo) * yo / (yo - yl);
+      h.circle('p2-cross', ZX(xc), ZY(0), 9, 'k-fill c-ok', z);
+      h.tag('p2-crossl', ZX(xc), ZY(0), '40.77 m', 'c-ok', 'ne', z, 16);
+      h.circle('p2-c01', ZX(xf), ZY(yf), 8, 'k-fill c-muted', z);
+      h.tag('p2-c01l', ZX(xf), ZY(yf), 'Δt = 0.01 s', 'c-muted', 'sw', z, 16);
+    },
+    steps: [
+      { stage: 'Setup', draw: 'p2-v0', show: ['p2-v0l', 'p2-ball'],
+        ask: 'The loop stops at the first $y \\lt 0$. Which $x$ is the range: the last point, or something else?' },
+      // the flight at real speed, one dot every 0.1 s, up to the last point above the ground (2.8 s)
+      { stage: 'Model', show: 'p2-d0', wait: 0,
+        tex: ['Exact update every $\\Delta t = 0.1\\ \\text{s}$: $y \\mathrel{+}= v_y\\Delta t - \\tfrac12 g\\Delta t^2$', 'Selection: if $y \\lt 0$, break'],
+        after: film(2800, (f, fp) => ({ move: { 'p2-ball': pos(2.8 * f) }, show: crossed(dots, 2.8 * fp, 2.8 * f) })) },
+      // one more step (slowed down): the ball goes below the ground, then the loop breaks
+      { stage: 'Derive', wait: 0,
+        tex: 'The loop stops one step past the ground: $x = 41.01\\ \\text{m}$ at $t = 2.90\\ \\text{s}$',
+        after: film(700, f => Object.assign({ move: { 'p2-ball': pos(2.8 + 0.1 * f) } },
+          f === 1 ? { hide: 'p2-ball', show: ['p2-last', 'p2-lastl'] } : {})) },
+      { stage: 'Derive', hide: 'p2-full', show: 'p2-zoom',
+        tex: 'Keep $(x_o, y_o)$ before each step: the crossing lies between the last two points' },
+      { stage: 'Derive', draw: 'p2-chord',
+        tex: '$x_\\text{land} = x_o + (x - x_o)\\,\\dfrac{y_o}{y_o - y}$' },
+      { stage: 'Result', clear: true, ask: null, show: ['p2-cross', 'p2-crossl'],
+        box: '$x = 40.77\\ \\text{m}$, $t = 2.883\\ \\text{s}$' },
+      { stage: 'Check', draw: 'p2-ex',
+        ok: '$R = v_0^2\\sin 2\\theta/g = 20^2\\sin 90^\\circ/9.81 = 40.77\\ \\text{m}$: the exact parabola meets the ground there.' },
+      { stage: 'Check', show: ['p2-c01', 'p2-c01l'],
+        ok: 'Convergence: $\\Delta t = 0.01\\ \\text{s}$ gives a last point of $40.87\\ \\text{m}$ and again $40.77\\ \\text{m}$ interpolated.' },
+      { stage: 'Check', mark: { 'p2-B': 'trap', 'p2-Bl': 'trap' },
+        trap: 'The last point, $41.01\\ \\text{m}$, is 24 cm too far; $\\Delta t = 0.05\\ \\text{s}$ still gives $41.01\\ \\text{m}$.' },
+    ],
+  });
+}
 
 /* ===== p3 · Pendulum energy: L = 1 m, 0.20 rad, dt = 0.01 s, 20 s -> A (Euler) 0.509 rad, B (Euler-Cromer) 0.200 rad ===== */
-scene('p3', {
-  build(h) {
-    const g = 9.81, L = 1, dt = 0.01, N = 2000;
-    const run = order => { let th = 0.2, om = 0; const T = [th], E = [];
-      for (let n = 0; n < N; n++) {
-        if (order === 'A') [th, om] = [th + om * dt, om - g / L * Math.sin(th) * dt];
-        else { om -= g / L * Math.sin(th) * dt; th += om * dt; }
-        T.push(th); E.push(om * om / 2 + g / L * (1 - Math.cos(th)));
-      }
-      return { T, ratio: E.slice(-200).reduce((a, b) => a + b) / 200 / (g / L * (1 - Math.cos(0.2))) }; };
-    const S = { A: run('A'), B: run('B') };
-    ['A', 'B'].forEach((o, r) => {
-      const off = 290 * r, px = 80, py = 40 + off, Lp = 170, sim = S[o];
-      h.tag(null, px, py, o, 'c-text', 'n');
-      h.line(null, px - 40, py, px + 40, py, 'k-thin c-muted');
-      h.line(null, px, py, px, py + Lp + 2, 'k-dash c-muted');
-      const bob = (id, th) => { const gr = h.group(id, 'c-concept');
-        h.line(null, px, py, px + Lp * Math.sin(th), py + Lp * Math.cos(th), 'k-thin', gr);
-        h.circle(null, px + Lp * Math.sin(th), py + Lp * Math.cos(th), 15, 'k-fill', gr); };
-      bob(`p3-${o}0`, 0.2);
-      if (o === 'A') bob('p3-A1', 0.509);
-      h.text(`p3-u${o}`, 24, py + 226, o === 'A' ? 'both from old state' : 'new ω first', 'c-muted');
-      // energy bars: E0 = 22 px
-      const bx = 236, base = py + 210, e0 = 22;
-      h.rect(`p3-E${o}0`, bx, base - e0, 26, e0, 'k-soft');
-      if (o === 'A') h.rect('p3-EA1', bx, base - e0 * sim.ratio, 26, e0 * sim.ratio, 'k-soft');
-      h.tag(`p3-El${o}`, bx + 13, base, 'E', 'c-concept it', 's');
-      // theta(t)
-      const ax = axesG(h, `p3-ax${o}`, { x: [0, 20], y: [-0.6, 0.6], box: [330, py - 10, 760, py + 210], xt: 5, yt: 0.5 });
-      const f = t => sim.T[Math.min(N, Math.round(t / dt))];
-      h.path(`p3-r${o}`, `M${ax.X(0)},${ax.Y(0.2)} H${ax.X(20)} M${ax.X(0)},${ax.Y(-0.2)} H${ax.X(20)}`, 'k-dash c-muted');
-      h.curve(`p3-c${o}1`, ax, f, 0, 10, 'k-thin c-concept', null, 1000);
-      h.curve(`p3-c${o}2`, ax, f, 10, 20, 'k-thin c-concept', null, 1000);
-      h.tag(`p3-res${o}`, 760, ax.Y(o === 'A' ? 0.509 : 0.2), o === 'A' ? '0.509 rad' : '0.200 rad', 'c-ok', 'e');
-      if (o === 'A') {
-        h.tag('p3-thl', 330, py - 10, 'θ (rad)', 'c-muted it', 'nw');
-        h.line('p3-est', ax.X(0), ax.Y(0.53), ax.X(20), ax.Y(0.53), 'k-dash c-ok');
-        h.tag('p3-estl', 760, ax.Y(0.53), '≈ 0.53 rad', 'c-ok', 'e');
-        h.line('p3-trp', ax.X(0), ax.Y(0.319), ax.X(20), ax.Y(0.319), 'k-dash c-trap');
-        h.tag('p3-trpl', 760, ax.Y(0.319), '0.319 rad', 'c-trap', 'e');
-      } else {
-        h.tag('p3-tl', 760, ax.Y(0), 't (s)', 'c-muted it', 'e');
-        const c = []; for (let n = 0; n < N; n++) if (sim.T[n] < 0 && sim.T[n + 1] >= 0) c.push(n * dt);
-        const yA = ax.Y(-0.42), mid = (ax.X(c[0]) + ax.X(c[1])) / 2, per = h.group('p3-per', 'c-ok');
-        h.arrow(null, mid, yA, ax.X(c[0]), yA, null, per, 3); h.arrow(null, mid, yA, ax.X(c[1]), yA, null, per, 3);
-        [c[0], c[1]].forEach(t => h.line(null, ax.X(t), ax.Y(0), ax.X(t), yA + 10, 'k-thin', per));
-        h.tag('p3-perl', mid, yA, '2.011 s', 'c-ok', 's');
-      }
-    });
-  },
-  steps: [
-    { stage: 'Setup', show: ['p3-A0', 'p3-B0'],
-      ask: 'Both start at $0.20\\ \\text{rad}$. Largest angle in the last $2\\ \\text{s}$ of $20\\ \\text{s}$, for A and for B?' },
-    { stage: 'Model', show: ['p3-uA', 'p3-uB', 'p3-axA', 'p3-axB', 'p3-rA', 'p3-rB', 'p3-thl', 'p3-tl'],
-      tex: ['A: $\\theta \\leftarrow \\theta + \\omega\\Delta t$, $\\omega \\leftarrow \\omega - \\tfrac{g}{L}\\sin\\theta\\,\\Delta t$, both from the old state',
-            'B: new $\\omega$ first, then $\\theta$ with it'] },
-    { stage: 'Derive', draw: ['p3-cA1', 'p3-cB1'], show: ['p3-EA0', 'p3-EB0', 'p3-ElA', 'p3-ElB'], dur: 1400,
-      tex: '$0 \\to 10\\ \\text{s}$: A\'s swing widens, B\'s stays' },
-    { stage: 'Derive', draw: ['p3-cA2', 'p3-cB2'], hide: ['p3-A0', 'p3-EA0'], show: ['p3-A1', 'p3-EA1'], dur: 1400,
-      tex: 'A: energy $\\times\\,(1 + \\tfrac{g}{L}\\Delta t^2) = 1.00098$ every step' },
-    { stage: 'Result', clear: true, ask: null, hide: ['p3-uA', 'p3-uB'], show: ['p3-resA', 'p3-resB'],
-      box: 'A: $0.509\\ \\text{rad}$, B: $0.200\\ \\text{rad}$' },
-    { stage: 'Check', hide: 'p3-resA', draw: 'p3-est', show: 'p3-estl',
-      ok: 'Estimate: $1.00098^{2000} \\approx 7.1$ in energy, amplitude $\\times 2.67$: $0.20\\times 2.67 = 0.53\\ \\text{rad}$' },
-    { stage: 'Check', show: ['p3-per', 'p3-perl'],
-      ok: 'B\'s period from zero crossings: $2.011\\ \\text{s}$ vs $2\\pi\\sqrt{L/g} = 2.006\\ \\text{s}$' },
-    { stage: 'Check', draw: 'p3-trp', show: 'p3-trpl',
-      trap: 'Halve $\\Delta t$ and A is fine? $\\Delta t = 0.005\\ \\text{s}$ still gives $0.319\\ \\text{rad}$, 60 % too large.' },
-  ],
-});
+{
+  const g = 9.81, L = 1, dt = 0.01, N = 2000;
+  const run = order => { let th = 0.2, om = 0; const T = [th], E = [];
+    for (let n = 0; n < N; n++) {
+      if (order === 'A') [th, om] = [th + om * dt, om - g / L * Math.sin(th) * dt];
+      else { om -= g / L * Math.sin(th) * dt; th += om * dt; }
+      T.push(th); E.push(om * om / 2 + g / L * (1 - Math.cos(th)));
+    }
+    return { T, ratio: E.slice(-200).reduce((a, b) => a + b) / 200 / (g / L * (1 - Math.cos(0.2))) }; };
+  const S = { A: run('A'), B: run('B') }, PX = 125, PY = { A: 40, B: 330 }, Lp = 170;
+  // both bobs swing with the simulated angle; the clip plays [t0, t0 + 2 s] of the run at real speed
+  const pose = t => { const o = {}; for (const k of ['A', 'B'])
+    o[`p3-${k}`] = { cx: PX, cy: PY[k], at: S[k].T[Math.min(N, Math.round(t / dt))] * 180 / Math.PI, still: true }; return { orbit: o }; };
+  const swing = t0 => film(2000, f => pose(t0 + 2 * f));
+  scene('p3', {
+    build(h) {
+      ['A', 'B'].forEach(o => {
+        const px = PX, py = PY[o], sim = S[o];
+        h.tag(null, px, py, o, 'c-text', 'n');
+        h.line(null, px - 40, py, px + 40, py, 'k-thin c-muted');
+        h.line(null, px, py, px, py + Lp + 2, 'k-dash c-muted');
+        // the bob hangs straight down in the drawing; `orbit … still` turns it about the pivot
+        const gr = h.group(`p3-${o}`, 'c-concept');
+        h.line(null, px, py, px, py + Lp, 'k-thin', gr);
+        h.circle(null, px, py + Lp, 15, 'k-fill', gr);
+        h.text(`p3-u${o}`, 24, py + 226, o === 'A' ? 'both from old state' : 'new ω first', 'c-muted');
+        // energy bars: E0 = 22 px
+        const bx = 236, base = py + 210, e0 = 22;
+        h.rect(`p3-E${o}0`, bx, base - e0, 26, e0, 'k-soft');
+        if (o === 'A') h.rect('p3-EA1', bx, base - e0 * sim.ratio, 26, e0 * sim.ratio, 'k-soft');
+        h.tag(`p3-El${o}`, bx + 13, base, 'E', 'c-concept it', 's');
+        // theta(t)
+        const ax = axesG(h, `p3-ax${o}`, { x: [0, 20], y: [-0.6, 0.6], box: [330, py - 10, 760, py + 210], xt: 5, yt: 0.5 });
+        const f = t => sim.T[Math.min(N, Math.round(t / dt))];
+        h.path(`p3-r${o}`, `M${ax.X(0)},${ax.Y(0.2)} H${ax.X(20)} M${ax.X(0)},${ax.Y(-0.2)} H${ax.X(20)}`, 'k-dash c-muted');
+        h.curve(`p3-c${o}1`, ax, f, 0, 10, 'k-thin c-concept', null, 1000);
+        h.curve(`p3-c${o}2`, ax, f, 10, 20, 'k-thin c-concept', null, 1000);
+        h.tag(`p3-res${o}`, 760, ax.Y(o === 'A' ? 0.509 : 0.2), o === 'A' ? '0.509 rad' : '0.200 rad', 'c-ok', 'e');
+        if (o === 'A') {
+          h.tag('p3-thl', 330, py - 10, 'θ (rad)', 'c-muted it', 'nw');
+          h.line('p3-est', ax.X(0), ax.Y(0.53), ax.X(20), ax.Y(0.53), 'k-dash c-ok');
+          h.tag('p3-estl', 760, ax.Y(0.53), '≈ 0.53 rad', 'c-ok', 'e');
+          h.line('p3-trp', ax.X(0), ax.Y(0.319), ax.X(20), ax.Y(0.319), 'k-dash c-trap');
+          h.tag('p3-trpl', 760, ax.Y(0.319), '0.319 rad', 'c-trap', 'e');
+        } else {
+          h.tag('p3-tl', 760, ax.Y(0), 't (s)', 'c-muted it', 'e');
+          const c = []; for (let n = 0; n < N; n++) if (sim.T[n] < 0 && sim.T[n + 1] >= 0) c.push(n * dt);
+          const yA = ax.Y(-0.42), mid = (ax.X(c[0]) + ax.X(c[1])) / 2, per = h.group('p3-per', 'c-ok');
+          h.arrow(null, mid, yA, ax.X(c[0]), yA, null, per, 3); h.arrow(null, mid, yA, ax.X(c[1]), yA, null, per, 3);
+          [c[0], c[1]].forEach(t => h.line(null, ax.X(t), ax.Y(0), ax.X(t), yA + 10, 'k-thin', per));
+          h.tag('p3-perl', mid, yA, '2.011 s', 'c-ok', 's');
+        }
+      });
+    },
+    steps: [
+      // released from 0.20 rad: the first period (0-2 s), both alike
+      { stage: 'Setup', show: ['p3-A', 'p3-B'], ...pose(0), wait: 300, after: swing(0),
+        ask: 'Both start at $0.20\\ \\text{rad}$. Largest angle in the last $2\\ \\text{s}$ of $20\\ \\text{s}$, for A and for B?' },
+      { stage: 'Model', show: ['p3-uA', 'p3-uB', 'p3-axA', 'p3-axB', 'p3-rA', 'p3-rB', 'p3-thl', 'p3-tl'],
+        tex: ['A: $\\theta \\leftarrow \\theta + \\omega\\Delta t$, $\\omega \\leftarrow \\omega - \\tfrac{g}{L}\\sin\\theta\\,\\Delta t$, both from the old state',
+              'B: new $\\omega$ first, then $\\theta$ with it'] },
+      // the bobs swing through 8-10 s of the run: A already wider
+      { stage: 'Derive', draw: ['p3-cA1', 'p3-cB1'], show: ['p3-EA0', 'p3-EB0', 'p3-ElA', 'p3-ElB'], dur: 1600, wait: 0, after: swing(8),
+        tex: '$0 \\to 10\\ \\text{s}$: A\'s swing widens, B\'s stays' },
+      // and through 18-20 s: A swings to 0.5 rad, B still to 0.2 rad
+      { stage: 'Derive', draw: ['p3-cA2', 'p3-cB2'], hide: 'p3-EA0', show: 'p3-EA1', dur: 1600, wait: 0, after: swing(18),
+        tex: 'A: energy $\\times\\,(1 + \\tfrac{g}{L}\\Delta t^2) = 1.00098$ every step' },
+      { stage: 'Result', clear: true, ask: null, hide: ['p3-uA', 'p3-uB'], show: ['p3-resA', 'p3-resB'],
+        box: 'A: $0.509\\ \\text{rad}$, B: $0.200\\ \\text{rad}$' },
+      { stage: 'Check', hide: 'p3-resA', draw: 'p3-est', show: 'p3-estl',
+        ok: 'Estimate: $1.00098^{2000} \\approx 7.1$ in energy, amplitude $\\times 2.67$: $0.20\\times 2.67 = 0.53\\ \\text{rad}$' },
+      { stage: 'Check', show: ['p3-per', 'p3-perl'],
+        ok: 'B\'s period from zero crossings: $2.011\\ \\text{s}$ vs $2\\pi\\sqrt{L/g} = 2.006\\ \\text{s}$' },
+      { stage: 'Check', draw: 'p3-trp', show: 'p3-trpl',
+        trap: 'Halve $\\Delta t$ and A is fine? $\\Delta t = 0.005\\ \\text{s}$ still gives $0.319\\ \\text{rad}$, 60 % too large.' },
+    ],
+  });
+}
 
 /* ===== p4 · A test that cannot see the bug: fall(50, k); k = 0 -> 3.20 s for both; k = 0.004: correct 3.88 s / 19.00 m/s,
    flipped sign 2.60 s / 66.53 m/s > v_t = 19.81 m/s ===== */
-scene('p4', {
-  build(h) {
-    const g = 9.81, m = 0.16, dt = 0.01;
-    const vt = (k, s) => { let y = 50, v = 0; const V = [0];
-      while (y >= 0) { [y, v] = [y - v * dt, v + (g + s * k * v * v / m) * dt]; V.push(v); } return V; };
-    const top = 70, bot = 452, lanes = { c: 90, f: 230 };
-    h.line(null, 40, 470, 340, 470, 'k-stroke c-muted');
-    h.line('p4-rul', 320, top, 320, 470, 'k-thin c-muted');
-    h.tag('p4-rull', 320, top, 'h = 50 m', 'c-muted', 'n');
-    for (const s in lanes) {
-      const x = lanes[s];
-      h.path(`p4-p${s}`, `M${x},${top} L${x},${bot}`, 'k-hide');
-      const b = h.group(`p4-b${s}`, 'c-concept', null, `translate(${x},${top})`);
-      h.circle(null, 0, 0, 18, 'k-fill', b);
-      h.text(null, x, 505, s === 'c' ? 'correct' : 'flipped sign', 'c-text', null, 'middle');
-      [['1', x - 32, 'k = 0'], ['2', x + 32, 'v ≤ 19.81']].forEach(([n, lx, lab]) => {
-        h.circle(`p4-L${n}${s}`, lx, 548, 13, 'k-fill c-muted');
-        h.tag(`p4-L${n}${s}l`, lx, 561, lab, 'c-muted small', 's', null, 4);
-      });
-    }
-    const ax = axesG(h, 'p4-ax', { x: [0, 4], y: [0, 70], box: [410, 40, 880, 520], xt: 1, yt: 10, xlabel: 't (s)', ylabel: 'v (m/s)' });
-    const plot = (id, V, cls) => h.curve(id, ax, t => V[Math.min(V.length - 1, Math.round(t / dt))], 0, (V.length - 1) * dt, cls, null, V.length);
-    const V0 = vt(0, -1), Vc = vt(0.004, -1), Vf = vt(0.004, 1);
-    h.line('p4-vt', ax.X(0), ax.Y(19.81), ax.X(4), ax.Y(19.81), 'k-dash c-muted');
-    h.tag('p4-vtl', ax.X(0.05), ax.Y(19.81), 'limit 19.81 m/s', 'c-muted', 'ne');
-    plot('p4-k0', V0, 'k-dash c-concept');
-    h.tag('p4-k0l', ax.X(3.2), ax.Y(31.39), '3.20 s', 'c-concept', 'e');
-    plot('p4-cc', Vc, 'k-stroke c-concept');
-    h.tag('p4-ccl', ax.X(3.88), ax.Y(19.0), '19.00 m/s', 'c-concept', 'sw', null, 26);
-    plot('p4-cf', Vf, 'k-stroke c-ask');
-    h.tag('p4-cfl', ax.X(2.6), ax.Y(66.53), '66.53 m/s', 'c-ask', 'e');
-    h.text('p4-stamp', lanes.f, 405, 'passed test 1', 'c-trap', null, 'middle');
-  },
-  steps: [
-    { stage: 'Setup', draw: 'p4-rul', show: 'p4-rull',
-      ask: 'The flipped version passes $\\texttt{fall(50, 0)} \\approx 3.19\\ \\text{s}$. Is it right?' },
-    { stage: 'Model', show: ['p4-L1c', 'p4-L2c', 'p4-L1f', 'p4-L2f', 'p4-L1cl', 'p4-L2cl', 'p4-L1fl', 'p4-L2fl', 'p4-ax', 'p4-vt', 'p4-vtl'],
-      tex: ['Test 1: $k = 0$ vs $\\sqrt{2h/g} = 3.19\\ \\text{s}$', 'Test 2: impact speed $\\le v_t = 19.81\\ \\text{m/s}$'] },
-    { stage: 'Derive', trace: { 'p4-bc': ['p4-pc', 1600], 'p4-bf': ['p4-pf', 1600] }, draw: 'p4-k0', show: 'p4-k0l', dur: 1600,
-      mark: { 'p4-L1c': 'ok', 'p4-L1f': 'ok' },
-      ask: 'Both pass test 1. Can the flipped code be trusted now?',
-      tex: 'With $k = 0$ the drag term is $k\\times\\ldots = 0$: both land at $3.20\\ \\text{s}$' },
-    { stage: 'Derive', trace: { 'p4-bc': ['p4-pc', 1940], 'p4-bf': ['p4-pf', 1300] }, draw: ['p4-cc', 'p4-cf'], show: ['p4-ccl', 'p4-cfl'], dur: 1900,
-      tex: ['Correct: $3.88\\ \\text{s}$, impact $19.00\\ \\text{m/s}$', 'Flipped: $2.60\\ \\text{s}$, impact $66.53\\ \\text{m/s}$'] },
-    { stage: 'Result', clear: true, ask: null, mark: { 'p4-L2f': 'trap', 'p4-bf': 'trap', 'p4-cf': 'trap', 'p4-cfl': 'trap' },
-      box: 'Flipped version wrong: $66.53\\ \\text{m/s} \\gt 19.81\\ \\text{m/s}$' },
-    { stage: 'Check', mark: { 'p4-k0': 'ok', 'p4-k0l': 'ok' },
-      ok: 'Limiting case $k = 0$: $3.20\\ \\text{s}$ vs $\\sqrt{2\\cdot 50/9.81} = 3.19\\ \\text{s}$, within one step\'s Euler error' },
-    { stage: 'Check', mark: { 'p4-L2c': 'ok', 'p4-cc': 'ok', 'p4-ccl': 'ok' },
-      ok: 'Bound: the correct code lands at $19.00 \\le 19.81\\ \\text{m/s}$, after $3.88 \\gt 3.19\\ \\text{s}$' },
-    { stage: 'Check', show: 'p4-stamp',
-      trap: '"It passed the $k = 0$ test, so the code is right": that test never touches the drag term.' },
-  ],
-});
+{
+  const g = 9.81, m = 0.16, dt = 0.01;
+  const fall = (k, s) => { let y = 50, v = 0; const V = [0], Y = [50];
+    while (y >= 0) { [y, v] = [y - v * dt, v + (g + s * k * v * v / m) * dt]; V.push(v); Y.push(y); } return { V, Y }; };
+  const R0 = fall(0, -1), Rc = fall(0.004, -1), Rf = fall(0.004, 1);
+  const top = 70, bot = 452, lanes = { c: 90, f: 230 };
+  // drop of the ball at time t (px below the top; it stays on the ground once landed)
+  const drop = (r, t) => (50 - Math.max(0, r.Y[Math.min(r.Y.length - 1, Math.round(t / dt))])) / 50 * (bot - top);
+  const tl = r => (r.Y.length - 1) * dt;                   // landing time of the run
+  const both = (rc, rf, t) => ({ move: { 'p4-bc': [0, drop(rc, t)], 'p4-bf': [0, drop(rf, t)] } });
+  // v(t) curves in 0.1 s pieces, revealed by the frame that reaches them: the pen keeps pace with the balls
+  const pieces = (id, r) => [...Array(Math.ceil(tl(r) / 0.1 - 1e-9))].map((_, j) => ({ id: `${id}-${j}`, a: j * 0.1, t: Math.min(tl(r), (j + 1) * 0.1) }));
+  const K0 = pieces('p4-k0', R0), CC = pieces('p4-cc', Rc), CF = pieces('p4-cf', Rf);
+  scene('p4', {
+    build(h) {
+      h.line(null, 40, 470, 340, 470, 'k-stroke c-muted');
+      h.line('p4-rul', 320, top, 320, 470, 'k-thin c-muted');
+      h.tag('p4-rull', 320, top, 'h = 50 m', 'c-muted', 'n');
+      for (const s in lanes) {
+        const x = lanes[s];
+        const b = h.group(`p4-b${s}`, 'c-concept');
+        h.circle(null, x, top, 18, 'k-fill', b);
+        h.text(null, x, 505, s === 'c' ? 'correct' : 'flipped sign', 'c-text', null, 'middle');
+        [['1', x - 32, 'k = 0'], ['2', x + 32, 'v ≤ 19.81']].forEach(([n, lx, lab]) => {
+          h.circle(`p4-L${n}${s}`, lx, 548, 13, 'k-fill c-muted');
+          h.tag(`p4-L${n}${s}l`, lx, 561, lab, 'c-muted small', 's', null, 4);
+        });
+      }
+      const ax = axesG(h, 'p4-ax', { x: [0, 4], y: [0, 70], box: [410, 40, 880, 520], xt: 1, yt: 10, xlabel: 't (s)', ylabel: 'v (m/s)' });
+      const plot = (id, r, P, line, col) => { const g = h.group(id, col);
+        P.forEach(o => h.curve(o.id, ax, t => r.V[Math.min(r.V.length - 1, Math.round(t / dt))], o.a, o.t, line, g, 10)); };
+      h.line('p4-vt', ax.X(0), ax.Y(19.81), ax.X(4), ax.Y(19.81), 'k-dash c-muted');
+      h.tag('p4-vtl', ax.X(0.05), ax.Y(19.81), 'limit 19.81 m/s', 'c-muted', 'ne');
+      plot('p4-k0', R0, K0, 'k-dash', 'c-concept');
+      h.tag('p4-k0l', ax.X(3.2), ax.Y(31.39), '3.20 s', 'c-concept', 'e');
+      plot('p4-cc', Rc, CC, 'k-stroke', 'c-concept');
+      h.tag('p4-ccl', ax.X(3.88), ax.Y(19.0), '19.00 m/s', 'c-concept', 'sw', null, 26);
+      plot('p4-cf', Rf, CF, 'k-stroke', 'c-ask');
+      h.tag('p4-cfl', ax.X(2.6), ax.Y(66.53), '66.53 m/s', 'c-ask', 'e');
+      h.text('p4-stamp', lanes.f, 405, 'passed test 1', 'c-trap', null, 'middle');
+    },
+    steps: [
+      { stage: 'Setup', draw: 'p4-rul', show: 'p4-rull',
+        ask: 'The flipped version passes $\\texttt{fall(50, 0)} \\approx 3.19\\ \\text{s}$. Is it right?' },
+      { stage: 'Model', show: ['p4-L1c', 'p4-L2c', 'p4-L1f', 'p4-L2f', 'p4-L1cl', 'p4-L2cl', 'p4-L1fl', 'p4-L2fl', 'p4-ax', 'p4-vt', 'p4-vtl'],
+        tex: ['Test 1: $k = 0$ vs $\\sqrt{2h/g} = 3.19\\ \\text{s}$', 'Test 2: impact speed $\\le v_t = 19.81\\ \\text{m/s}$'] },
+      // k = 0 at real speed: both land together at 3.20 s, both test lights 1 turn green
+      { stage: 'Derive', wait: 0,
+        after: film(tl(R0) * 1000, (f, fp) => Object.assign(both(R0, R0, f * tl(R0)), { show: crossed(K0, fp * tl(R0), f * tl(R0)).concat(f === 1 ? 'p4-k0l' : []) },
+          f === 1 ? { mark: { 'p4-L1c': 'ok', 'p4-L1f': 'ok' } } : {})),
+        ask: 'Both pass test 1. Can the flipped code be trusted now?',
+        tex: 'With $k = 0$ the drag term is $k\\times\\ldots = 0$: both land at $3.20\\ \\text{s}$' },
+      // k = 0.004 at real speed: the flipped ball speeds up, lands at 2.60 s and its light 2 turns red; the correct one lands at 3.88 s
+      { stage: 'Derive', wait: 0,
+        after: film(tl(Rc) * 1000, (f, fp) => { const t = f * tl(Rc), tp = fp * tl(Rc), land = t >= tl(Rf) && tp < tl(Rf);
+          const sh = crossed(CC.concat(CF), tp, t).concat(land ? 'p4-cfl' : [], f === 1 ? 'p4-ccl' : []);
+          return Object.assign(both(Rc, Rf, t), { show: sh }, land ? { mark: { 'p4-L2f': 'trap' } } : {}); }),
+        tex: ['Correct: $3.88\\ \\text{s}$, impact $19.00\\ \\text{m/s}$', 'Flipped: $2.60\\ \\text{s}$, impact $66.53\\ \\text{m/s}$'] },
+      { stage: 'Result', clear: true, ask: null, mark: { 'p4-L2f': 'trap', 'p4-bf': 'trap', 'p4-cf': 'trap', 'p4-cfl': 'trap' },
+        box: 'Flipped version wrong: $66.53\\ \\text{m/s} \\gt 19.81\\ \\text{m/s}$' },
+      { stage: 'Check', mark: { 'p4-k0': 'ok', 'p4-k0l': 'ok' },
+        ok: 'Limiting case $k = 0$: $3.20\\ \\text{s}$ vs $\\sqrt{2\\cdot 50/9.81} = 3.19\\ \\text{s}$, within one step\'s Euler error' },
+      { stage: 'Check', mark: { 'p4-L2c': 'ok', 'p4-cc': 'ok', 'p4-ccl': 'ok' },
+        ok: 'Bound: the correct code lands at $19.00 \\le 19.81\\ \\text{m/s}$, after $3.88 \\gt 3.19\\ \\text{s}$' },
+      { stage: 'Check', show: 'p4-stamp',
+        trap: '"It passed the $k = 0$ test, so the code is right": that test never touches the drag term.' },
+    ],
+  });
+}
 
 /* Scenes p5-p8 (lab track, Problems 5-8). Numbers from plan/numbers.py (W18-W33); arrays computed in Python from
    plan/pendulum.csv and the numbers.py P7/P8 recipes. One block so the constants do not clash with other parts. */
