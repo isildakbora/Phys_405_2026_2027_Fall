@@ -470,31 +470,13 @@ body.laser-on #laser{display:block}
   <aside class="notes"><p>Point at the [n] counters in the live Colab. Ask: "if I delete a cell, is its variable gone?" (No, it lives in the kernel until a restart.) This is the idea behind L08's 4 %.</p></aside>
 </section>
 
-<!-- L10 · type: example -->
-<section class="slide" data-track="lecture" data-section="Part 1 · Colab as a laboratory notebook" data-time="28 min" data-title="Three cells, one pendulum">
+<!-- L10 · type: example, built as a step scene -->
+<section class="slide" data-track="lecture" data-section="Part 1 · Colab as a laboratory notebook" data-time="28 min" data-title="Three cells, one pendulum" data-scene="l10">
   <span class="kicker">Part 1 · Colab as a laboratory notebook</span>
   <h2>Three cells, one pendulum, and a period from the Moon</h2>
-  <div class="cols">
-    <div class="stack">
-      <ul>
-        <li>Cells run in the order 1 → 3 → 2</li>
-        <li>The page suggests Earth, the kernel holds the Moon</li>
-        <li>Earth: $T = 2\pi\sqrt{L/g} = 2.006\ \text{s}$ for $L = 1\ \text{m}$; printed: $4.937\ \text{s}$</li>
-      </ul>
-      <pre># cell 1
-import math; L = 1.0; g = 9.81
-# cell 2
-T = 2 * math.pi * math.sqrt(L / g); print(f"T = {T:.3f} s")
-# cell 3  (a later experiment on the same page)
-g = 1.62</pre>
-      <pre class="out step">T = 4.937 s</pre>
-    </div>
-    <div class="stack">
-      <div class="step"><span class="tag result">Result</span><div class="res" style="margin-top:8px"><p>Earth: $T = 2.006\ \text{s}$</p><p>Printed: $T = 4.937\ \text{s}$</p></div></div>
-      <div class="card green step"><span class="tag check">Check</span><p style="margin-top:8px">Runtime → Restart session and run all prints $T = 2.006\ \text{s}$; the ratio $4.937/2.006 = 2.461 = \sqrt{9.81/1.62}$.</p></div>
-    </div>
-  </div>
-  <aside class="notes"><p>Run it live in this order. Ask for a prediction before cell 2. Expected wrong answer: 2.006 s. Rule of the course: before you hand anything in, Restart session and run all. Lab problem P1 returns to this.</p></aside>
+  <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
+  <div class="rail"></div>
+  <aside class="notes"><p>Run it live in this order. Ask for a prediction before cell 2. Expected wrong answer: 2.006 s. Rule of the course: before you hand anything in, Restart session and run all. Lab problem P1 returns to this.</p><p>Code: cell 1 <code>import math; L = 1.0; g = 9.81</code>; cell 2 <code>T = 2 * math.pi * math.sqrt(L / g); print(f"T = {T:.3f} s")</code>; cell 3 (a later experiment on the same page) <code>g = 1.62</code>. Output of the last cell 2 run: T = 4.937 s. The pendulum swings at the computed period (real speed).</p></aside>
 </section>
 
 <!-- L11 · type: widget -->
@@ -538,28 +520,13 @@ print(f"T = {T:.3f} s")</span></button>
   <aside class="notes"><p>Source: Colab FAQ (quotes in 01_sources.md). Do not quote an idle time in minutes; the FAQ gives none. Ask: "your data file after lunch?" Expected answer: still there. Show the empty file panel.</p></aside>
 </section>
 
-<!-- L13 · type: question -->
-<section class="slide" data-track="lecture" data-section="Part 1 · Colab as a laboratory notebook" data-time="28 min" data-title="Which 10 µs bin for −3 µs?">
+<!-- L13 · type: question, built as a step scene -->
+<section class="slide" data-track="lecture" data-section="Part 1 · Colab as a laboratory notebook" data-time="28 min" data-title="Which 10 µs bin for −3 µs?" data-scene="l13">
   <span class="kicker">Part 1 · Colab as a laboratory notebook</span>
   <h2>Which 10 µs bin does an event at −3 µs fall into?</h2>
-  <div class="q">An oscilloscope records event times relative to its trigger, so some times are negative: −13, −3, 3, 13 µs. You sort them into 10 µs bins with <span class="key" style="font-size:.8em">int(t / 10)</span>. Which bin numbers do −3 µs and +3 µs get?</div>
-  <div class="cols">
-    <div class="stack">
-<pre>times = [-13.0, -3.0, 3.0, 13.0]      # µs, relative to the trigger
-for t in times:
-    print(t, int(t / 10), t // 10)</pre>
-<pre class="out step">-13.0 -1 -2.0
--3.0 0 -1.0
-3.0 0 0.0
-13.0 1 1.0</pre>
-      <div class="card step"><span class="tag result">Settles</span><p style="margin-top:8px"><span class="key">int(t/10)</span>: −1, 0, 0, 1; <span class="key">t // 10</span>: −2, −1, 0, 1. Check: lower edge <span class="key">(t // 10) * 10</span> plus <span class="key">t % 10</span> gives −10 + 7 = −3, the event.</p></div>
-    </div>
-    <div class="stack">
-      <div class="card amber step"><span class="tag predict">Predict · 1 min</span><p style="margin-top:8px">Most say −1 and 0 ("−3 µs is before the trigger").</p></div>
-      <div class="card green step"><span class="tag check">Reveal</span><p style="margin-top:8px"><span class="key">int</span> cuts toward zero: −3 µs and +3 µs both land in bin 0, so bin 0 is 20 µs wide and collects twice the counts. <span class="key">t // 10</span> rounds down (toward $-\infty$) and gives −1 and 0.</p></div>
-    </div>
-  </div>
-  <aside class="notes"><p>First <code>for</code> loop of the course: say "repeat the indented line for each element". Ask for the bin of −3 µs before running. Expected wrong answer: −1 from <code>int</code> (it gives 0). A doubled bin at t = 0 looks like a physical excess right at the trigger. <code>//</code> is how Week 1 builds a spectrum (bin index = E // ΔE). Exact big integers (2**100) are never needed in this course, so they are not on the slide.</p></aside>
+  <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
+  <div class="rail"></div>
+  <aside class="notes"><p>An oscilloscope records event times relative to its trigger, so some times are negative. First <code>for</code> loop of the course: say "repeat the indented line for each element". Ask for the bin of −3 µs before running. Expected wrong answer: −1 from <code>int</code> (it gives 0). A doubled bin at t = 0 looks like a physical excess right at the trigger. <code>//</code> is how Week 1 builds a spectrum (bin index = E // ΔE). Exact big integers (2**100) are never needed in this course, so they are not on the slide.</p><p>Code: <code>times = [-13.0, -3.0, 3.0, 13.0]</code>; <code>for t in times: print(t, int(t / 10), t // 10)</code>. Output: −13.0 −1 −2.0 · −3.0 0 −1.0 · 3.0 0 0.0 · 13.0 1 1.0.</p></aside>
 </section>
 
 <!-- L14 · type: concept -->
@@ -609,16 +576,12 @@ print(f"g = ({g:.2f} +/- {dg:.2f}) m/s^2")</pre>
 
 <!-- ===== Part 2 · NumPy arrays of measurements (L17–L26) and Part 3 · pandas tables of measurements (L27–L32) ===== -->
 
-<!-- L17 · question -->
-<section class="slide" data-track="lecture" data-section="Part 2 · NumPy arrays of measurements" data-time="33 min" data-title="10 samples: the time step">
-  <span class="kicker">Part 2 · NumPy arrays of measurements</span>
+<!-- L17 · lecture scene (was question) -->
+<section class="slide" data-track="lecture" data-section="Part 2 · NumPy arrays of measurements" data-time="33 min" data-title="10 samples: the time step" data-scene="l17">
+  <span class="kicker">Part 2 · Step by step</span>
   <h2>10 samples from 0 to 1 s: what is the time step?</h2>
-  <div class="q">A data logger records 10 samples from $t = 0\ \text{s}$ to $t = 1\ \text{s}$, both ends included, like <span class="key" style="font-size:.8em">np.linspace(0, 1, 10)</span>. What is the time step $\Delta t$?</div>
-  <div class="cols">
-    <div class="card amber step"><span class="tag predict">Predict · 1 min</span><p style="margin-top:10px">Almost everyone says 0.1 s.</p></div>
-    <div class="card green step"><span class="tag check">Reveal</span><p style="margin-top:10px">10 samples make 9 intervals, so $\Delta t = 1/9\ \text{s} = 0.1111\ \text{s}$.</p></div>
-  </div>
-  <div class="card step"><span class="tag result">Settles</span><p style="margin-top:10px">The printed array ends <span class="key">[..., 0.8889, 1.0]</span>; <span class="key">np.diff(t)[0]</span> = 0.1111.</p></div>
+  <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
+  <div class="rail"></div>
   <aside class="notes"><p>Collect the answer by show of hands (0.1 / 0.11 / other). This is the fencepost error. Lab problem P3 shows it making a velocity 11 % too high.</p></aside>
 </section>
 
@@ -706,21 +669,12 @@ V - V.mean(axis=1, keepdims=True)   # (3, 1) -> (3, 4)</pre></div>
   <aside class="notes"><p>Ask for predictions for (3,4)−(4,), (3,4)−(3,), (3,3)−(3,). The third is P4's trap. Colours via theme tokens: concept blue tiles, trap red bar, ask yellow warning. "none" rows means a 1-D array.</p></aside>
 </section>
 
-<!-- L22 · concept -->
-<section class="slide" data-track="lecture" data-section="Part 2 · NumPy arrays of measurements" data-time="33 min" data-title="axis: the direction that disappears">
-  <span class="kicker">Part 2 · NumPy arrays of measurements</span>
+<!-- L22 · lecture scene (was concept) -->
+<section class="slide" data-track="lecture" data-section="Part 2 · NumPy arrays of measurements" data-time="33 min" data-title="axis: the direction that disappears" data-scene="l22">
+  <span class="kicker">Part 2 · Step by step</span>
   <h2>axis names the direction that disappears</h2>
-  <div class="stack">
-    <ul>
-      <li><span class="key">D</span> has 3 runs (rows) × 3 detectors (columns)</li>
-      <li><span class="key">D.mean(axis=0)</span> averages down the rows: one value per detector, [4, 5, 6]</li>
-      <li><span class="key">D.mean(axis=1)</span> averages across a row: one value per run, [2, 5, 8]</li>
-    </ul>
-<pre>D = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]], dtype=float)
-print(D.mean(axis=0), D.mean(axis=1))</pre>
-<pre class="out step">[4. 5. 6.] [2. 5. 8.]</pre>
-  </div>
-  <div class="card green step"><span class="tag check">Check</span><p style="margin-top:8px">The shape rule: $(3, 3)$ with axis 0 removed is $(3,)$ of columns; the column means 4, 5, 6 are the middles of 1–7, 2–8, 3–9.</p></div>
+  <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
+  <div class="rail"></div>
   <aside class="notes"><p>Ask which call gives "one number per detector". Expected wrong answer: axis=1 ("axis 1 = columns").</p></aside>
 </section>
 
@@ -733,22 +687,12 @@ print(D.mean(axis=0), D.mean(axis=1))</pre>
   <aside class="notes"><p>Link to L15: the same label idea, now for arrays. Typical damage: subtracting a background from a slice of the raw data destroys the raw data. Fix: <code>.copy()</code> the slice you intend to change.</p></aside>
 </section>
 
-<!-- L24 · concept -->
-<section class="slide" data-track="lecture" data-section="Part 2 · NumPy arrays of measurements" data-time="33 min" data-title="np.sin(30) is −0.988">
-  <span class="kicker">Part 2 · NumPy arrays of measurements</span>
+<!-- L24 · lecture scene (was concept) -->
+<section class="slide" data-track="lecture" data-section="Part 2 · NumPy arrays of measurements" data-time="33 min" data-title="np.sin(30) is −0.988" data-scene="l24">
+  <span class="kicker">Part 2 · Step by step</span>
   <h2>np.sin(30) is −0.988, because NumPy thinks in radians</h2>
-  <div class="cols">
-    <ul>
-      <li><span class="key">np.sin</span>, <span class="key">np.cos</span>, <span class="key">np.tan</span> take radians</li>
-      <li>Convert once, at input: <span class="key">np.deg2rad(30)</span> = π/6</li>
-      <li>$\sin 30^\circ = 0.500$, but <span class="key">np.sin(30)</span> = −0.988 (30 rad)</li>
-    </ul>
-    <div class="stack">
-<pre>print(np.sin(30), np.sin(np.deg2rad(30)))</pre>
-<pre class="out step">-0.9880316240928618 0.49999999999999994</pre>
-    </div>
-  </div>
-  <div class="card green step"><span class="tag check">Check</span><p style="margin-top:8px">Known value: $\sin(\pi/6) = 1/2$ exactly; the small-angle check $\sin(0.1) = 0.09983 \approx 0.1$ only works in radians.</p></div>
+  <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
+  <div class="rail"></div>
   <aside class="notes"><p>Ask for np.sin(30) first. Say that 0.49999999999999994 instead of 0.5 comes from how decimals are stored; Week 1 shows it once (0.1 has no exact binary form) and why it never limits a physics result. Lab problem P5 puts this into an incline, where it makes a block slide up.</p></aside>
 </section>
 
@@ -783,22 +727,15 @@ print(rng.normal(2.006, 0.010, 3).round(4))   # 3 simulated timings, s</pre>
   <aside class="notes"><p>Transition: "arrays have no names for their columns. Real lab data do. Part 3: tables."</p></aside>
 </section>
 
-<!-- L27 · question -->
-<section class="slide" data-track="lecture" data-section="Part 3 · pandas tables of measurements" data-time="19 min" data-title="A file without units: Mars Climate Orbiter">
-  <span class="kicker">Part 3 · pandas tables of measurements</span>
+<!-- L27 · lecture scene (was question) -->
+<section class="slide" data-track="lecture" data-section="Part 3 · pandas tables of measurements" data-time="19 min" data-title="A file without units: Mars Climate Orbiter" data-scene="l27">
+  <span class="kicker">Part 3 · Step by step</span>
   <h2>A file without units sent a Mars orbiter 57 km above the surface</h2>
-  <div class="q">A ground program wrote the impulse of each small thruster firing to a file in pound-force seconds. The navigation software read the same numbers as newton seconds, as the interface specification required. By what factor was every impulse underestimated?</div>
-  <div class="cols">
-    <div class="stack">
-      <div class="card amber step"><span class="tag predict">Predict · 1 min</span><p style="margin-top:8px">Most guess "a few percent"; few know that 1 lbf is 4.45 N.</p></div>
-      <div class="card coral step"><span class="tag warn">What happened</span><p style="margin-top:8px">A factor $4.45$ ($1\ \text{lbf} = 4.448\ \text{N}$). Mars Climate Orbiter (launched 11 December 1998) was aimed at a first periapsis of $226\ \text{km}$; reconstructed after the loss, it came within $57\ \text{km}$, below the $80\ \text{km}$ the spacecraft could survive. The last signal was received on 23 September 1999.</p></div>
-    </div>
-    <div class="stack">
-      <div class="card step"><span class="tag result">Settles</span><p style="margin-top:8px">Root cause: "the failure to use metric units in the coding of a ground software file, 'Small Forces'". The numbers were right; the unit was not written with them.</p></div>
-      <p class="src">Source: Mars Climate Orbiter Mishap Investigation Board, Phase I Report, NASA, 10 November 1999.</p>
-    </div>
-  </div>
-  <aside class="notes"><p>Collect guesses for the factor first. Keep the story to the facts on the slide (source: MCO MIB Phase I Report, 10 Nov 1999, pp. 6–7 and 13; the 226 km is the periapsis targeted by TCM-4 on 8 September 1999). Civilian science mission. Optional one-line check after the reveal (run live, not on the slide): <code>from scipy import constants as sc; print(sc.lbf)</code> prints 4.4482216152605 (newtons in one pound-force). Transition: "a column of numbers needs a name and a unit; pandas gives every column both."</p></aside>
+  <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div>
+    <p class="src" style="margin-top:auto">Source: Mars Climate Orbiter Mishap Investigation Board, Phase I Report, NASA, 10 November 1999.</p>
+  </div></div>
+  <div class="rail"></div>
+  <aside class="notes"><p>Collect guesses for the factor first. Keep the story to the facts on the slide (source: MCO MIB Phase I Report, 10 Nov 1999, pp. 6–7 and 13; the 226 km is the periapsis targeted by TCM-4 on 8 September 1999). Civilian science mission. Figure: a limb view of Mars with the altitudes stretched (1.6 px per km, not to scale); the orbiter moves along the reconstructed path. Optional one-line check after the reveal (run live, not on the slide): <code>from scipy import constants as sc; print(sc.lbf)</code> prints 4.4482216152605 (newtons in one pound-force). Transition: "a column of numbers needs a name and a unit; pandas gives every column both."</p></aside>
 </section>
 
 <!-- L28 · concept -->
@@ -852,27 +789,12 @@ dtype: object</pre>
   <aside class="notes"><p>Run on the pendulum table. Ask: "which line would warn you of a missing value?" (count). Points to L30.</p></aside>
 </section>
 
-<!-- L30 · concept -->
-<section class="slide" data-track="lecture" data-section="Part 3 · pandas tables of measurements" data-time="19 min" data-title="A missing value is not zero">
-  <span class="kicker">Part 3 · pandas tables of measurements</span>
+<!-- L30 · lecture scene (was concept) -->
+<section class="slide" data-track="lecture" data-section="Part 3 · pandas tables of measurements" data-time="19 min" data-title="A missing value is not zero" data-scene="l30">
+  <span class="kicker">Part 3 · Step by step</span>
   <h2>A missing value is not zero</h2>
-  <div class="cols w64">
-      <ul>
-        <li>Five thermometer readings, one lost: 19, 21, NaN, 23, 21 °C</li>
-        <li>pandas skips NaN: mean = 84/4 = 21.00 °C, <span class="key">count()</span> = 4, <span class="key">len</span> = 5</li>
-        <li>NumPy propagates it: <span class="key">np.mean</span> gives nan (use <span class="key">np.nanmean</span>)</li>
-      </ul>
-      <table class="mini" style="width:auto;align-self:start">
-        <tr><th>index</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
-        <tr><td>T (°C)</td><td>19.0</td><td>21.0</td><td>NaN</td><td>23.0</td><td>21.0</td></tr>
-      </table>
-  </div>
-  <div class="stack">
-<pre>T = pd.Series([19.0, 21.0, np.nan, 23.0, 21.0])
-print(T.mean(), T.count(), len(T), np.mean(T.to_numpy()))</pre>
-<pre class="out step">21.0 4 5 nan</pre>
-  </div>
-  <div class="card green step"><span class="tag check">Check</span><p style="margin-top:8px">Bound: the mean of real readings lies between their minimum 19 °C and maximum 23 °C; replacing NaN by 0 gives 16.80 °C, below every reading.</p></div>
+  <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
+  <div class="rail"></div>
   <aside class="notes"><p>Ask for T.mean() first; expected guesses: nan, 16.8, 21. Lab problem P6 is the full version. (Week 1 meets the file version: a missed photogate trigger written as 0.0000, and a pendulum file with −999. Those are numbers pretending to be data; NaN at least says it is missing.)</p></aside>
 </section>
 
@@ -899,26 +821,13 @@ print(T.mean(), T.count(), len(T), np.mean(T.to_numpy()))</pre>
 
 <!-- ======================= Part 4 · SciPy and Matplotlib (L33-L39) ======================= -->
 
-<!-- L33 · question (Anscombe) -->
-<section class="slide" data-track="lecture" data-section="Part 4 · SciPy and Matplotlib: from data to a result" data-time="27 min" data-title="Four datasets, same statistics">
+<!-- L33 · question (Anscombe), as a step scene -->
+<section class="slide" data-track="lecture" data-section="Part 4 · SciPy and Matplotlib: from data to a result" data-time="27 min" data-title="Four datasets, same statistics" data-scene="l33">
   <span class="kicker">Part 4 · SciPy and Matplotlib: from data to a result</span>
-  <div class="q">Four datasets of 11 points each have mean x = 9.00, var x = 11.00, mean y = 7.50, var y = 4.12–4.13, correlation 0.816–0.817 and fit line y = 3.00 + 0.500x. Do they show the same relation?</div>
-  <div class="cols w46">
-    <div class="stack">
-      <table>
-        <tr><th>set</th><th>mean x</th><th>var x</th><th>mean y</th><th>var y</th><th>r</th></tr>
-        <tr><td>I</td><td>9.00</td><td>11.00</td><td>7.50</td><td>4.127</td><td>0.816</td></tr>
-        <tr><td>II</td><td>9.00</td><td>11.00</td><td>7.50</td><td>4.128</td><td>0.816</td></tr>
-        <tr><td>III</td><td>9.00</td><td>11.00</td><td>7.50</td><td>4.123</td><td>0.816</td></tr>
-        <tr><td>IV</td><td>9.00</td><td>11.00</td><td>7.50</td><td>4.123</td><td>0.817</td></tr>
-      </table>
-      <p class="small muted">The same table P7 builds with <span style="font-family:var(--mono)">groupby</span>. Fit line of every set: $y = 3.00 + 0.500\,x$.</p>
-      <div class="card amber step"><span class="tag predict">Predict · 1 min</span><p style="margin-top:10px">Same relation? Vote before the plots.</p></div>
-      <p class="src step">Source: Anscombe, <i>The American Statistician</i> 27 (1973).</p>
-    </div>
-    <canvas id="an-canvas" class="step" width="1000" height="560"></canvas>
-  </div>
-  <aside class="notes"><p>Show the statistics table first, take a vote, then the plots (the widget-free reveal): a noisy line, a smooth curve, a perfect line with one outlier, and a vertical stack with one far point. Settles it: the groupby table from the lab, identical to two decimals, next to the four plots. Source: Anscombe, The American Statistician 27 (1973). Lab problem P7 builds it with pandas.</p></aside>
+  <h2>Four datasets with the same statistics: are they the same?</h2>
+  <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
+  <div class="rail"></div>
+  <aside class="notes"><p>Question: four datasets of 11 points each have mean x = 9.00, var x = 11.00, mean y = 7.50, var y = 4.12–4.13, correlation 0.816–0.817 and fit line y = 3.00 + 0.500x. Do they show the same relation? Show the statistics table first (step 1), take a vote (prediction: most say yes, or "roughly the same"), then the plots one by one (the widget-free reveal): a noisy line, a smooth curve, a perfect line with one outlier, and a vertical stack with one far point. Settles it: the groupby table from the lab, identical to two decimals, next to the four plots. Source: Anscombe, The American Statistician 27 (1973). Lab problem P7 builds it with pandas.</p></aside>
 </section>
 
 <!-- L34 · concept -->
@@ -985,19 +894,13 @@ print(sc.c, sc.e, sc.k, sc.g, sc.G)</pre>
   <aside class="notes"><p>Ask for the prediction before sliding: many pick 50 s ("the counts drop fast at the start"); the eye estimate from the table (half by 150 s) points to about 200 s. Reference points from numbers.py: χ² = 32.4 at the best fit, 1017 at τ = 150 s and 1765 at τ = 300 s (A at its fitted value). Ask a student to reach ✓, then say that curve_fit does exactly this, faster, if you start it somewhere sensible. Data: the 31 counts printed by numbers.py.</p></aside>
 </section>
 
-<!-- L38 · example -->
-<section class="slide" data-track="lecture" data-section="Part 4 · SciPy and Matplotlib: from data to a result" data-time="27 min" data-title="curve_fit starts from 1">
+<!-- L38 · example, as a step scene -->
+<section class="slide" data-track="lecture" data-section="Part 4 · SciPy and Matplotlib: from data to a result" data-time="27 min" data-title="curve_fit starts from 1" data-scene="l38">
   <span class="kicker">Part 4 · SciPy and Matplotlib: from data to a result</span>
   <h2>curve_fit starts from 1 unless you tell it otherwise</h2>
-  <ul>
-    <li>Without <span style="font-family:var(--mono)">p0</span>, every parameter starts at 1: $\tau = 1\ \text{s}$ for a decay of hundreds of seconds</li>
-    <li>Result: $\tau = 1.000\ \text{s}$, $\sigma = \infty$, and an <span style="font-family:var(--mono)">OptimizeWarning</span>: the fit "ran"</li>
-    <li>Start from the data: $A \approx N[0]$, $\tau \approx$ the time the counts take to fall by $1/e$</li>
-  </ul>
-<pre>p_bad, _ = curve_fit(model, t, N)                 # tau = 1.000 s
-p, pcov = curve_fit(model, t, N, p0=(N[0], 200))  # tau = 215.5 +/- 3.4 s</pre>
-  <div class="card green step"><span class="tag check">Check · magnitude</span><p style="margin-top:10px">With $\tau = 1\ \text{s}$ the model predicts $9.8\times10^{-11}$ counts at $t = 30\ \text{s}$, where 890 were measured.</p></div>
-  <aside class="notes"><p>This is P8 in the lab. Ask what a lifetime of 1 s would mean for the counts at 30 s before showing the check.</p></aside>
+  <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
+  <div class="rail"></div>
+  <aside class="notes"><p>This is P8 in the lab. Ask what a lifetime of 1 s would mean for the counts at 30 s before showing the check (last step). The curves in steps 3 and 6 are the actual trial points of curve_fit's search on these 31 counts (A = 1 → 142 → 425 → 1045 with τ stuck at 1 s; then 1045/200 s → 1018/214.4 s → 1018/215.5 s); the χ² readout uses σᵢ = √Nᵢ as on L37.</p><p>Code of the slide: <code>p_bad, _ = curve_fit(model, t, N)  # tau = 1.000 s</code>; <code>p, pcov = curve_fit(model, t, N, p0=(N[0], 200))  # tau = 215.5 +/- 3.4 s</code>.</p></aside>
 </section>
 
 <!-- L39 · recap -->
@@ -1785,34 +1688,7 @@ function drawBC(){
 ['bc-ar', 'bc-ac', 'bc-br', 'bc-bc'].forEach(id => $('#' + id).oninput = drawBC);
 WIDGETS.push({ sel: '#bc-canvas', draw: drawBC });
 
-/* Part 4 widgets: Anscombe quartet (L33, static reveal) and the manual chi-square fit (L37). Colours via COL only. */
-
-/* ---- L33: Anscombe 1973, same data as numbers.py ---- */
-const AN_X123 = [10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5];
-const AN = [
-  ['I · noisy line', AN_X123, [8.04, 6.95, 7.58, 8.81, 8.33, 9.96, 7.24, 4.26, 10.84, 4.82, 5.68]],
-  ['II · smooth curve', AN_X123, [9.14, 8.14, 8.74, 8.77, 9.26, 8.10, 6.13, 3.10, 9.13, 7.26, 4.74]],
-  ['III · one outlier', AN_X123, [7.46, 6.77, 12.74, 7.11, 7.81, 8.84, 6.08, 5.39, 8.15, 6.42, 5.73]],
-  ['IV · one far point', [8, 8, 8, 8, 8, 8, 8, 19, 8, 8, 8], [6.58, 5.76, 7.71, 8.84, 8.47, 7.04, 5.25, 12.50, 5.56, 7.91, 6.89]],
-];
-function drawAN(){
-  const cv = $('#an-canvas'), c = frame(cv, { l: 0, r: 0, t: 0, b: 0 }).c;
-  AN.forEach(([name, xs, ys], k) => {
-    const f = { x0: 72 + (k % 2) * 480, y0: 215 + Math.floor(k / 2) * 280, w: 400, h: 160 };
-    const S = scaler(f, 0, 20, 0, 14);
-    c.strokeStyle = COL.rule; c.lineWidth = 1; c.fillStyle = COL.muted; c.font = '24px "Instrument Sans", Arial, sans-serif';
-    [0, 10, 20].forEach(x => { c.beginPath(); c.moveTo(S.X(x), f.y0 - f.h); c.lineTo(S.X(x), f.y0); c.stroke(); c.textAlign = 'center'; c.fillText(x, S.X(x), f.y0 + 28); });
-    [0, 5, 10].forEach(y => { c.beginPath(); c.moveTo(f.x0, S.Y(y)); c.lineTo(f.x0 + f.w, S.Y(y)); c.stroke(); c.textAlign = 'right'; c.fillText(y, f.x0 - 10, S.Y(y) + 8); });
-    c.strokeStyle = COL.ink; c.lineWidth = 2; c.beginPath(); c.moveTo(f.x0, f.y0); c.lineTo(f.x0 + f.w, f.y0); c.moveTo(f.x0, f.y0); c.lineTo(f.x0, f.y0 - f.h); c.stroke();
-    c.save(); c.beginPath(); c.rect(f.x0, f.y0 - f.h, f.w, f.h); c.clip();
-    curve(c, S, x => 3 + 0.5 * x, 0, 20, COL.blue, 4);
-    c.restore();
-    c.fillStyle = COL.ink; xs.forEach((x, i) => { c.beginPath(); c.arc(S.X(x), S.Y(ys[i]), 7, 0, 7); c.fill(); });
-    c.font = '600 26px "Instrument Sans", Arial, sans-serif'; c.fillStyle = COL.ink; c.textAlign = 'left';
-    c.fillText(name, f.x0, f.y0 - f.h - 16);
-  });
-}
-WIDGETS.push({ sel: '#an-canvas', draw: drawAN });
+/* Part 4 widgets: the manual chi-square fit (L37). Colours via COL only. */
 
 /* ---- L37: 31 counts every 30 s, numbers.py (seed 405) ---- */
 const CF_N = [1045, 890, 770, 639, 543, 512, 465, 375, 304, 305, 271, 217, 209, 146, 155, 129, 111, 114, 80, 80, 84, 66, 48, 47, 33, 32, 37, 20, 21, 18, 18];
@@ -2386,6 +2262,163 @@ scene('l15', {
   ],
 });
 
+/* real motion without new engine code (copied from week01 film): w0film1(ms, fn) chains `after` frames (~30 per
+   second); fn(f, fp) returns the keys of the frame at fraction f of the clip (fp = previous frame). */
+function w0film1(ms, fn, fps = 30){
+  const n = Math.max(1, Math.round(ms / 1000 * fps)); let s = null;
+  for (let i = n; i >= 1; i--) { const f = Object.assign({ dur: 1, wait: ms / n }, fn(i / n, (i - 1) / n)); if (s) f.after = s; s = f; }
+  return s;
+}
+
+/* =====================================================================================================
+   L10 · Three cells, one pendulum: run 1, 2 -> T = 2.006 s; run 3 (g = 1.62), then 2 again -> T = 4.937 s
+   (numbers.py L10). The kernel memory box changes as cells run; the pendulum swings at the computed period
+   (real speed, amplitude 14°).
+   ===================================================================================================== */
+(() => {
+  const CY = [20, 110, 230], CH = 70, PX = 700, PY = 40, LP = 420, A = 14, TE = 2.006, TM = 4.937;
+  // the run marker (arrow + outline) is built around cell 1; move it by the cell's offset
+  const at = i => ({ 'l10-run': [0, CY[i] - CY[0]] });
+  const swing = (T, ms, last = {}) => w0film1(ms, f => Object.assign(
+    { orbit: { 'l10-pend': { cx: PX, cy: PY, at: A * Math.cos(2 * Math.PI * f * ms / 1000 / T), still: true } } }, f === 1 ? last : {}));
+  scene('l10', {
+    build(h) {
+      [['L = 1.0; g = 9.81'], ['T = 2π√(L/g)'], ['g = 1.62']].forEach(([code], i) => {
+        h.rect(null, 70, CY[i], 420, CH, 'k-soft');
+        h.text('l10-n' + i, 86, CY[i] + 44, '[ ]', 'mono c-muted');
+        h.text('l10-c' + i, 150, CY[i] + 44, code, 'mono c-text');
+      });
+      h.text('l10-out', 150, CY[1] + CH + 34, 'T = 2.006 s', 'mono c-ok');
+      const run = h.group('l10-run', 'c-ask');
+      h.rect(null, 66, CY[0] - 4, 428, CH + 8, 'k-stroke', run);
+      h.arrow(null, 18, CY[0] + 35, 58, CY[0] + 35, null, run);
+      // kernel memory
+      const mem = h.group('l10-mem');
+      h.rect(null, 70, 330, 420, 250, 'k-panel', mem);
+      h.text(null, 90, 370, 'kernel memory', 'c-muted', mem);
+      h.text(null, 90, 425, 'L = 1.00 m', 'mono c-text', mem);
+      h.text('l10-g', 90, 480, 'g = 9.81 m/s²', 'mono c-text', mem);
+      h.text('l10-T', 90, 535, 'T = 2.006 s', 'mono c-text', mem);
+      h.text('l10-ratio', 470, 535, '× 2.461', 'c-ok', mem, 'end');
+      h.tag('l10-page', 490, CY[0] + 35, 'page: 9.81', 'c-trap', 'e');
+      // pendulum: drawn hanging straight down, `orbit … still` turns it about the pivot
+      h.line(null, PX - 50, PY, PX + 50, PY, 'k-stroke c-muted');
+      h.line(null, PX, PY, PX, PY + LP + 30, 'k-dash c-muted');
+      const p = h.group('l10-pend', 'c-concept');
+      h.line(null, PX, PY, PX, PY + LP, 'k-thin', p);
+      h.circle(null, PX, PY + LP, 26, 'k-fill', p);
+      h.text('l10-real', PX, 560, 'real speed', 'small c-muted', null, 'middle');
+    },
+    steps: [
+      { stage: 'Setup', orbit: { 'l10-pend': { cx: PX, cy: PY, at: A, still: true } },
+        tex: 'Page: cell 1 Earth, cell 2 the period, cell 3 a later Moon experiment',
+        ask: 'Run cells 1 and 2, then the Moon cell 3, then cell 2 again. What does cell 2 print now?' },
+      { stage: 'Model', show: ['l10-run', 'l10-mem'], count: { 'l10-n0': { to: 1, pre: '[', suf: ']' } }, hide: 'l10-T',
+        tex: '$\\texttt{import math; L = 1.0; g = 9.81}$',
+        note: 'Cell 1 writes L and g into the kernel memory.' },
+      { stage: 'Derive', move: at(1), show: ['l10-out', 'l10-T', 'l10-real'], count: { 'l10-n1': { to: 2, pre: '[', suf: ']' } },
+        tex: ['$\\texttt{T = 2*math.pi*math.sqrt(L/g)}$', 'Earth: $T = 2\\pi\\sqrt{L/g} = 2.006\\ \\text{s}$ for $L = 1\\ \\text{m}$'],
+        wait: 400, after: swing(TE, 2 * TE * 1000) },
+      { stage: 'Derive', move: at(2), count: { 'l10-n2': { to: 3, pre: '[', suf: ']' }, 'l10-g': { to: 1.62, digits: 2, pre: 'g = ', suf: ' m/s²' } },
+        mark: { 'l10-g': 'ask' },
+        tex: '$\\texttt{g = 1.62}$',
+        note: 'The page suggests Earth, the kernel holds the Moon.' },
+      { stage: 'Derive', move: at(1), dur: 1000,
+        count: { 'l10-n1': { to: 4, pre: '[', suf: ']' }, 'l10-T': { to: TM, digits: 3, pre: 'T = ', suf: ' s' }, 'l10-out': { to: TM, digits: 3, pre: 'T = ', suf: ' s' } },
+        mark: { 'l10-T': 'ask', 'l10-out': 'ask' },
+        tex: ['Cell 2 again: $T = 2\\pi\\sqrt{1.0/1.62}$', 'The kernel saw the cells in the order 1 → 3 → 2'],
+        wait: 1000, after: swing(TM, TM * 1000) },
+      { stage: 'Result', clear: true, ask: null,
+        tex: 'Output: $\\texttt{T = 4.937 s}$',
+        box: 'Earth: $T = 2.006\\ \\text{s}$ · printed: $T = 4.937\\ \\text{s}$' },
+      { stage: 'Check', show: 'l10-ratio',
+        ok: 'The ratio $4.937/2.006 = 2.461 = \\sqrt{9.81/1.62}$' },
+      { stage: 'Check', mark: { 'l10-c0': 'trap' }, show: 'l10-page',
+        trap: 'Expected answer 2.006 s: reading g from the page, not from the kernel' },
+      { stage: 'Check', hide: ['l10-page', 'l10-ratio'], mark: { 'l10-c0': null, 'l10-T': 'ok', 'l10-out': 'ok', 'l10-g': null }, move: at(1),
+        count: { 'l10-n0': { to: 1, pre: '[', suf: ']' }, 'l10-n1': { to: 2, pre: '[', suf: ']' }, 'l10-n2': { to: 3, pre: '[', suf: ']' },
+                 'l10-g': { to: 9.81, digits: 2, pre: 'g = ', suf: ' m/s²' }, 'l10-T': { to: TE, digits: 3, pre: 'T = ', suf: ' s' }, 'l10-out': { to: TE, digits: 3, pre: 'T = ', suf: ' s' } },
+        ok: 'Runtime → Restart session and run all prints $T = 2.006\\ \\text{s}$',
+        note: 'Rule of the course: Restart session and run all before you hand anything in.',
+        wait: 800, after: swing(TE, 2 * TE * 1000, { move: at(2), dur: 600,
+          count: { 'l10-n2': { to: 3, pre: '[', suf: ']' }, 'l10-g': { to: 1.62, digits: 2, pre: 'g = ', suf: ' m/s²' } } }) },
+    ],
+  });
+})();
+
+/* =====================================================================================================
+   L13 · Bins of 10 µs for events at −13, −3, 3, 13 µs: int(t/10) -> −1, 0, 0, 1 (bin 0 is 20 µs wide, two counts);
+   t // 10 -> −2, −1, 0, 1 (numbers.py L13). The events fall from the time axis into their bins.
+   ===================================================================================================== */
+(() => {
+  const X = t => 470 + 19 * t, AY = 170, B = 500, U = 100, TS = [-13, -3, 3, 13];
+  const slot = k => B - U / 2 - U * k;
+  // landing offsets (from the dot on the axis): int bins (−3 and 3 stack in the wide bin 0), floor bins
+  const INT = [[X(-15), 0], [X(0), 0], [X(0), 1], [X(15), 0]], FLO = [[X(-15), 0], [X(-5), 0], [X(5), 0], [X(15), 0]];
+  const off = (L, i) => [L[i][0] - X(TS[i]), slot(L[i][1]) - AY];
+  // fall: x drifts linearly, y like a dropped ball (∝ f²); dots leave 0.15 of the clip apart
+  const drop = (L, from) => w0film1(1500, f => { const mv = {};
+    TS.forEach((_, i) => { const q = Math.max(0, Math.min(1, (f - 0.15 * i) / 0.55)), o = off(L, i), s = from ? off(from, i) : [0, 0];
+      mv['l13-e' + i] = from ? [s[0] + (o[0] - s[0]) * q, s[1] + (o[1] - s[1]) * q * q] : [o[0] * q, o[1] * q * q]; });
+    return { move: mv }; });
+  scene('l13', {
+    build(h) {
+      // time axis −20 … 20 µs with the trigger at 0
+      h.line(null, X(-20) - 10, AY, X(20) + 10, AY, 'k-axis');
+      [-20, -10, 0, 10, 20].forEach(t => { h.line(null, X(t), AY - 8, X(t), AY + 8, 'k-axis'); h.text(null, X(t), AY + 34, String(t).replace('-', '−'), 'k-tick', null, 'middle'); });
+      h.text(null, X(20) + 10, AY - 16, 't (µs)', 'c-muted it', null, 'end');
+      h.tag(null, X(0), 40, 'trigger', 'c-muted', 'n', null, 2);
+      h.line(null, X(0), 46, X(0), AY - 10, 'k-dash c-muted');
+      // bins: the expected 10 µs grid, the int bins (bin 0 is 20 µs wide), the floor bins
+      const grid = h.group('l13-grid', 'c-muted');
+      [-20, -10, 0, 10].forEach(t => h.rect(null, X(t), B - 2 * U - 20, 10 * 19, 2 * U + 20, 'k-dash', grid));
+      const bars = (id, spec, cls, labels) => { const g = h.group(id, cls);
+        spec.forEach(([t0, t1, n]) => { h.rect(null, X(t0), B - n * U, (t1 - t0) * 19, n * U, 'k-area', g); h.rect(null, X(t0), B - n * U, (t1 - t0) * 19, n * U, 'k-thin', g); });
+        labels.forEach(([t, s]) => h.text(null, X(t), B + 34, s, 'mono', g, 'middle'));
+        return g; };
+      bars('l13-ib', [[-20, -10, 1], [10, 20, 1]], 'c-concept', [[-15, '−1'], [15, '1']]);
+      bars('l13-i0', [[-10, 10, 2]], 'c-trap', [[0, '0']]);
+      bars('l13-fb', [[-20, -10, 1], [-10, 0, 1], [0, 10, 1], [10, 20, 1]], 'c-ok', [[-15, '−2'], [-5, '−1'], [5, '0'], [15, '1']]);
+      h.text('l13-bin', X(-20) - 14, B + 34, 'bin', 'c-muted', null, 'end');
+      h.line(null, X(-20) - 10, B, X(20) + 10, B, 'k-axis');
+      // checks: lower edge −10 plus 7 µs; width 10 µs; the 20 µs ghost of the int bin 0
+      h.arrow('l13-edge', X(-10), AY + 60, X(-3), AY + 60, 'c-ok');
+      h.tag('l13-edgel', X(-6.5), AY + 60, '−10 + 7', 'c-ok', 's', null, 8);
+      const w = h.group('l13-w10', 'c-ok');
+      h.arrow(null, X(-5), B - U - 34, X(-10) + 3, B - U - 34, null, w, 3); h.arrow(null, X(-5), B - U - 34, X(0) - 3, B - U - 34, null, w, 3);
+      h.tag('l13-w10l', X(-5), B - U - 34, '10 µs', 'c-ok', 'n', null, 8);
+      h.rect('l13-ghost', X(-10), B - 2 * U, 20 * 19, 2 * U, 'k-dash c-trap');
+      h.tag('l13-ghostl', X(10), B - 2 * U, '20 µs wide', 'c-trap', 'ne');
+      // the four events on the oscilloscope axis
+      TS.forEach((t, i) => { const g = h.group('l13-e' + i, 'c-ask'); h.circle(null, X(t), AY, 13, 'k-fill', g); });
+      TS.forEach((t, i) => h.tag('l13-l' + i, X(t), AY - 14, String(t).replace('-', '−'), 'c-ask', 'n'));
+    },
+    steps: [
+      { stage: 'Setup',
+        tex: ['$\\texttt{times = [-13.0, -3.0, 3.0, 13.0]}$ (µs)', '$\\texttt{for t in times:}$'],
+        ask: 'Sorted into 10 µs bins with int(t / 10): which bin numbers do −3 µs and +3 µs get?' },
+      { stage: 'Model', show: 'l13-grid',
+        tex: ['$\\texttt{\\ \\ \\ \\ print(t, int(t / 10), t // 10)}$', 'Four bins of $10\\ \\mu\\text{s}$ from $-20$ to $20\\ \\mu\\text{s}$'],
+        note: 'Most say −1 and 0 (“−3 µs is before the trigger”).' },
+      { stage: 'Derive', wait: 200, after: drop(INT),
+        tex: '$\\texttt{int(-1.3)} = -1$, $\\texttt{int(-0.3)} = 0$, $\\texttt{int(0.3)} = 0$, $\\texttt{int(1.3)} = 1$' },
+      { stage: 'Derive', hide: 'l13-grid', show: ['l13-ib', 'l13-i0', 'l13-bin'],
+        tex: '$\\texttt{int}$ cuts toward zero: bin 0 is $20\\ \\mu\\text{s}$ wide, twice the counts' },
+      { stage: 'Derive', hide: ['l13-ib', 'l13-i0'], show: 'l13-fb', wait: 400, after: drop(FLO, INT),
+        tex: '$\\texttt{t // 10}$ rounds down, toward $-\\infty$: $-0.3 \\to -1$' },
+      { stage: 'Result', clear: true, ask: null,
+        tex: ['$\\texttt{-13.0 -1 -2.0}\\qquad\\texttt{-3.0 0 -1.0}$', '$\\texttt{3.0 0 0.0}\\qquad\\texttt{13.0 1 1.0}$'],
+        box: ['$\\texttt{int(t/10)}$: $-1,\\ 0,\\ 0,\\ 1$', '$\\texttt{t // 10}$: $-2,\\ -1,\\ 0,\\ 1$'] },
+      { stage: 'Check', draw: 'l13-edge', show: 'l13-edgel',
+        ok: 'Lower edge $\\texttt{(t // 10) * 10}$ plus $\\texttt{t \\% 10}$: $-10 + 7 = -3$, the event' },
+      { stage: 'Check', show: ['l13-w10', 'l13-w10l'],
+        ok: 'Every $\\texttt{//}$ bin is $10\\ \\mu\\text{s}$ wide: four events, four bins, one count each' },
+      { stage: 'Check', hide: ['l13-w10', 'l13-w10l'], show: ['l13-ghost', 'l13-ghostl'],
+        trap: 'Expected −1 from $\\texttt{int}$ for −3 µs: it gives 0, and the doubled bin looks like a physical excess at the trigger' },
+    ],
+  });
+})();
+
 /* ---------- L23 lecture scene: a slice is a window onto the same data (ids l23-…) ---------- */
 scene('l23', {
   build(h){
@@ -2472,6 +2505,279 @@ scene('l31', {
   ],
 });
 
+/* real motion without new engine code (copied from week01 film): chains `after` frames (~30 per second);
+   fn(f, fp) returns the step keys of the frame at fraction f (fp = previous fraction) */
+function w0film2(ms, fn, fps = 30){
+  const n = Math.max(1, Math.round(ms / 1000 * fps)); let s = null;
+  for (let i = n; i >= 1; i--) { const f = Object.assign({ dur: 1, wait: ms / n }, fn(i / n, (i - 1) / n)); if (s) f.after = s; s = f; }
+  return s;
+}
+
+/* ---------- L17 lecture scene: 10 samples, 9 gaps -> dt = 1/9 s = 0.1111 s; trap 0.1 s (ids l17-…) ---------- */
+{
+  const X0 = 90, Y = 330, gx = i => X0 + 80 * i, B = [...Array(9).keys()].map(i => 'l17-b' + i);
+  scene('l17', {
+    build(h){
+      h.line('l17-ax', 50, Y, 850, Y, 'k-axis');
+      h.tag('l17-e0', X0, Y + 14, '0 s', 'c-muted', 's');
+      h.tag('l17-e1', gx(9), Y + 14, '1 s', 'c-muted', 's');
+      B.forEach((id, i) => { const g = h.group(id, 'c-ask'), a = gx(i) + 10, b = gx(i + 1) - 10;
+        h.path(null, `M${a},${Y - 26} V${Y - 40} H${b} V${Y - 26}`, 'k-thin', g);
+        h.tag(null, (a + b) / 2, Y - 40, String(i + 1), 'small', 'n', g, 8); });
+      for (let i = 0; i < 10; i++) h.circle('l17-d' + i, gx(i), Y, 11, 'k-fill c-concept');
+      const c = h.group('l17-cur', 'c-ask');                              // the logger's sampling head
+      h.line(null, X0, 170, X0, Y - 18, 'k-thin', c); h.circle(null, X0, 170, 8, 'k-fill', c);
+      h.tag(null, X0, 162, 'logger', '', 'n', c);
+      h.text('l17-n', 840, 90, 'n = 0', 'mono c-ask', null, 'end');
+      h.tag('l17-dtl', (gx(0) + gx(1)) / 2, Y - 72, 'Δt = 1/9 s', 'c-ask', 'n', null, 4);
+      h.tag('l17-v8', gx(8), Y + 14, '0.8889', 'c-text', 's');
+      h.tag('l17-v9', gx(9), Y + 14, '1.0', 'c-text', 's');
+      const s = h.group('l17-span', 'c-ok');
+      h.line(null, X0, Y + 98, X0, Y + 122, 'k-thin', s); h.line(null, gx(9), Y + 98, gx(9), Y + 122, 'k-thin', s);
+      h.line(null, X0, Y + 110, gx(9), Y + 110, 'k-stroke', s);
+      h.tag(null, (X0 + gx(9)) / 2, Y + 110, '9 × Δt = 1 s', '', 's', s, 14);
+      const t = h.group('l17-tr', 'c-trap');                              // the 0.1 s guess: 10 samples end at 0.9 s
+      for (let i = 0; i < 10; i++) h.circle(null, X0 + 72 * i, Y + 110, 9, 'k-fill', t);
+      h.circle(null, gx(9), Y + 110, 11, 'k-dash', t);
+      h.tag(null, X0, Y + 110, 'Δt = 0.1 s', '', 's', t, 18);
+      h.tag(null, X0 + 648, Y + 110, 'ends at 0.9 s', '', 's', t, 18);
+    },
+    steps: [
+      { stage: 'Setup', show: ['l17-ax', 'l17-e0', 'l17-e1', 'l17-cur', 'l17-n'],
+        note: 'A data logger records 10 samples from 0 s to 1 s, both ends included.',
+        tex: '$\\footnotesize\\texttt{t = np.linspace(0, 1, 10)}$',
+        ask: 'What is the time step $\\Delta t$? Most say 0.1 s.' },
+      { stage: 'Model', note: 'Both ends are samples: the first at 0 s, the last at 1 s.', dur: 300,
+        after: w0film2(2700, (f, fp) => {
+          const sh = []; for (let i = 0; i < 10; i++) if (i / 9 <= f + 1e-9 && (i / 9 > fp + 1e-9 || (i === 0 && fp === 0))) sh.push('l17-d' + i);
+          return { move: { 'l17-cur': [720 * f, 0] }, show: sh, count: { 'l17-n': { to: Math.floor(9 * f + 1e-9) + 1, pre: 'n = ' } } }; }) },
+      { stage: 'Derive', hide: 'l17-cur', tex: '$10\\ \\text{samples} \\Rightarrow 9\\ \\text{gaps}$',
+        note: 'Count the gaps between the dots, not the dots.', dur: 400,
+        after: w0film2(1800, (f, fp) => ({ show: B.filter((_, i) => (i + 1) / 9 <= f + 1e-9 && (i + 1) / 9 > fp + 1e-9) })) },
+      { stage: 'Derive', show: 'l17-dtl',
+        tex: '$\\Delta t = \\dfrac{1\\ \\text{s} - 0\\ \\text{s}}{10 - 1} = \\dfrac{1}{9}\\ \\text{s}$' },
+      { stage: 'Result', clear: true, ask: null, hide: 'l17-e1', show: ['l17-v8', 'l17-v9'],
+        box: '$\\Delta t = 1/9\\ \\text{s} = 0.1111\\ \\text{s}$',
+        note: 'The printed array ends $\\texttt{[..., 0.8889, 1.0]}$.' },
+      { stage: 'Check', mark: Object.fromEntries(B.concat('l17-dtl').map(id => [id, 'ok'])),
+        ok: '$\\texttt{np.diff(t)[0]}$ gives $0.1111$: the same step.' },
+      { stage: 'Check', draw: 'l17-span', ok: '$9 \\times \\tfrac{1}{9}\\ \\text{s} = 1\\ \\text{s}$: nine gaps fill the span.' },
+      { stage: 'Check', hide: 'l17-span', show: 'l17-tr',
+        trap: 'Trap: $\\Delta t = 0.1\\ \\text{s}$ puts the 10th sample at $0.9\\ \\text{s}$; reaching $1\\ \\text{s}$ takes 11 points.' },
+    ],
+  });
+}
+
+/* ---------- L22 lecture scene: mean(axis=0) collapses the rows, mean(axis=1) the columns (ids l22-…) ---------- */
+{
+  const cx = c => 200 + 130 * c, ry = r => 140 + 100 * r, D = [[1, 2, 3], [4, 5, 6], [7, 8, 9]], BY = 460, RX = 650;
+  const cells = [], mv = f => { const o = {}; D.forEach((row, r) => row.forEach((_, c) => o['l22-c' + r + c] = f(r, c))); return o; };
+  D.forEach((row, r) => row.forEach((_, c) => cells.push('l22-c' + r + c)));
+  scene('l22', {
+    build(h){
+      [0, 1, 2].forEach(c => h.text('l22-h' + c, cx(c) + 55, 122, 'det ' + c, 'c-muted small', null, 'middle'));
+      [0, 1, 2].forEach(r => h.text('l22-r' + r, 185, ry(r) + 46, 'run ' + r, 'c-muted small', null, 'end'));
+      D.forEach((row, r) => row.forEach((v, c) => { const g = h.group('l22-c' + r + c);
+        h.rect(null, cx(c), ry(r), 110, 80, 'k-soft', g);
+        h.text('l22-t' + r + c, cx(c) + 55, ry(r) + 54, String(v), 'big c-text', g, 'middle'); }));
+      [0, 1, 2].forEach(c => { const g = h.group('l22-m' + c);
+        h.rect(null, cx(c), BY, 110, 80, 'k-soft', g); h.text('l22-mv' + c, cx(c) + 55, BY + 54, '0', 'big c-ok', g, 'middle'); });
+      [0, 1, 2].forEach(r => { const g = h.group('l22-n' + r);
+        h.rect(null, RX, ry(r), 110, 80, 'k-soft', g); h.text('l22-nv' + r, RX + 55, ry(r) + 54, '0', 'big c-ok', g, 'middle'); });
+      h.arrow('l22-a0', 90, 150, 90, 400, 'c-concept'); h.tag('l22-a0l', 90, 400, 'axis=0', 'c-concept', 's');
+      h.arrow('l22-a1', 210, 75, 560, 75, 'c-concept'); h.tag('l22-a1l', 560, 75, 'axis=1', 'c-concept', 'e');
+      h.text('l22-ml', 185, BY + 46, 'per detector', 'c-ok small', null, 'end');
+      h.text('l22-nl', RX + 55, 122, 'per run', 'c-ok small', null, 'middle');
+      h.tag('l22-sh', cx(1) + 55, BY + 80, 'shape (3,)', 'c-ok', 's');
+      h.tag('l22-trl', RX + 55, ry(2) + 80, 'per run, not detector', 'c-trap', 's');
+    },
+    steps: [
+      { stage: 'Setup', show: ['l22-h0', 'l22-h1', 'l22-h2', 'l22-r0', 'l22-r1', 'l22-r2'].concat(cells),
+        tex: ['$\\footnotesize\\texttt{D = np.array([[1, 2, 3], [4, 5, 6],}$', '$\\footnotesize\\texttt{\\phantom{D = np.array(}[7, 8, 9]], dtype=float)}$'],
+        note: 'D: 3 runs (rows) × 3 detectors (columns).',
+        ask: 'Which call gives one number per detector: axis=0 or axis=1?' },
+      { stage: 'Model', draw: 'l22-a0', show: 'l22-a0l', tex: '$\\footnotesize\\texttt{D.mean(axis=0)}$',
+        note: 'axis=0 is the run index: the rows disappear.' },
+      { stage: 'Derive', move: mv(r => [0, BY - ry(r)]), dur: 1300,
+        tex: '$\\tfrac{1+4+7}{3} = 4,\\ \\ \\tfrac{2+5+8}{3} = 5,\\ \\ \\tfrac{3+6+9}{3} = 6$',
+        after: { hide: cells, show: ['l22-m0', 'l22-m1', 'l22-m2', 'l22-ml'],
+                 count: { 'l22-mv0': { to: 4 }, 'l22-mv1': { to: 5 }, 'l22-mv2': { to: 6 } } } },
+      { stage: 'Derive', move: mv(() => [0, 0]), dur: 1, tex: '$\\footnotesize\\texttt{D.mean(axis=1)}$',
+        note: 'axis=1 is the detector index: the columns disappear.',
+        after: { show: cells.concat('l22-a1l'), draw: 'l22-a1', dur: 800 } },
+      { stage: 'Derive', move: mv((r, c) => [RX - cx(c), 0]), dur: 1300,
+        tex: '$\\tfrac{1+2+3}{3} = 2,\\ \\ \\tfrac{4+5+6}{3} = 5,\\ \\ \\tfrac{7+8+9}{3} = 8$',
+        after: { hide: cells, show: ['l22-n0', 'l22-n1', 'l22-n2', 'l22-nl'],
+                 count: { 'l22-nv0': { to: 2 }, 'l22-nv1': { to: 5 }, 'l22-nv2': { to: 8 } } } },
+      { stage: 'Result', clear: true, ask: null, move: mv(() => [0, 0]), dur: 1,
+        tex: '$\\scriptsize\\texttt{print(D.mean(axis=0), D.mean(axis=1))}$',
+        box: '$\\texttt{[4. 5. 6.] [2. 5. 8.]}$', note: 'axis=0: one per detector. axis=1: one per run.',
+        after: { show: cells, dur: 800 } },
+      { stage: 'Check', show: 'l22-sh', ok: 'Shape rule: $(3, 3)$ with axis 0 removed is $(3,)$, one value per column.' },
+      { stage: 'Check', mark: { 'l22-t00': 'ok', 'l22-t01': 'ok', 'l22-t02': 'ok', 'l22-t20': 'ok', 'l22-t21': 'ok', 'l22-t22': 'ok' },
+        ok: 'The column means 4, 5, 6 are the middles of 1–7, 2–8, 3–9.' },
+      { stage: 'Check', show: 'l22-trl', mark: { 'l22-nv0': 'trap', 'l22-nv1': 'trap', 'l22-nv2': 'trap' },
+        trap: 'Trap: "axis 1 = columns", so axis=1 per detector. It gives [2, 5, 8], one per run.' },
+    ],
+  });
+}
+
+/* ---------- L24 lecture scene: np.sin(30) turns 30 rad (4.8 turns) -> −0.988; 30° = π/6 -> 0.500 (ids l24-…) ---------- */
+{
+  const cx = 300, cy = 300, R = 230, P = a => [cx + R * Math.cos(a), cy - R * Math.sin(a)], deg = a => a * 180 / Math.PI;
+  const [x1, y1] = P(30), [x2, y2] = P(Math.PI / 6), [x3, y3] = P(0.1);
+  const arm = d => ({ 'l24-arm': { cx, cy, at: d, still: true } });
+  scene('l24', {
+    build(h){
+      h.line('l24-hx', 40, cy, 560, cy, 'k-axis'); h.line('l24-vx', cx, 50, cx, 545, 'k-axis');
+      h.tag('l24-sl', cx, 50, 'sin', 'c-muted it', 'e');
+      h.circle('l24-c', cx, cy, R, 'k-thin c-muted');
+      h.line('l24-p1', x1, y1, x1, cy, 'k-dash c-ask'); h.circle('l24-q1', x1, y1, 11, 'k-fill c-ask');
+      h.tag('l24-l1', x1, y1, 'sin = −0.988', 'c-ask', 'se', null, 18);
+      h.line('l24-p2', x2, y2, x2, cy, 'k-dash c-ok'); h.circle('l24-q2', x2, y2, 11, 'k-fill c-ok');
+      h.tag('l24-l2', x2, y2, 'sin = 0.500', 'c-ok', 'ne', null, 14);
+      h.line('l24-hl', cx, cy - R / 2, x2, cy - R / 2, 'k-thin c-ok'); h.tag('l24-hlab', cx, cy - R / 2, '1/2', 'c-ok', 'w');
+      h.tag('l24-l3', x3, y3, 'sin 0.1 = 0.09983', 'c-ok', 'e', null, 16);
+      const a = h.group('l24-arm', 'c-concept');
+      h.line(null, cx, cy, cx + R, cy, 'k-stroke', a); h.circle(null, cx + R, cy, 11, 'k-fill', a);
+      let g = h.group('l24-ro'); h.rect(null, 610, 30, 260, 96, 'k-panel', g);
+      h.text('l24-th', 630, 68, 'θ = 0.0 rad', 'mono c-text', g); h.text('l24-tu', 630, 106, '0.0 turns', 'mono c-text', g);
+      g = h.group('l24-ro2'); h.rect(null, 610, 30, 260, 96, 'k-panel', g);
+      h.text('l24-dg', 630, 68, 'θ = 0°', 'mono c-text', g); h.text('l24-pi', 630, 106, '= π/6 rad', 'mono c-text', g);
+    },
+    steps: [
+      { stage: 'Setup', show: ['l24-hx', 'l24-vx', 'l24-sl', 'l24-c', 'l24-arm'], note: '$\\texttt{np.sin}$, $\\texttt{np.cos}$, $\\texttt{np.tan}$ take radians.',
+        tex: '$\\footnotesize\\texttt{print(np.sin(30), np.sin(np.deg2rad(30)))}$',
+        ask: 'What does $\\texttt{np.sin(30)}$ print?' },
+      { stage: 'Model', show: 'l24-ro', note: '$\\texttt{np.sin(30)}$ reads 30 as 30 rad, not 30°.',
+        tex: '$30\\ \\text{rad} = \\dfrac{30}{2\\pi}\\ \\text{turns} \\approx 4.8\\ \\text{turns}$' },
+      { stage: 'Derive', dur: 300,
+        after: w0film2(4500, f => { const a = 30 * (1 - (1 - f) ** 2);
+          return Object.assign({ orbit: arm(deg(a)), count: { 'l24-th': { to: a, digits: 1, pre: 'θ = ', suf: ' rad' }, 'l24-tu': { to: a / (2 * Math.PI), digits: 1, suf: ' turns' } } },
+            f === 1 ? { show: ['l24-p1', 'l24-q1', 'l24-l1'], tex: '$\\sin(30\\ \\text{rad}) = -0.988$' } : {}); }) },
+      { stage: 'Derive', hide: 'l24-ro', show: 'l24-ro2', orbit: arm(0), mark: { 'l24-p1': 'faded', 'l24-q1': 'faded', 'l24-l1': 'faded' },
+        tex: '$\\texttt{np.deg2rad(30)} = \\pi/6$', note: 'Convert once, at input.', dur: 400,
+        after: w0film2(1500, f => Object.assign({ orbit: arm(30 * f), count: { 'l24-dg': { to: 30 * f, pre: 'θ = ', suf: '°' } } },
+          f === 1 ? { show: ['l24-p2', 'l24-q2', 'l24-l2'], tex: '$\\sin(\\pi/6) = 0.500$' } : {})) },
+      { stage: 'Result', clear: true, ask: null, mark: { 'l24-p1': null, 'l24-q1': null, 'l24-l1': null },
+        box: '$\\texttt{np.sin(30)} = -0.988,\\ \\ \\sin 30^\\circ = 0.500$',
+        tex: '$\\footnotesize\\texttt{-0.9880316240928618 0.49999999999999994}$',
+        note: '0.49999999999999994 instead of 0.5: how decimals are stored (Week 1).' },
+      { stage: 'Check', draw: 'l24-hl', show: 'l24-hlab', ok: 'Known value: $\\sin(\\pi/6) = 1/2$ exactly.' },
+      { stage: 'Check', hide: 'l24-ro2', dur: 300,
+        after: w0film2(900, f => Object.assign({ orbit: arm(30 + (deg(0.1) - 30) * f) }, f === 1 ? { show: 'l24-l3' } : {})),
+        ok: 'Small angle: $\\sin(0.1) = 0.09983 \\approx 0.1$ only works in radians.' },
+      { stage: 'Check', mark: { 'l24-p1': 'trap', 'l24-q1': 'trap', 'l24-l1': 'trap' },
+        trap: 'Trap: reading $\\texttt{np.sin(30)}$ as $\\sin 30^\\circ = 0.5$. It is $-0.988$.' },
+    ],
+  });
+}
+
+/* ---------- L27 lecture scene: Mars Climate Orbiter, lbf·s read as N·s (factor 4.45): 226 km planned, 57 km actual,
+   80 km survivable (MIB Phase I, 1999). Limb view, altitudes exaggerated (ids l27-…) ---------- */
+{
+  const CX = 450, CY = 1940, RM = 1400, k = 1.6, rr = km => RM + k * km, X0 = 60, Y0 = 80;
+  const pP = CY - rr(226), pA = CY - rr(57), yP = x => pP - (pP - Y0) * ((x - CX) / (CX - X0)) ** 2, yA = x => pA - (pA - Y0) * ((x - CX) / (CX - X0)) ** 2;
+  const pts = (f, a, b) => { let d = ''; for (let x = a; x <= b + 1e-9; x += 10) d += (d ? 'L' : 'M') + x + ',' + f(x).toFixed(1); return d; };
+  const ring = r => `M${CX - r},${CY} a${r},${r} 0 1,0 ${2 * r},0 a${r},${r} 0 1,0 ${-2 * r},0 Z`;
+  scene('l27', {
+    build(h){
+      const m = h.group('l27-mars');
+      h.circle(null, CX, CY, RM, 'k-area c-muted', m); h.circle(null, CX, CY, RM, 'k-thin c-muted', m);
+      h.path('l27-atm', ring(rr(80)) + ' ' + ring(RM), 'k-area c-concept').setAttribute('fill-rule', 'evenodd');
+      h.text('l27-ml', CX, 578, 'Mars', 'c-text', null, 'middle');
+      h.text('l27-atl', 200, 505, 'atmosphere', 'c-concept small', null, 'middle');
+      h.circle('l27-80', CX, CY, rr(80), 'k-dash c-text');
+      h.tag('l27-80l', 760, CY - Math.sqrt(rr(80) ** 2 - 310 ** 2), '80 km limit', 'c-text', 'n', null, 22);
+      h.path('l27-plan', pts(yP, X0, 840), 'k-dash c-concept');
+      h.tag('l27-226', CX, pP, '226 km', 'c-concept', 'n');
+      h.path('l27-real', pts(yA, X0, CX), 'k-stroke c-ask');
+      h.tag('l27-57', CX, pA, '57 km', 'c-ask', 's', null, 24);
+      h.rect('l27-bN', 330, 50, 60, 22, 'k-fill c-concept'); h.text('l27-bNl', 318, 68, '1 N · s', 'c-text', null, 'end');
+      h.rect('l27-bL', 330, 90, 267, 22, 'k-fill c-ask'); h.text('l27-bLl', 318, 108, '1 lbf · s', 'c-text', null, 'end');
+      h.tag('l27-x', 597, 101, '× 4.45', 'c-ask', 'e');
+      const t = h.group('l27-tk', 'c-ok'); for (let i = 1; i <= 4; i++) h.line(null, 330 + 60 * i, 84, 330 + 60 * i, 118, 'k-thin', t);
+      h.rect('l27-few', 330, 46, 63, 30, 'k-dash c-trap'); h.tag('l27-fewl', 393, 61, 'guess: a few percent', 'c-trap', 'e');
+      const s = h.group('l27-sc', 'c-text', null, `translate(${X0},${Y0})`);                 // the orbiter
+      h.line(null, -26, 0, 26, 0, 'k-stroke', s); h.rect(null, -10, -8, 20, 16, 'k-fill', s);
+      h.tag('l27-scl', X0, Y0 - 8, 'orbiter', 'c-text', 'ne');
+    },
+    steps: [
+      { stage: 'Setup', show: ['l27-mars', 'l27-atm', 'l27-ml', 'l27-atl', 'l27-sc', 'l27-scl'],
+        note: ['A ground program wrote the impulse of each small thruster firing to a file in $\\text{lbf}\\cdot\\text{s}$.',
+               'The navigation software read the numbers as $\\text{N}\\cdot\\text{s}$, as the interface specification required.'],
+        ask: 'By what factor was every impulse underestimated?' },
+      { stage: 'Model', show: ['l27-bN', 'l27-bNl', 'l27-bL', 'l27-bLl'],
+        tex: '$1\\ \\text{lbf} = 4.448\\ \\text{N}$' },
+      { stage: 'Derive', show: 'l27-x', tex: '$J_\\text{read} = J_\\text{true} / 4.45$',
+        note: 'Every impulse was read 4.45 times too small.' },
+      { stage: 'Derive', draw: ['l27-plan', 'l27-80'], show: ['l27-226', 'l27-80l'], dur: 1200,
+        note: 'Aimed at a first periapsis of 226 km; the spacecraft could survive down to 80 km.' },
+      { stage: 'Result', clear: true, ask: null, hide: 'l27-scl', draw: 'l27-real', trace: { 'l27-sc': ['l27-real', 3000] }, dur: 2500,
+        box: 'Factor $4.45$: periapsis $57\\ \\text{km}$, not $226\\ \\text{km}$',
+        note: ['Launched 11 December 1998; last signal received 23 September 1999.',
+               'Root cause: "the failure to use metric units in the coding of a ground software file, \'Small Forces\'".'],
+        after: { show: 'l27-57', wait: 3000 } },
+      { stage: 'Check', mark: { 'l27-plan': 'ok', 'l27-226': 'ok' },
+        ok: '$226\\ \\text{km} \\gt 80\\ \\text{km} \\gt 57\\ \\text{km}$: the plan was safe, the actual pass was not.' },
+      { stage: 'Check', show: 'l27-tk', ok: 'The long bar holds 4.45 short bars: $1\\ \\text{lbf}\\cdot\\text{s} = 4.45\\ \\text{N}\\cdot\\text{s}$.' },
+      { stage: 'Check', show: ['l27-few', 'l27-fewl'], mark: { 'l27-real': 'trap', 'l27-57': 'trap' },
+        trap: 'Trap: "a few percent". It was a factor 4.45: the numbers were right, the unit was not written with them.' },
+    ],
+  });
+}
+
+/* ---------- L30 lecture scene: NaN is skipped (mean 21.00 °C, count 4 of 5); 0 drags it to 16.80 °C (ids l30-…) ---------- */
+{
+  const X = T => 70 + 30 * T, TX = i => 130 + 160 * i, Tv = [19, 21, null, 23, 21];
+  const to = { 0: [X(19), 434], 1: [X(21), 434], 3: [X(23), 434], 4: [X(21), 404] }, order = [0, 1, 3, 4];
+  scene('l30', {
+    build(h){
+      const ax = h.group('l30-ax', 'c-muted');
+      h.line(null, 50, 450, 840, 450, 'k-axis', ax);
+      [0, 5, 10, 15, 20, 25].forEach(T => { h.line(null, X(T), 450, X(T), 460, 'k-thin', ax); h.text(null, X(T), 482, String(T), 'small', ax, 'middle'); });
+      h.text(null, 850, 482, '°C', 'small', ax);
+      h.rect('l30-z', X(19), 370, X(23) - X(19), 80, 'k-zone'); h.tag('l30-zl', X(21), 370, '19 to 23 °C', 'c-ok', 'n');
+      Tv.forEach((T, i) => { const g = h.group('l30-th' + i), x = TX(i);
+        h.rect(null, x - 13, 100, 26, 125, 'k-thin c-muted', g);
+        if (T === null) h.circle(null, x, 240, 20, 'k-dash c-ask', g);
+        else { const ht = T / 25 * 115; h.rect(null, x - 7, 225 - ht, 14, ht, 'k-fill c-concept', g); h.circle(null, x, 240, 20, 'k-fill c-concept', g); }
+        h.tag(null, x, 100, T === null ? 'NaN' : T.toFixed(1), T === null ? 'mono c-ask' : 'mono c-text', 'n', g); });
+      order.forEach(i => h.circle('l30-d' + i, TX(i), 240, 13, 'k-fill c-concept'));
+      h.circle('l30-d2', TX(2), 240, 13, 'k-fill c-trap');
+      h.tag('l30-wl', X(0), 421, 'written as 0', 'c-trap', 'ne');
+      h.text('l30-cnt', 70, 330, 'count = 0', 'mono c-ask'); h.text('l30-len', 70, 362, 'len = 5', 'mono c-muted');
+      let g = h.group('l30-mk', 'c-ok');
+      h.path(null, `M${X(0)},496 L${X(0) - 11},516 L${X(0) + 11},516 Z`, 'k-fill', g); h.text('l30-mv', X(0), 546, '0.00 °C', '', g, 'middle');
+      g = h.group('l30-mt', 'c-trap');
+      h.path(null, `M${X(21)},496 L${X(21) - 11},516 L${X(21) + 11},516 Z`, 'k-fill', g); h.text('l30-tv', X(21), 546, '21.00 °C', '', g, 'middle');
+    },
+    steps: [
+      { stage: 'Setup', show: ['l30-ax', 'l30-th0', 'l30-th1', 'l30-th2', 'l30-th3', 'l30-th4', 'l30-d0', 'l30-d1', 'l30-d3', 'l30-d4'],
+        note: 'Five thermometer readings, one lost.',
+        tex: '$\\footnotesize\\texttt{T = pd.Series([19.0, 21.0, np.nan, 23.0, 21.0])}$',
+        ask: 'What does $\\texttt{T.mean()}$ print: nan, 16.8 or 21?' },
+      { stage: 'Model', move: Object.fromEntries(order.map(i => ['l30-d' + i, [to[i][0] - TX(i), to[i][1] - 240]])), dur: 1400,
+        note: 'The lost reading is NaN: it has no point on the line.' },
+      { stage: 'Derive', show: ['l30-cnt', 'l30-len'], tex: '$19 + 21 + 23 + 21 = 84\\ {}^{\\circ}\\text{C}$',
+        note: 'pandas skips NaN: $\\texttt{count()} = 4$, $\\texttt{len} = 5$.', dur: 300,
+        after: w0film2(1600, f => { const i = Math.round(4 * f); return { mark: { ['l30-d' + order[i - 1]]: 'ask' }, count: { 'l30-cnt': { to: i, pre: 'count = ' } } }; }, 2.5) },
+      { stage: 'Derive', show: 'l30-mk', dur: 300, tex: '$\\bar T = 84 / 4 = 21.00\\ {}^{\\circ}\\text{C}$',
+        after: { move: { 'l30-mk': [X(21) - X(0), 0] }, count: { 'l30-mv': { to: 21, digits: 2, suf: ' °C' } }, dur: 1400 } },
+      { stage: 'Result', clear: true, ask: null, box: '$\\bar T = 21.00\\ {}^{\\circ}\\text{C}$, count 4 of 5', mark: { 'l30-d0': null, 'l30-d1': null, 'l30-d3': null, 'l30-d4': null },
+        tex: ['$\\footnotesize\\texttt{print(T.mean(), T.count(),}$', '$\\footnotesize\\texttt{\\phantom{print(}len(T), np.mean(T.to\\_numpy()))}$',
+              '$\\footnotesize\\texttt{21.0 4 5 nan}$'],
+        note: 'NumPy propagates NaN: $\\texttt{np.mean}$ gives nan; use $\\texttt{np.nanmean}$.' },
+      { stage: 'Check', show: ['l30-z', 'l30-zl'], ok: 'Bound: $19 \\le 21.00 \\le 23\\ {}^{\\circ}\\text{C}$, between the lowest and highest reading.' },
+      { stage: 'Check', mark: { 'l30-cnt': 'ok', 'l30-len': 'ok' }, ok: '$\\texttt{count()} = 4$, $\\texttt{len} = 5$: one value skipped, not counted as 0.' },
+      { stage: 'Check', show: 'l30-d2', dur: 400,
+        trap: 'Trap: writing the gap as 0 gives $16.80\\ {}^{\\circ}\\text{C}$, below every reading.',
+        after: { move: { 'l30-d2': [X(0) - TX(2), 434 - 240] }, dur: 1200,
+          after: { show: ['l30-wl', 'l30-mt'], move: { 'l30-mt': [X(16.8) - X(21), 0] }, count: { 'l30-tv': { to: 16.8, digits: 2, suf: ' °C' } }, dur: 1400 } } },
+    ],
+  });
+}
+
 /* L36 · least squares and chi-square. Data and numbers from numbers.py (seed 405):
    chi2 = 1017 at tau = 150 s (A = 1018), 32.4 at the best fit (tau = 215.5 s, A = 1018), 29 degrees of freedom. */
 scene('l36', {
@@ -2535,58 +2841,224 @@ scene('l36', {
   ],
 });
 
+/* a chain of `after` frames (one per list item), for curves that move frame by frame */
+const w0seq4 = fr => fr.reduceRight((n, f) => n ? Object.assign({}, f, { after: n }) : f, null);
+
+/* L33 · Anscombe 1973 (numbers.py L33/W27): all four sets mean x = 9.00, var x = 11.00, mean y = 7.50, r = 0.816,
+   fit y = 3.00 + 0.500 x; III without its outlier (residual 3.24 at x = 13): y = 4.01 + 0.345 x. */
+{
+  const X = [10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5];
+  const SETS = [
+    ['I', 'I · noisy line', X, [8.04, 6.95, 7.58, 8.81, 8.33, 9.96, 7.24, 4.26, 10.84, 4.82, 5.68]],
+    ['II', 'II · smooth curve', X, [9.14, 8.14, 8.74, 8.77, 9.26, 8.10, 6.13, 3.10, 9.13, 7.26, 4.74]],
+    ['III', 'III · one outlier', X, [7.46, 6.77, 12.74, 7.11, 7.81, 8.84, 6.08, 5.39, 8.15, 6.42, 5.73]],
+    ['IV', 'IV · one far point', [8, 8, 8, 8, 8, 8, 8, 19, 8, 8, 8], [6.58, 5.76, 7.71, 8.84, 8.47, 7.04, 5.25, 12.50, 5.56, 7.91, 6.89]],
+  ];
+  const ids = s => SETS.map(([k]) => `l33-${s}${k}`);
+  scene('l33', {
+    build(h) {
+      SETS.forEach(([k, name, xs, ys], i) => {
+        const L = 70 + (i % 2) * 450, T = 30 + Math.floor(i / 2) * 295;
+        const ax = h.axes({ x: [0, 20], y: [0, 14], box: [L, T, L + 360, T + 230], xt: 10, yt: 5 });
+        h.curve(`l33-fit${k}`, ax, x => 3 + 0.5 * x, 0, 20, 'k-stroke c-concept');
+        const g = h.group(`l33-pts${k}`, 'c-text');
+        xs.forEach((x, j) => h.circle(null, ax.X(x), ax.Y(ys[j]), 6, 'k-fill c-text', g));
+        h.text(`l33-name${k}`, ax.X(0.6), ax.Y(12.2), name, 'c-text');
+        h.circle(`l33-mean${k}`, ax.X(9), ax.Y(7.5), 9, 'k-fill c-ok');
+        if (k === 'III') {
+          h.circle('l33-out', ax.X(13), ax.Y(12.74), 13, 'k-thin c-trap');
+          h.curve('l33-fit3b', ax, x => 4.01 + 0.345 * x, 0, 20, 'k-dash c-ok');
+        }
+        if (k === 'IV') h.circle('l33-far', ax.X(19), ax.Y(12.5), 13, 'k-thin c-trap');
+      });
+    },
+    steps: [
+      { stage: 'Setup',
+        tex: '$\\begin{array}{lccccc} & \\bar x & s_x^2 & \\bar y & s_y^2 & r \\\\ \\hline \\text{I} & 9.00 & 11.00 & 7.50 & 4.127 & 0.816 \\\\ \\text{II} & 9.00 & 11.00 & 7.50 & 4.128 & 0.816 \\\\ \\text{III} & 9.00 & 11.00 & 7.50 & 4.123 & 0.816 \\\\ \\text{IV} & 9.00 & 11.00 & 7.50 & 4.123 & 0.817 \\end{array}$',
+        ask: 'Same means, variances, $r$ and fit line: do the four sets show the same relation?' },
+      { stage: 'Model', draw: ids('fit'),
+        tex: 'Fit line of every set: $y = 3.00 + 0.500\\,x$' },
+      { stage: 'Derive', show: ['l33-ptsI', 'l33-nameI'],
+        tex: 'I: points scattered around the line; the line fits.' },
+      { stage: 'Derive', show: ['l33-ptsII', 'l33-nameII'],
+        tex: 'II: a smooth curve; the line misses the bend.' },
+      { stage: 'Derive', show: ['l33-ptsIII', 'l33-nameIII', 'l33-out'],
+        tex: 'III: a perfect line, plus one outlier that pulls the fit.' },
+      { stage: 'Derive', show: ['l33-ptsIV', 'l33-nameIV', 'l33-far'],
+        tex: 'IV: a vertical stack at $x = 8$; one far point sets the slope.' },
+      { stage: 'Result', clear: true, ask: null,
+        box: 'Identical statistics to two decimals, four different relations: plot the data before you summarise it.',
+        note: 'The $\\texttt{groupby}$ table of P7 next to the four plots settles it (Anscombe, The American Statistician 27, 1973).' },
+      { stage: 'Check', show: ids('mean'),
+        ok: 'Each line passes through $(\\bar x, \\bar y)$: $3.00 + 0.500 \\cdot 9.00 = 7.50$.' },
+      { stage: 'Check', draw: 'l33-fit3b',
+        ok: 'III without its outlier (residual 3.24 at $x = 13$): $y = 4.01 + 0.345\\,x$, a different line.' },
+      { stage: 'Check', mark: { 'l33-fitI': 'ok', 'l33-fitII': 'trap', 'l33-fitIII': 'trap', 'l33-fitIV': 'trap' },
+        trap: '“Same $r$, same fit, so the same relation”: only I is a noisy line; the red lines describe II–IV wrongly.' },
+    ],
+  });
+}
+
+/* L38 · curve_fit without and with p0 (numbers.py W31): default p0 = (1, 1) ends at A = 1045, tau = 1.000 s,
+   sigma = inf; p0 = (N[0], 200 s) ends at A = 1018 +/- 10, tau = 215.5 +/- 3.4 s; chi2 = 32.4 (L37).
+   The frames are curve_fit's own trial points on these counts (scipy, same data):
+   no p0: A = 1, 142.4, 425.3, 1045 with tau = 1 s (chi2 7782, 7519, 7107, 6739);
+   p0 = (1045, 200): (1045, 200), (1018.1, 214.4), (1018.0, 215.5) (chi2 88.4, 33.9, 32.4). chi2 with sigma = sqrt(N). */
+{
+  const N = [1045, 890, 770, 639, 543, 512, 465, 375, 304, 305, 271, 217, 209, 146, 155, 129, 111, 114, 80, 80, 84, 66, 48, 47, 33, 32, 37, 20, 21, 18, 18];
+  const BAD = [[1, 1, 7782], [142.421, 1, 7519], [425.264, 1, 7107], [1045, 1, 6739]];
+  const GOOD = [[1045, 200, 88.4], [1018.108, 214.438, 33.9], [1017.9528882703968, 215.4554974417766, 32.4]];
+  const rd = (A, tau, chi, dt) => ({ 'l38-A': { to: A }, 'l38-tau': { to: tau, digits: dt }, 'l38-chi': { to: chi, digits: chi < 100 ? 1 : 0 } });
+  scene('l38', {
+    build(h) {
+      const ax = h.axes({ x: [0, 900], y: [0, 1100], box: [90, 30, 870, 540], xt: 150, yt: 250, ylabel: 'counts N' });
+      h.text(null, 870, 592, 't (s)', 'c-muted it', null, 'end');
+      const mu = (A, tau) => t => A * Math.exp(-t / tau);
+      BAD.forEach(([A, tau], i) => { const g = h.group(`l38-b${i}`, 'c-trap');
+        h.curve(null, ax, mu(A, tau), 0, 900, 'k-stroke c-trap', g); h.circle(null, ax.X(0), ax.Y(A), 9, 'k-fill c-trap', g); });
+      GOOD.forEach(([A, tau], i) => h.curve(`l38-g${i}`, ax, mu(A, tau), 0, 900, i === 2 ? 'k-stroke c-ok' : 'k-stroke c-concept'));
+      h.tag('l38-startlab', ax.X(190), ax.Y(0), 'start τ = 1 s', 'c-trap', 'n', null, 10);
+      // 1/e guide: N[0]/e = 384 is reached near t = 200 s
+      h.line('l38-eh', ax.X(0), ax.Y(1045 / Math.E), ax.X(200), ax.Y(1045 / Math.E), 'k-dash c-ask');
+      h.line('l38-ev', ax.X(200), ax.Y(1045 / Math.E), ax.X(200), ax.Y(0), 'k-dash c-ask');
+      h.tag('l38-elab', ax.X(70), ax.Y(1045 / Math.E), 'N[0]/e', 'c-ask', 'n', null, 10);
+      h.tag('l38-tlab', ax.X(200), ax.Y(0), '≈ 200 s', 'c-ask', 'ne', null, 10);
+      // check marks
+      h.circle('l38-half', ax.X(150), ax.Y(512), 9, 'k-fill c-ok');
+      h.tag('l38-halflab', ax.X(150), ax.Y(512), 'half at 150 s', 'c-ok', 'ne', null, 14);
+      h.circle('l38-ring', ax.X(30), ax.Y(890), 14, 'k-thin c-trap');
+      h.tag('l38-ringlab', ax.X(30), ax.Y(890), 'measured 890', 'c-trap', 'e', null, 22);
+      // data: error bars sqrt(N) and points
+      const d = h.group('l38-data', 'c-text');
+      h.path(null, N.map((n, i) => `M${ax.X(30 * i)},${ax.Y(n - Math.sqrt(n))} L${ax.X(30 * i)},${ax.Y(n + Math.sqrt(n))}`).join(' '), 'k-thin c-text', d);
+      N.forEach((n, i) => h.circle(null, ax.X(30 * i), ax.Y(n), 5, 'k-fill c-text', d));
+      // readout (top right)
+      const r = h.group('l38-read', 'c-text');
+      h.rect(null, 560, 44, 290, 120, 'k-panel', r);
+      h.text(null, 576, 78, 'A', 'c-muted it', r); h.text('l38-A', 834, 78, '1', 'mono c-text', r, 'end');
+      h.text(null, 576, 112, 'τ (s)', 'c-muted', r); h.text('l38-tau', 834, 112, '1.000', 'mono c-text', r, 'end');
+      h.text(null, 576, 146, 'χ²', 'c-muted', r); h.text('l38-chi', 834, 146, '7782', 'mono c-ask', r, 'end');
+    },
+    steps: [
+      { stage: 'Setup', show: 'l38-data',
+        tex: ['$N(t) = A\\,e^{-t/\\tau}$, 31 counts every 30 s', '$\\texttt{\\small p\\_bad, \\_ = curve\\_fit(model, t, N)}$'],
+        ask: 'No $\\texttt{p0}$ given: where does the search start, and where does it end?' },
+      { stage: 'Model', show: ['l38-b0', 'l38-read', 'l38-startlab'],
+        tex: 'Without $\\texttt{p0}$ every parameter starts at 1: $\\tau = 1\\ \\text{s}$ for a decay of hundreds of seconds.' },
+      { stage: 'Derive', dur: 600,
+        tex: '$\\dfrac{\\partial N}{\\partial \\tau} = \\dfrac{A\\,t}{\\tau^2}\\,e^{-t/\\tau} \\approx 0$ for $t \\ge 30\\ \\text{s}$',
+        note: 'Only $A$ can move: the search fits the first point and stops.',
+        after: w0seq4(BAD.slice(1).map(([A, tau, chi], i) => ({ dur: 600, hide: `l38-b${i}`, show: `l38-b${i + 1}`, count: rd(A, tau, chi, 3) }))) },
+      { stage: 'Derive', mark: { 'l38-tau': 'trap' },
+        tex: 'Result: $\\tau = 1.000\\ \\text{s}$, $\\sigma = \\infty$, and an $\\texttt{OptimizeWarning}$: the fit “ran”.' },
+      { stage: 'Derive', clear: true, hide: ['l38-b3', 'l38-startlab'], mark: { 'l38-tau': null }, draw: ['l38-eh', 'l38-ev'], show: ['l38-elab', 'l38-tlab', 'l38-g0'],
+        count: rd(1045, 200, 88.4, 1),
+        tex: ['Start from the data: $A \\approx N[0]$, $\\tau \\approx$ the time the counts take to fall by $1/e$.',
+              '$\\texttt{\\small p, pcov = curve\\_fit(model, t, N,}$',
+              '$\\texttt{\\small \\ \\ \\ p0=(N[0], 200))}$'] },
+      { stage: 'Derive', dur: 700, hide: ['l38-eh', 'l38-ev', 'l38-elab', 'l38-tlab'],
+        note: 'From a sensible start the search walks into the minimum in two steps.',
+        after: w0seq4(GOOD.slice(1).map(([A, tau, chi], i) => ({ dur: 700, hide: `l38-g${i}`, show: `l38-g${i + 1}`, count: rd(A, tau, chi, 1) }))) },
+      { stage: 'Result', clear: true, ask: null,
+        box: '$\\tau = 215.5 \\pm 3.4\\ \\text{s}$, $A = 1018 \\pm 10$',
+        note: 'Same data, same model: only the start changed.' },
+      { stage: 'Check',
+        ok: '$\\chi^2 = 32.4$ for 29 degrees of freedom, the minimum found by hand on L37.' },
+      { stage: 'Check', show: ['l38-half', 'l38-halflab'],
+        ok: 'Half-life $\\tau \\ln 2 = 149.3\\ \\text{s}$: the counts halve from 1045 near $t = 150\\ \\text{s}$ (512).' },
+      { stage: 'Check', hide: ['l38-half', 'l38-halflab'], show: ['l38-b3', 'l38-ring', 'l38-ringlab'], mark: { 'l38-g2': 'faded' },
+        trap: 'Magnitude: with $\\tau = 1\\ \\text{s}$ the model predicts $9.8\\times10^{-11}$ counts at $t = 30\\ \\text{s}$, where 890 were measured.' },
+    ],
+  });
+}
+
 /* Scenes p1-p4 (lab track, Problems 1-4). Numbers from plan/numbers.py (W03, W07, W11, W15). */
 
+/* real motion without new engine code (copied from week01 film): w0film5(ms, fn) chains `after` frames (~30 per
+   second); fn(f, fp) returns the keys of the frame at fraction f of the clip (fp = previous frame). Stepping back
+   applies every frame at once, so the clip's last state shows. */
+function w0film5(ms, fn, fps = 30){
+  const n = Math.max(1, Math.round(ms / 1000 * fps)); let s = null;
+  for (let i = n; i >= 1; i--) { const f = Object.assign({ dur: 1, wait: ms / n }, fn(i / n, (i - 1) / n)); if (s) f.after = s; s = f; }
+  return s;
+}
+/* ids whose time t lies in (tp, t]: what a frame has to reveal */
+const w0crossed5 = (list, tp, t) => list.filter(o => o.t > tp + 1e-9 && o.t <= t + 1e-9).map(o => o.id);
+
 /* ===== p1 · Hidden kernel state: cells 1,3,2 -> T = 4.937 s; Restart and run all -> 2.006 s; ratio 2.461 ===== */
-scene('p1', {
-  build(h) {
-    const cells = h.group('p1-cells');
-    [[1, 40, 'L = 1.0; g = 9.81'], [2, 170, 'T = 2*np.pi*np.sqrt(L/g)'], [3, 300, 'g = 1.62']].forEach(([n, y, code]) => {
-      h.rect(`p1-c${n}`, 30, y, 380, 96, 'k-stroke c-muted', cells);
-      h.text(null, 50, y + 36, `cell ${n}`, 'c-muted', cells);
-      h.text(null, 50, y + 76, code, 'mono c-text', cells);
-    });
-    h.text('p1-t1', 392, 76, 'ran 1st', 'c-concept small', null, 'end');
-    h.text('p1-t3', 392, 336, 'ran 2nd', 'c-concept small', null, 'end');
-    h.text('p1-t2', 392, 206, 'ran 3rd', 'c-concept small', null, 'end');
-    const mem = h.group('p1-mem');
-    h.rect(null, 490, 40, 380, 230, 'k-panel', mem);
-    h.text(null, 510, 84, 'kernel memory', 'c-muted', mem);
-    h.text('p1-L', 510, 150, 'L = 1.0', 'mono c-text', mem);
-    h.text('p1-g1', 510, 210, 'g = 9.81', 'mono c-text', mem);
-    h.text('p1-g2', 510, 210, 'g = 1.62', 'mono c-trap', mem);
-    h.arrow('p1-fetch', 500, 196, 424, 220, 'c-ask');
-    const o1 = h.group('p1-out1');
-    h.rect(null, 30, 430, 360, 140, 'k-panel', o1);
-    h.text(null, 50, 468, 'cell 2 prints', 'c-muted', o1);
-    h.text('p1-T1', 50, 522, 'T = 4.937 s', 'big mono c-ok', o1);
-    h.text('p1-page', 50, 556, 'page order: 2.006 s', 'small c-muted', o1);
-    const o2 = h.group('p1-out2');
-    h.rect(null, 510, 430, 360, 140, 'k-panel', o2);
-    h.text(null, 530, 468, 'Restart and run all', 'c-muted', o2);
-    h.text('p1-T2', 530, 522, 'T = 2.006 s', 'big mono c-ok', o2);
-    h.text('p1-ratio', 450, 512, '×2.461', 'mono c-ok', null, 'middle');
-  },
-  steps: [
-    { stage: 'Setup', show: ['p1-cells', 'p1-mem'],
-      ask: 'The cells run in the order 1, 3, 2. What does cell 2 print: $2.006\\ \\text{s}$ or something else?' },
-    { stage: 'Model', mark: { 'p1-c1': 'concept' }, show: ['p1-t1', 'p1-L', 'p1-g1'],
-      tex: 'Cell 1 runs first: the memory holds $L = 1.0$ and $g = 9.81$.',
-      note: 'The kernel keeps names and values, not the page.' },
-    { stage: 'Model', mark: { 'p1-c1': 'faded', 'p1-c3': 'concept', 'p1-g2': 'trap' }, show: ['p1-t3', 'p1-g2'], hide: 'p1-g1',
-      tex: 'Cell 3 runs second: $g = 1.62$ overwrites $9.81$.' },
-    { stage: 'Derive', mark: { 'p1-c3': 'faded', 'p1-c2': 'concept', 'p1-g2': 'ask' }, show: 'p1-t2', draw: 'p1-fetch',
-      tex: 'Cell 2 runs last and reads $g$ from the memory: $g = 1.62\\ \\text{m/s}^2$.' },
-    { stage: 'Derive', tex: '$T = 2\\pi\\sqrt{\\dfrac{1}{1.62}}\\ \\text{s} = 2\\pi\\times0.7857\\ \\text{s}$' },
-    { stage: 'Result', clear: true, ask: null, show: 'p1-out1',
-      box: '$T = 4.937\\ \\text{s}$ in cell 2 (run order 1, 3, 2)' },
-    { stage: 'Check', mark: { 'p1-c2': null, 'p1-c3': null, 'p1-c1': null }, hide: ['p1-L', 'p1-g2', 'p1-fetch'], show: 'p1-out2',
-      ok: 'Independent method: Restart wipes the memory; "Restart and run all" runs 1, 2, 3 in page order and prints $T = 2.006\\ \\text{s}$.' },
-    { stage: 'Check', show: 'p1-ratio', mark: { 'p1-page': 'trap' },
-      ok: 'Magnitude: $4.937/2.006 = 2.461 = \\sqrt{9.81/1.62}$, exactly the Earth-to-Moon factor.',
-      trap: 'Trap: expecting $2.006\\ \\text{s}$ from cell 2 because it is written above. The page is not the memory.' },
-  ],
-});
+{
+  // the pendulum hangs from (PX, PY); it swings at the period cell 2 printed, in real time
+  const PX = 770, PY = 34, PL = 250, TH = 12;
+  const swing = (T, n, last) => w0film5(T * n * 1000, f => Object.assign(
+    { orbit: { 'p1-pend': { cx: PX, cy: PY, at: TH * Math.cos(2 * Math.PI * n * f), still: true } } }, f === 1 ? last : {}));
+  const pull = { orbit: { 'p1-pend': { cx: PX, cy: PY, at: TH, still: true } } };
+  scene('p1', {
+    build(h) {
+      const cells = h.group('p1-cells');
+      [[1, 30, 'L = 1.0; g = 9.81'], [2, 130, 'T = 2*np.pi*np.sqrt(L/g)'], [3, 230, 'g = 1.62']].forEach(([n, y, code]) => {
+        h.rect(`p1-c${n}`, 20, y, 370, 86, 'k-stroke c-muted', cells);
+        h.text(null, 38, y + 34, `cell ${n}`, 'c-muted', cells);
+        h.text(null, 38, y + 70, code, 'mono c-text', cells);
+      });
+      h.text('p1-t1', 374, 64, 'ran 1st', 'c-concept small', null, 'end');
+      h.text('p1-t3', 374, 264, 'ran 2nd', 'c-concept small', null, 'end');
+      h.text('p1-t2', 374, 164, 'ran 3rd', 'c-concept small', null, 'end');
+      const mem = h.group('p1-mem');
+      h.rect(null, 450, 30, 200, 286, 'k-panel', mem);
+      h.text(null, 466, 68, 'kernel memory', 'c-muted', mem);
+      h.text('p1-L', 466, 150, 'L = 1.0', 'mono c-text');
+      h.text('p1-g', 466, 222, 'g = 9.81', 'mono c-text');
+      h.arrow('p1-fetch', 458, 214, 398, 178, 'c-ask');
+      // the pendulum of the notebook
+      const pd = h.group('p1-pnd');
+      h.line(null, PX - 70, PY, PX + 70, PY, 'k-stroke c-muted', pd);
+      let arc = ''; for (let i = 0; i <= 40; i++) { const a = (-TH + 2 * TH * i / 40) * Math.PI / 180; arc += (i ? 'L' : 'M') + (PX + PL * Math.sin(a)).toFixed(1) + ',' + (PY + PL * Math.cos(a)).toFixed(1); }
+      h.path(null, arc, 'k-dash c-muted', pd);
+      const p = h.group('p1-pend', null, pd);
+      h.line(null, PX, PY, PX, PY + PL, 'k-thin c-text', p);
+      h.circle(null, PX, PY + PL, 20, 'k-soft', p);
+      h.text('p1-sw1', PX, 352, 'T = 4.937 s, real speed', 'small c-ask', null, 'middle');
+      h.text('p1-sw2', PX, 352, 'T = 2.006 s, real speed', 'small c-ok', null, 'middle');
+      const o1 = h.group('p1-out1');
+      h.rect(null, 30, 430, 360, 140, 'k-panel', o1);
+      h.text(null, 50, 468, 'cell 2 prints', 'c-muted', o1);
+      h.text('p1-T1', 50, 522, 'T = 4.937 s', 'big mono c-ok', o1);
+      h.text('p1-page', 50, 556, 'page order: 2.006 s', 'small c-muted', o1);
+      const o2 = h.group('p1-out2');
+      h.rect(null, 510, 430, 360, 140, 'k-panel', o2);
+      h.text(null, 530, 468, 'Restart and run all', 'c-muted', o2);
+      h.text('p1-T2', 530, 522, 'T = 2.006 s', 'big mono c-ok', o2);
+      h.text('p1-ratio', 450, 512, '×2.461', 'mono c-ok', null, 'middle');
+    },
+    steps: [
+      { stage: 'Setup', show: ['p1-cells', 'p1-mem', 'p1-pnd'],
+        ask: 'The cells run in the order 1, 3, 2. What does cell 2 print: $2.006\\ \\text{s}$ or something else?' },
+      { stage: 'Model', mark: { 'p1-c1': 'concept' }, show: ['p1-t1', 'p1-L', 'p1-g'],
+        tex: 'Cell 1 runs first: the memory holds $L = 1.0$ and $g = 9.81$.',
+        note: 'The kernel keeps names and values, not the page.' },
+      { stage: 'Model', mark: { 'p1-c1': 'faded', 'p1-c3': 'concept', 'p1-g': 'trap' }, show: 'p1-t3', dur: 1200,
+        count: { 'p1-g': { to: 1.62, digits: 2, pre: 'g = ' } },
+        tex: 'Cell 3 runs second: $g = 1.62$ overwrites $9.81$.' },
+      { stage: 'Derive', mark: { 'p1-c3': 'faded', 'p1-c2': 'concept', 'p1-g': 'ask' }, show: 'p1-t2', draw: 'p1-fetch',
+        tex: 'Cell 2 runs last and reads $g$ from the memory: $g = 1.62\\ \\text{m/s}^2$.' },
+      { stage: 'Derive', tex: '$T = 2\\pi\\sqrt{\\dfrac{1}{1.62}}\\ \\text{s} = 2\\pi\\times0.7857\\ \\text{s}$' },
+      // the printed period, swung twice at real speed
+      Object.assign({ stage: 'Result', clear: true, ask: null, show: ['p1-out1', 'p1-sw1'],
+        box: '$T = 4.937\\ \\text{s}$ in cell 2 (run order 1, 3, 2)', wait: 700, after: swing(4.937, 2, {}) }, pull),
+      // Restart wipes the memory, then 1, 2, 3 in page order; the pendulum swings five times at 2.006 s
+      { stage: 'Check', mark: { 'p1-c2': null, 'p1-c3': null, 'p1-c1': null, 'p1-g': null },
+        hide: ['p1-t1', 'p1-t2', 'p1-t3', 'p1-L', 'p1-g', 'p1-fetch', 'p1-sw1'],
+        orbit: { 'p1-pend': { cx: PX, cy: PY, at: 0, still: true } },
+        ok: 'Independent method: Restart wipes the memory; "Restart and run all" runs 1, 2, 3 in page order and prints $T = 2.006\\ \\text{s}$.',
+        wait: 1000, after: { mark: { 'p1-c1': 'concept' }, show: ['p1-L', 'p1-g'], count: { 'p1-g': { to: 9.81, digits: 2, pre: 'g = ' } },
+          wait: 1000, after: Object.assign({ mark: { 'p1-c1': null, 'p1-c2': 'concept' }, show: ['p1-out2', 'p1-sw2'], wait: 700,
+            after: swing(2.006, 5, { dur: 800, mark: { 'p1-c2': null, 'p1-c3': 'concept', 'p1-g': 'trap' }, count: { 'p1-g': { to: 1.62, digits: 2, pre: 'g = ' } } }) }, pull) } },
+      { stage: 'Check', show: 'p1-ratio', mark: { 'p1-page': 'trap', 'p1-c3': null, 'p1-g': null },
+        ok: 'Magnitude: $4.937/2.006 = 2.461 = \\sqrt{9.81/1.62}$, exactly the Earth-to-Moon factor.',
+        trap: 'Trap: expecting $2.006\\ \\text{s}$ from cell 2 because it is written above. The page is not the memory.' },
+    ],
+  });
+}
 
 /* ===== p2 · Names and references: [[0]*3]*3, one hit -> 3 recorded; fixed grid -> 1 ===== */
 scene('p2', {
@@ -2596,11 +3068,12 @@ scene('p2', {
     for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) {
       const x = X0 + (S + G) * c, y = Y0 + (S + G) * r;
       h.rect(`p2-px${r}${c}`, x, y, S, S, 'k-thin c-muted', det);
-      if (c === 0) h.rect(`p2-lit${r}${c}`, x + 3, y + 3, S - 6, S - 6, 'k-area c-trap', det);   // only column 0 can light up
+      if (c === 0) h.rect(`p2-lit${r}${c}`, x + 3, Y0 + 3, S - 6, S - 6, 'k-area c-trap', det);   // built on pixel (0, 0); rows 1, 2 slide down to theirs
     }
     h.text('p2-code', 50, 452, 'grid = [[0]*3]*3', 'mono c-text');
     h.arrow('p2-hit', 98, 45, 98, 136, 'c-ask');
     h.tag('p2-hitlab', 98, 45, 'particle', 'c-ask', 'e');
+    h.circle('p2-pt', 98, 30, 10, 'k-fill c-ask');   // the particle: flies 128 px down the track into pixel (0, 0)
     const cb = h.group('p2-cbox');
     h.rect(null, 50, 480, 300, 96, 'k-panel', cb);
     h.text(null, 66, 516, 'hits recorded', 'c-muted', cb);
@@ -2612,9 +3085,10 @@ scene('p2', {
       h.text(`p2-l${i}`, 430, y, `grid[${i}]`, 'mono c-text');
       h.arrow(`p2-a${i}`, 535, y - 8, 680, 250 + (i - 1) * 20, 'c-concept');
       h.rect(`p2-f${i}`, 690, y - 38, 180, 60, 'k-soft');
-      h.text(`p2-ft${i}`, 780, y - 2, i === 0 ? '[1, 0, 0]' : '[0, 0, 0]', 'mono c-text', null, 'middle');
+      h.text(`p2-ft${i}`, 780, y - 2, '[0, 0, 0]', 'mono c-text', null, 'middle');
       h.arrow(`p2-b${i}`, 535, y - 8, 680, y - 8, 'c-ok');
     });
+    h.text('p2-ft0b', 780, 148, '[1, 0, 0]', 'mono c-ok', null, 'middle');
     h.rect('p2-row', 690, 215, 180, 70, 'k-soft');
     h.text('p2-row0', 780, 258, '[0, 0, 0]', 'mono c-text', null, 'middle');
     h.text('p2-row1', 780, 258, '[1, 0, 0]', 'mono c-trap', null, 'middle');
@@ -2629,15 +3103,20 @@ scene('p2', {
     { stage: 'Model', show: ['p2-l0', 'p2-l1', 'p2-l2', 'p2-row', 'p2-row0', 'p2-one'], draw: ['p2-a0', 'p2-a1', 'p2-a2'], dur: 1000,
       tex: ['$\\texttt{[0]*3}$ builds one row list.', '$\\texttt{[row]*3}$ repeats a reference to that same row.'],
       note: 'grid[0], grid[1], grid[2] are three labels on one object.' },
-    { stage: 'Derive', draw: 'p2-hit', show: ['p2-hitlab', 'p2-lit00', 'p2-row1'], hide: 'p2-row0', mark: { 'p2-lit00': 'ask' },
-      tex: '$\\texttt{grid[0][0] += 1}$ changes the one row, so all three labels see it.' },
-    { stage: 'Derive', show: ['p2-lit10', 'p2-lit20'], mark: { 'p2-lit00': 'trap' },
+    { stage: 'Derive', draw: 'p2-hit', show: ['p2-hitlab', 'p2-pt'], move: { 'p2-pt': [0, 128] }, dur: 900,
+      tex: '$\\texttt{grid[0][0] += 1}$ changes the one row, so all three labels see it.',
+      wait: 900, after: { hide: ['p2-pt', 'p2-row0'], show: ['p2-lit00', 'p2-row1'], mark: { 'p2-lit00': 'ask' } } },
+    // the one hit spreads: the same row is rows 1 and 2 as well
+    { stage: 'Derive', show: ['p2-lit10', 'p2-lit20'], move: { 'p2-lit10': [0, 102], 'p2-lit20': [0, 204] }, dur: 1200, mark: { 'p2-lit00': 'trap' },
       tex: 'Every row of the detector lights up: $\\texttt{[[1,0,0],[1,0,0],[1,0,0]]}$' },
     { stage: 'Result', clear: true, ask: null, show: 'p2-cbox', count: { 'p2-cnt': { to: 3, digits: 0 } }, mark: { 'p2-cnt': 'trap' },
       box: 'Total recorded hits $= 3$ for one particle.' },
-    { stage: 'Result', hide: ['p2-hit', 'p2-hitlab', 'p2-row', 'p2-row1', 'p2-one', 'p2-a0', 'p2-a1', 'p2-a2', 'p2-lit10', 'p2-lit20'],
+    // the fixed grid: three separate rows; the same particle flies in again and lights one pixel
+    { stage: 'Result', hide: ['p2-row', 'p2-row1', 'p2-one', 'p2-a0', 'p2-a1', 'p2-a2', 'p2-lit00', 'p2-lit10', 'p2-lit20'],
       show: ['p2-f0', 'p2-f1', 'p2-f2', 'p2-ft0', 'p2-ft1', 'p2-ft2', 'p2-b0', 'p2-b1', 'p2-b2'], draw: ['p2-b0', 'p2-b1', 'p2-b2'],
-      mark: { 'p2-lit00': 'ok', 'p2-cnt': 'ok' }, count: { 'p2-cnt': { to: 1, digits: 0 } },
+      mark: { 'p2-cnt': null }, count: { 'p2-cnt': { to: 0, digits: 0 } }, move: { 'p2-pt': [0, 0] },
+      wait: 1100, after: { show: 'p2-pt', move: { 'p2-pt': [0, 128] }, dur: 900,
+        wait: 900, after: { hide: ['p2-pt', 'p2-ft0'], show: ['p2-lit00', 'p2-ft0b'], mark: { 'p2-lit00': 'ok', 'p2-cnt': 'ok' }, count: { 'p2-cnt': { to: 1, digits: 0 } } } },
       box: 'The fix $\\texttt{[[0]*3 for \\_ in range(3)]}$ or $\\texttt{np.zeros((3, 3), dtype=int)}$ records $1$.' },
     { stage: 'Check',
       ok: 'Conservation: hits recorded must equal particles sent (1). Only the fixed versions give 1.' },
@@ -2648,67 +3127,90 @@ scene('p2', {
 });
 
 /* ===== p3 · Fencepost in time: 10 samples, 9 gaps, dt = 1/9 s; 2.222 m/s (+11.1 %) vs 2.000 m/s ===== */
-scene('p3', {
-  build(h) {
-    const XA = k => 70 + 760 * k / 9, XB = k => 70 + 76 * k;
-    h.line(null, 60, 170, 840, 170, 'k-thin c-muted');
-    h.rect(null, 70, 105, 110, 50, 'k-soft');
-    h.circle(null, 95, 162, 10, 'k-fill c-text'); h.circle(null, 155, 162, 10, 'k-fill c-text');
-    h.arrow(null, 200, 130, 300, 130, 'c-concept');
-    h.tag(null, 300, 130, 'v = 2 m/s', 'c-concept', 'e');
-    const A = h.group('p3-A');
-    h.line(null, 60, 250, 840, 250, 'k-axis', A);
-    for (let k = 0; k < 10; k++) h.line(null, XA(k), 238, XA(k), 262, 'k-stroke c-text', A);
-    h.text(null, XA(0), 294, '0', 'c-muted', A, 'middle');
-    h.text(null, XA(9), 294, '1 s', 'c-muted', A, 'middle');
-    h.text(null, 450, 294, '10 samples', 'c-muted', A, 'middle');
-    const gaps = h.group('p3-gaps');
-    for (let k = 0; k < 9; k++) {
-      h.rect(null, XA(k) + 4, 230, XA(k + 1) - XA(k) - 8, 40, 'k-area c-ask', gaps);
-      h.text(null, (XA(k) + XA(k + 1)) / 2, 218, String(k + 1), 'c-text', gaps, 'middle');
-    }
-    const B = h.group('p3-B');
-    h.line(null, 60, 355, 840, 355, 'k-axis', B);
-    for (let k = 0; k <= 10; k++) h.line(null, XB(k), 343, XB(k), 367, 'k-stroke c-ok', B);
-    h.text(null, 450, 326, 'Δt = 0.1 s', 'c-ok', B, 'middle');
-    h.text(null, 450, 398, '11 samples, 10 gaps', 'c-muted', B, 'middle');
-    const r1 = h.group('p3-r1');
-    h.rect('p3-box1', 60, 420, 380, 160, 'k-panel', r1);
-    h.text(null, 80, 458, 'Δx / 0.1 s', 'c-muted', r1);
-    h.text('p3-v1', 80, 520, '2.222 m/s', 'big mono c-trap', r1);
-    h.text('p3-v1b', 80, 520, '2.000 m/s', 'big mono c-ok', r1);
-    h.text('p3-pct', 420, 458, '+11.1 %', 'c-trap', r1, 'end');
-    h.text('p3-wrong', 420, 560, 'wrong Δt', 'small c-trap', r1, 'end');
-    const r2 = h.group('p3-r2');
-    h.rect('p3-box2', 470, 420, 380, 160, 'k-panel', r2);
-    h.text(null, 490, 458, 'Δx / (1/9 s)', 'c-muted', r2);
-    h.text('p3-v2', 490, 520, '2.000 m/s', 'big mono c-ok', r2);
-  },
-  steps: [
-    { stage: 'Setup', show: ['p3-A'],
-      ask: 'The student divides by $0.1\\ \\text{s}$. Does the report say $2.00\\ \\text{m/s}$, more, or less?' },
-    { stage: 'Model', show: 'p3-gaps',
-      tex: 'The 10 samples leave gaps between them: count 1, 2, ..., 9.',
-      note: 'Ten ticks, nine gaps: both ends are samples.' },
-    { stage: 'Derive', tex: ['$\\Delta t = \\dfrac{1\\ \\text{s}}{9} = 0.1111\\ \\text{s}$', '$\\Delta x = 2\\ \\text{m/s}\\times\\dfrac19\\ \\text{s} = 0.2222\\ \\text{m}$'] },
-    { stage: 'Derive', show: ['p3-r1', 'p3-r2'], hide: ['p3-v1b', 'p3-pct', 'p3-wrong'],
-      tex: ['Student: $\\dfrac{0.2222}{0.1} = 2.222\\ \\text{m/s}$', 'Real step: $\\dfrac{0.2222}{0.1111} = 2.000\\ \\text{m/s}$'] },
-    { stage: 'Result', clear: true, ask: null, show: 'p3-pct',
-      box: '$v = 2.000\\ \\text{m/s}$; the student is $11.1\\ \\%$ too high (factor $10/9$).' },
-    { stage: 'Check', mark: { 'p3-box2': 'ok' },
-      ok: 'Independent method: $\\texttt{np.diff(x) / np.diff(t)}$ gives $2.000\\ \\text{m/s}$ at every sample.' },
-    { stage: 'Check', show: 'p3-wrong',
-      trap: 'Trap: assuming $\\Delta t = 0.1\\ \\text{s}$ because the interval is 1 s with 10 samples gives $2.222\\ \\text{m/s}$.' },
-    { stage: 'Check', show: ['p3-B', 'p3-v1b'], hide: ['p3-v1', 'p3-pct', 'p3-wrong'],
-      ok: 'Counting: $\\texttt{len(t)} = 10$ but $\\texttt{len(np.diff(t))} = 9$. With $\\texttt{linspace(0, 1, 11)}$, $\\Delta t = 0.1000\\ \\text{s}$ and both readouts agree.' },
-  ],
-});
+{
+  // x = 2t: 1 m of track = 380 px, so the cart's position and the time axis share one pixel scale (1 s = 760 px)
+  const XA = k => 70 + 760 * k / 9, XB = k => 70 + 76 * k;
+  const S9 = [...Array(10)].map((_, k) => ({ id: [`p3-s${k}`, `p3-k${k}`], t: k / 9 }));
+  const S10 = [...Array(11)].map((_, k) => ({ id: `p3-q${k}`, t: k / 10 }));
+  const reveal = (L, tp, t) => w0crossed5(L, tp, t).flat();
+  // 1 s of motion played in 3 s (slowed down three times)
+  const drive = (L, last) => w0film5(3000, (f, fp) => Object.assign({ move: { 'p3-cart': [760 * f, 0] }, show: reveal(L, fp, f) }, f === 1 ? last : {}));
+  // race until the 2.222 m/s cart reaches the end of the 2 m track: the real cart is still behind
+  const race = w0film5(2700, f => ({ move: { 'p3-cart': [380 * 2 * 0.9 * f, 0], 'p3-gh': [380 * 2.2222 * 0.9 * f, 0] } }));
+  const cart = (h, id, cls, wcls) => { const g = h.group(id); h.rect(null, 15, 115, 110, 40, cls, g);
+    h.circle(null, 40, 163, 9, wcls, g); h.circle(null, 100, 163, 9, wcls, g); return g; };
+  scene('p3', {
+    build(h) {
+      h.line(null, 20, 172, 880, 172, 'k-thin c-muted');
+      h.arrow(null, 380, 62, 480, 62, 'c-concept');
+      h.tag(null, 480, 62, 'v = 2 m/s', 'c-concept', 'e');
+      S9.forEach((o, k) => h.circle(o.id[0], XA(k), 172, 7, 'k-fill c-ask'));
+      S10.forEach((o, k) => h.circle(o.id, XB(k), 172, 7, 'k-fill c-ok'));
+      cart(h, 'p3-cart', 'k-soft', 'k-fill c-text');
+      const gh = cart(h, 'p3-gh', 'k-dash c-trap', 'k-thin c-trap');
+      h.tag('p3-ghl', 70, 112, '2.222 m/s', 'c-trap', 'n', gh);
+      const A = h.group('p3-A');
+      h.line(null, 60, 250, 840, 250, 'k-axis', A);
+      h.text(null, XA(0), 294, '0', 'c-muted', A, 'middle');
+      h.text(null, XA(9), 294, '1 s', 'c-muted', A, 'middle');
+      for (let k = 0; k < 10; k++) h.line(`p3-k${k}`, XA(k), 238, XA(k), 262, 'k-stroke c-text');
+      h.text('p3-n10', 450, 294, '10 samples', 'c-muted', null, 'middle');
+      const gaps = h.group('p3-gaps');
+      for (let k = 0; k < 9; k++) {
+        h.rect(null, XA(k) + 4, 230, XA(k + 1) - XA(k) - 8, 40, 'k-area c-ask', gaps);
+        h.text(null, (XA(k) + XA(k + 1)) / 2, 218, String(k + 1), 'c-text', gaps, 'middle');
+      }
+      const B = h.group('p3-B');
+      h.line(null, 60, 355, 840, 355, 'k-axis', B);
+      for (let k = 0; k <= 10; k++) h.line(null, XB(k), 343, XB(k), 367, 'k-stroke c-ok', B);
+      h.text(null, 450, 326, 'Δt = 0.1 s', 'c-ok', B, 'middle');
+      h.text(null, 450, 398, '11 samples, 10 gaps', 'c-muted', B, 'middle');
+      const r1 = h.group('p3-r1');
+      h.rect('p3-box1', 60, 420, 380, 160, 'k-panel', r1);
+      h.text(null, 80, 458, 'Δx / 0.1 s', 'c-muted', r1);
+      h.text('p3-v1', 80, 520, '2.222 m/s', 'big mono c-trap', r1);
+      h.text('p3-v1b', 80, 520, '2.000 m/s', 'big mono c-ok', r1);
+      h.text('p3-pct', 420, 458, '+11.1 %', 'c-trap', r1, 'end');
+      h.text('p3-wrong', 420, 560, 'wrong Δt', 'small c-trap', r1, 'end');
+      const r2 = h.group('p3-r2');
+      h.rect('p3-box2', 470, 420, 380, 160, 'k-panel', r2);
+      h.text(null, 490, 458, 'Δx / (1/9 s)', 'c-muted', r2);
+      h.text('p3-v2', 490, 520, '2.000 m/s', 'big mono c-ok', r2);
+    },
+    steps: [
+      // the logger records the moving cart: a dot on the track and a tick on the time axis at each sample
+      { stage: 'Setup', show: ['p3-A', 'p3-cart', 'p3-s0', 'p3-k0'], wait: 900, after: drive(S9, { show: 'p3-n10' }),
+        ask: 'The student divides by $0.1\\ \\text{s}$. Does the report say $2.00\\ \\text{m/s}$, more, or less?' },
+      { stage: 'Model', show: 'p3-gaps', hide: 'p3-n10',
+        tex: 'The 10 samples leave gaps between them: count 1, 2, ..., 9.',
+        note: 'Ten ticks, nine gaps: both ends are samples.' },
+      { stage: 'Derive', tex: ['$\\Delta t = \\dfrac{1\\ \\text{s}}{9} = 0.1111\\ \\text{s}$', '$\\Delta x = 2\\ \\text{m/s}\\times\\dfrac19\\ \\text{s} = 0.2222\\ \\text{m}$'] },
+      // the student's 2.222 m/s as a second cart beside the real one: it runs ahead and reaches the end early
+      { stage: 'Derive', show: ['p3-r1', 'p3-r2', 'p3-gh'], hide: ['p3-v1b', 'p3-pct', 'p3-wrong'], move: { 'p3-cart': [0, 0] },
+        tex: ['Student: $\\dfrac{0.2222}{0.1} = 2.222\\ \\text{m/s}$', 'Real step: $\\dfrac{0.2222}{0.1111} = 2.000\\ \\text{m/s}$'],
+        wait: 1000, after: race },
+      { stage: 'Result', clear: true, ask: null, show: 'p3-pct',
+        box: '$v = 2.000\\ \\text{m/s}$; the student is $11.1\\ \\%$ too high (factor $10/9$).' },
+      { stage: 'Check', mark: { 'p3-box2': 'ok' },
+        ok: 'Independent method: $\\texttt{np.diff(x) / np.diff(t)}$ gives $2.000\\ \\text{m/s}$ at every sample.' },
+      { stage: 'Check', show: 'p3-wrong',
+        trap: 'Trap: assuming $\\Delta t = 0.1\\ \\text{s}$ because the interval is 1 s with 10 samples gives $2.222\\ \\text{m/s}$.' },
+      // linspace(0, 1, 11): the cart runs again and the logger drops 11 samples, 0.1 s apart
+      { stage: 'Check', show: ['p3-B', 'p3-v1b', 'p3-q0'], hide: ['p3-v1', 'p3-pct', 'p3-wrong', 'p3-gh'].concat(S9.map(o => o.id[0])),
+        move: { 'p3-cart': [0, 0] }, wait: 1000, after: drive(S10, {}),
+        ok: 'Counting: $\\texttt{len(t)} = 10$ but $\\texttt{len(np.diff(t))} = 9$. With $\\texttt{linspace(0, 1, 11)}$, $\\Delta t = 0.1000\\ \\text{s}$ and both readouts agree.' },
+    ],
+  });
+}
 
 /* ===== p4 · Axis broadcast: D - D.mean(axis=1) (row sums -9, 0, 9) vs keepdims (0, 0, 0); 3x4 -> ValueError ===== */
+{
+  const D = [[1, 2, 3], [4, 5, 6], [7, 8, 9]], M = [2, 5, 8], S = 96, G = 8, X0 = 200, Y0 = 120;
+  const tx = c => X0 + (S + G) * c, ty = r => Y0 + (S + G) * r;
+  const SL = [0, 1, 2].flatMap(r => [0, 1, 2].map(c => `p4-s${r}${c}`)), FL = ['p4-f0', 'p4-f1', 'p4-f2'];
+  const UP = ['p4-up0', 'p4-up1', 'p4-up2'], SW = ['p4-sw0', 'p4-sw1', 'p4-sw2'];
 scene('p4', {
   build(h) {
-    const D = [[1, 2, 3], [4, 5, 6], [7, 8, 9]], M = [2, 5, 8], S = 96, G = 8, X0 = 200, Y0 = 120;
-    const tx = c => X0 + (S + G) * c, ty = r => Y0 + (S + G) * r;
     const grid = (id, x0, y0, s, g, f, cls) => {
       const gr = h.group(id);
       for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) {
@@ -2722,11 +3224,17 @@ scene('p4', {
     for (let c = 0; c < 3; c++) h.text(null, tx(c) + S / 2, Y0 - 16, `det ${c + 1}`, 'c-muted small', d, 'middle');
     for (let r = 0; r < 3; r++) h.text(null, X0 - 12, ty(r) + S / 2 + 7, `run ${r + 1}`, 'c-muted small', d, 'end');
     // means as a column (3,1) and as a flat row (3,)
-    const mc = h.group('p4-mcol'), mr = h.group('p4-mrow');
-    M.forEach((m, i) => {
-      h.rect(null, 560, ty(i), S, S, 'k-thin c-ask', mc); h.text(null, 560 + S / 2, ty(i) + S / 2 + 7, String(m), 'mono c-ask', mc, 'middle');
-      h.rect(null, tx(i), 450, S, S, 'k-thin c-trap', mr); h.text(null, tx(i) + S / 2, 450 + S / 2 + 7, String(m), 'mono c-trap', mr, 'middle');
-    });
+    const tile = (id, x, y, s, cls) => { const g = h.group(id); h.rect(null, x, y, S, S, 'k-panel', g); h.rect(null, x, y, S, S, `k-thin ${cls}`, g);
+      h.text(null, x + S / 2, y + S / 2 + 7, s, `mono ${cls}`, g, 'middle'); return g; };
+    // sliding copies: each run's tiles slide along axis 1 and merge into its mean
+    for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) tile(`p4-s${r}${c}`, tx(c), ty(r), String(D[r][c]), 'c-concept');
+    const mc = h.group('p4-mcol');
+    M.forEach((m, i) => { h.rect(null, 560, ty(i), S, S, 'k-thin c-ask', mc); h.text(null, 560 + S / 2, ty(i) + S / 2 + 7, String(m), 'mono c-ask', mc, 'middle'); });
+    // the (3,) result: built on the means column, it slides down and lies flat as a row
+    M.forEach((m, i) => tile(`p4-f${i}`, 560, ty(i), String(m), 'c-trap'));
+    // stretching: the flat row copied up over every run (trap); the column copied across every detector (keepdims)
+    for (let r = 0; r < 3; r++) { const g = h.group(`p4-up${r}`); for (let c = 0; c < 3; c++) h.rect(null, tx(c), 450, S, S, 'k-area c-trap', g); }
+    for (let c = 0; c < 3; c++) { const g = h.group(`p4-sw${c}`); for (let r = 0; r < 3; r++) h.rect(null, 560, ty(r), S, S, 'k-area c-ok', g); }
     h.text('p4-mlab', 608, 104, 'means', 'c-ask', null, 'middle');
     h.text('p4-mshape', 608, 460, 'shape (3,)', 'c-ask', null, 'middle');
     h.text('p4-mshape2', 608, 460, 'shape (3, 1)', 'c-ok', null, 'middle');
@@ -2759,17 +3267,25 @@ scene('p4', {
   steps: [
     { stage: 'Setup', show: 'p4-D',
       ask: 'Does $\\texttt{D - D.mean(axis=1)}$ work, and what should each row of the result sum to?' },
-    { stage: 'Model', show: ['p4-mcol', 'p4-mlab', 'p4-mshape'],
+    // each row slides along axis 1 and merges into one tile
+    { stage: 'Model', show: SL, move: Object.fromEntries(SL.map(id => [id, [560 - tx(+id[5]), 0]])), dur: 1400,
       tex: '$\\texttt{D.mean(axis=1)} = [2, 5, 8]$, shape $(3,)$',
-      note: 'Axis 1 disappears: one mean per run.' },
-    { stage: 'Derive', show: ['p4-mrow', 'p4-rlab'],
-      tex: 'Laid flat, the $(3,)$ array lines up with the columns (the last axis).' },
-    { stage: 'Derive', show: 'p4-tm',
-      tex: '$D - [2, 5, 8]$ subtracts $2, 5, 8$ from columns 1, 2, 3 of every row.' },
-    { stage: 'Derive', hide: 'p4-mshape', show: ['p4-mshape2', 'p4-km'],
-      tex: 'The $(3, 1)$ column stretches sideways: row 1 loses 2, row 2 loses 5, row 3 loses 8.' },
+      note: 'Axis 1 disappears: one mean per run.',
+      wait: 1400, after: { hide: SL, show: ['p4-mcol', 'p4-mlab', 'p4-mshape'] } },
+    // the (3,) means leave the column and lie flat under the table
+    { stage: 'Derive', show: FL, move: Object.fromEntries(FL.map((id, i) => [id, [tx(i) - 560, 450 - ty(i)]])), dur: 1400,
+      tex: 'Laid flat, the $(3,)$ array lines up with the columns (the last axis).',
+      wait: 1400, after: { show: 'p4-rlab' } },
+    // the flat row is stretched up over every run
+    { stage: 'Derive', show: UP, move: Object.fromEntries(UP.map((id, r) => [id, [0, ty(r) - 450]])), dur: 1400,
+      tex: '$D - [2, 5, 8]$ subtracts $2, 5, 8$ from columns 1, 2, 3 of every row.',
+      wait: 1400, after: { hide: UP, show: 'p4-tm' } },
+    // the (3, 1) column is stretched sideways across every detector
+    { stage: 'Derive', hide: 'p4-mshape', show: ['p4-mshape2'].concat(SW), move: Object.fromEntries(SW.map((id, c) => [id, [tx(c) - 560, 0]])), dur: 1400,
+      tex: 'The $(3, 1)$ column stretches sideways: row 1 loses 2, row 2 loses 5, row 3 loses 8.',
+      wait: 1400, after: { hide: SW, show: 'p4-km' } },
     { stage: 'Result', clear: true, ask: null,
-      hide: ['p4-D', 'p4-mcol', 'p4-mlab', 'p4-mshape2', 'p4-mrow', 'p4-rlab', 'p4-tm', 'p4-km'],
+      hide: ['p4-D', 'p4-mcol', 'p4-mlab', 'p4-mshape2', 'p4-rlab', 'p4-tm', 'p4-km'].concat(FL),
       show: ['p4-RT', 'p4-RK', 'p4-RTt', 'p4-RKt', 'p4-sT', 'p4-sK'],
       box: '$D - \\texttt{D.mean(axis=1, keepdims=True)}$: every row is $[-1, 0, 1]$.' },
     { stage: 'Check',
@@ -2780,13 +3296,32 @@ scene('p4', {
       trap: 'Trap: the square table hides the mistake. On a $3\\times4$ table the same call raises a ValueError.' },
   ],
 });
+}
 
 /* Scenes p5-p8 of the Week 0 lab track. Numbers from plan/numbers.py (SciPy 1.17.1). */
+
+/* real motion without engine code (as week01 parts/50): w0film6(ms, fn) chains `after` frames (~30 per second);
+   fn(f, fp) returns the keys of the frame at fraction f of the clip (fp = previous frame). Stepping back applies
+   every frame at once, so the clip's last state shows. */
+function w0film6(ms, fn, fps = 30){
+  const n = Math.max(1, Math.round(ms / 1000 * fps)); let s = null;
+  for (let i = n; i >= 1; i--) { const f = Object.assign({ dur: 1, wait: ms / n }, fn(i / n, (i - 1) / n)); if (s) f.after = s; s = f; }
+  return s;
+}
+/* ids whose time t lies in (tp, t] */
+const w0crossed6 = (list, tp, t) => list.filter(o => o.t > tp + 1e-9 && o.t <= t + 1e-9).map(o => o.id);
+const w0clamp6 = x => Math.max(0, Math.min(1, x));
 
 /* =====================================================================================================
    P5 · radians. Incline 30 deg: g sin(30 deg) = 4.905 m/s^2; np.sin(30) = -0.988 -> -9.69 m/s^2.
    Left: incline (vertex at bottom right) and a bound bar; right: unit circle, centre (665, 295), R = 165.
    ===================================================================================================== */
+/* the run, both from rest at s = 200 px along the slope: block a = 4.905 m/s^2 down to the foot (168 px in 2 s, so
+   17.1 px per m); ghost a = -9.69 m/s^2 up the slope, reaches the top (200 px) after 1.55 s and stops there */
+const P5RUN = (() => { const c = Math.cos(Math.PI / 6), k = 2 * 168 / 4 / 4.905, off = s => [(s - 200) * c, (s - 200) / 2];
+  return w0film6(2000, f => { const t = 2 * f;
+    return { move: { 'p5-block': off(200 + 0.5 * 4.905 * k * t * t), 'p5-ghost': off(Math.max(0, 200 - 0.5 * 9.69 * k * t * t)) },
+      show: f === 1 ? ['p5-endok', 'p5-endbad'] : [] }; }); })();
 scene('p5', {
   build(h) {
     const c30 = Math.cos(Math.PI / 6), u = [c30, 0.5], n = [0.5, -c30];
@@ -2797,6 +3332,11 @@ scene('p5', {
     h.line('p5-slope', 60, 170, 440, 389.4, 'k-stroke c-text');
     const B = [P, at(P, 70, 0), at(P, 70, 70), at(P, 0, 70)];
     h.path('p5-block', `M${B.map(p => p.join(',')).join(' L')} Z`, 'k-soft');
+    h.path('p5-ghost', `M${B.map(p => p.join(',')).join(' L')} Z`, 'k-dash c-trap');
+    // end positions of the run (P5RUN): real block at the foot, ghost at the top
+    const E = at(top, 438, 70);
+    h.tag('p5-endok', ...E, '4.905 m/s²', 'c-ok', 'ne');
+    h.tag('p5-endbad', ...at(top, 0, 70), '−9.69 m/s²', 'c-trap', 'n');
     h.path('p5-arc', 'M360,389.4 A80,80 0 0,1 370.7,349.4', 'k-thin c-concept');
     h.text('p5-ang', 290, 372, '30°', 'c-concept');
     const A0 = at(top, 80, 120), A1 = at(top, 280, 120);
@@ -2857,6 +3397,10 @@ scene('p5', {
     { stage: 'Result', clear: true, ask: null, draw: ['p5-aok', 'p5-abad'], show: ['p5-aoklab', 'p5-abadlab'],
       box: '$a = 9.81 \\times 0.500 = 4.905\\ \\text{m/s}^2$ downhill',
       note: 'The code gave $9.81\\times(-0.988) = -9.69\\ \\text{m/s}^2$.' },
+    { stage: 'Result', hide: ['p5-circ', 'p5-aok', 'p5-abad', 'p5-aoklab', 'p5-abadlab'], show: 'p5-ghost', wait: 900,
+      tex: 'Released from rest: the block slides down with $4.905\\ \\text{m/s}^2$',
+      note: 'The red ghost uses $-9.69\\ \\text{m/s}^2$: it climbs the slope.',
+      after: P5RUN },
     { stage: 'Check', hide: ['p5-circ', 'p5-aq'], show: ['p5-bar', 'p5-bok'],
       ok: 'Bound: for any incline $0 \\lt a \\lt g$. $4.905$ is inside the bar.' },
     { stage: 'Check', show: 'p5-half',
@@ -2875,18 +3419,32 @@ const CX = [110, 280, 450, 620, 790], RD = [19, 21, null, 23, 21];
 const X = T => 60 + 31.2 * T, Y = 430;
 const dotAt = (i, T, ty) => [X(T) - CX[i], ty - 200];
 const P6MOVE = { 'p6-d19': dotAt(0, 19, Y), 'p6-d21a': dotAt(1, 21, Y), 'p6-d23': dotAt(3, 23, Y), 'p6-d21b': dotAt(4, 21, Y - 26), 'p6-d0': dotAt(2, 0, Y) };
+// Setup: the readings arrive one by one (every 0.6 s); the third slot stays empty
+const P6READ = w0film6(3000, (f, fp) => ({ show: w0crossed6([0, 1, 2, 3, 4].map(i => ({ id: 'p6-th' + i, t: 0.1 + 0.2 * i })), fp, f) }));
+// Model: the four dots fall onto the line one after another (x uniform, y like a free fall)
+const P6DROP = w0film6(2200, (f, fp) => { const T = 2.2 * f, mv = {}, sh = [];
+  ['p6-d19', 'p6-d21a', 'p6-d23', 'p6-d21b'].forEach((id, j) => { const t0 = 0.45 * j, p = w0clamp6((T - t0) / 0.6), [dx, dy] = P6MOVE[id];
+    if (2.2 * fp <= t0 && T > t0) sh.push(id); mv[id] = [dx * p, dy * p * p]; });
+  return { move: mv, show: sh }; });
+// fillna(0): the fifth dot jumps from the gap to 0 degC, then the mean marker slides from 21.00 to 16.80
+const P6JUMP = w0film6(2600, (f, fp) => { const p = w0clamp6(f / 0.45), q = w0clamp6((f - 0.6) / 0.4), [dx, dy] = P6MOVE['p6-d0'];
+  const o = { move: { 'p6-d0': [dx * p, dy * p - 160 * 4 * p * (1 - p)], 'p6-m168g': [(X(16.8) - X(21)) * q * q * (3 - 2 * q), 0] } };
+  if (fp <= 0.5 && f > 0.5) o.show = 'p6-m168g';
+  if (f === 1) { o.show = 'p6-m168lab'; o.tex = '$\\dfrac{84}{5} = 16.80\\ ^\\circ\\text{C}$'; }
+  return o; });
 scene('p6', {
   build(h) {
     CX.forEach((cx, i) => {
+      const g = h.group('p6-th' + i);      // one thermometer per reading, revealed in time order
       if (RD[i] === null) {
-        h.rect('p6-i2', cx - 11, 40, 22, 70, 'k-dash c-muted');
-        h.circle('p6-b2', cx, 122, 16, 'k-thin c-muted');
-        h.text('p6-lost', cx + 26, 88, 'lost', 'c-muted');
+        h.rect('p6-i2', cx - 11, 40, 22, 70, 'k-dash c-muted', g);
+        h.circle('p6-b2', cx, 122, 16, 'k-thin c-muted', g);
+        h.text('p6-lost', cx + 26, 88, 'lost', 'c-muted', g);
         h.text('p6-nanlab', cx, 168, 'NaN', 'c-muted mono', null, 'middle');
       } else {
-        h.rect('p6-i' + i, cx - 11, 40, 22, 70, 'k-soft');
-        h.circle('p6-b' + i, cx, 122, 16, 'k-fill c-concept');
-        h.text('p6-r' + i, cx + 26, 88, RD[i] + ' °C', 'c-text');
+        h.rect('p6-i' + i, cx - 11, 40, 22, 70, 'k-soft', g);
+        h.circle('p6-b' + i, cx, 122, 16, 'k-fill c-concept', g);
+        h.text('p6-r' + i, cx + 26, 88, RD[i] + ' °C', 'c-text', g);
       }
     });
     // number line 0-25 degC
@@ -2903,27 +3461,28 @@ scene('p6', {
     // mean markers
     h.arrow('p6-m21', X(21), 320, X(21), 388, 'c-concept');
     h.tag('p6-m21lab', X(21), 320, '21.00', 'c-concept', 'n');
-    h.arrow('p6-m168', X(16.8), 320, X(16.8), 388, 'c-trap');
+    // the fillna(0) marker is built at 21 and slides to 16.80 (P6JUMP)
+    const M = h.group('p6-m168g');
+    h.arrow('p6-m168', X(21), 320, X(21), 388, 'c-trap', M);
     h.tag('p6-m168lab', X(16.8), 320, '16.80', 'c-trap', 'n');
     h.text('p6-nan', 330, 330, 'NumPy: nan', 'c-text', null, 'middle');
   },
   steps: [
-    { stage: 'Setup', show: ['p6-line'],
+    { stage: 'Setup', show: ['p6-line'], wait: 300, after: P6READ,
       ask: 'Five readings, one lost. Predict $\\texttt{T.mean()}$, $\\texttt{np.mean(T.to\\_numpy())}$ and $\\texttt{T.fillna(0).mean()}$.' },
-    { stage: 'Model', show: ['p6-nanlab', 'p6-d19', 'p6-d21a', 'p6-d23', 'p6-d21b'],
-      move: { 'p6-d19': P6MOVE['p6-d19'], 'p6-d21a': P6MOVE['p6-d21a'], 'p6-d23': P6MOVE['p6-d23'], 'p6-d21b': P6MOVE['p6-d21b'] }, dur: 1200,
+    { stage: 'Model', show: 'p6-nanlab', wait: 0, after: P6DROP,
       tex: '$\\bar T = \\dfrac{\\sum T_i}{N_\\text{real}}$, $\\quad N_\\text{real} = 4$',
       note: 'The four readings drop onto the line; the lost slot stays grey.' },
     { stage: 'Derive', show: ['p6-m21', 'p6-m21lab'],
       tex: '$\\texttt{T.mean()}$ skips NaN: $\\dfrac{84}{4} = 21.00\\ ^\\circ\\text{C}$' },
     { stage: 'Derive', show: 'p6-nan',
       tex: '$\\texttt{np.mean}$: any NaN makes the sum NaN, so the result is $\\texttt{nan}$' },
-    { stage: 'Derive', show: 'p6-d0', move: { 'p6-d0': P6MOVE['p6-d0'] }, dur: 1400,
+    { stage: 'Derive', show: 'p6-d0', wait: 0,
       tex: '$\\texttt{fillna(0)}$ adds a fifth reading of $0\\ ^\\circ\\text{C}$',
-      after: { show: ['p6-m168', 'p6-m168lab'], tex: '$\\dfrac{84}{5} = 16.80\\ ^\\circ\\text{C}$' } },
+      after: P6JUMP },
     { stage: 'Result', clear: true, ask: null, hide: 'p6-nan', mark: { 'p6-m21': 'ok', 'p6-m21lab': 'ok' },
       box: '$\\bar T = 21.00\\ ^\\circ\\text{C}$ from $N = 4$ readings' },
-    { stage: 'Check', show: 'p6-br',
+    { stage: 'Check', show: ['p6-br', 'p6-brlab'],
       ok: 'Bound: a mean lies between $19$ and $23\\ ^\\circ\\text{C}$. $21.00$ is inside, $16.80$ is outside.' },
     { stage: 'Check',
       ok: 'Independent method: $\\texttt{T.sum()/T.count()} = 84.0/4 = 21.00$, and $\\texttt{np.nanmean}$ agrees.',
@@ -2936,6 +3495,16 @@ scene('p6', {
    P7 · Anscombe's quartet (values as in numbers.py). All four: mean x 9.00, mean y 7.50, r = 0.816 (IV 0.817),
    fit y = 3.00 + 0.500 x. III without its outlier (13, 12.74): y = 4.01 + 0.345 x.
    ===================================================================================================== */
+// point ids (III's outlier and IV's lever point keep their names); pivots of the four lines, filled by build
+const P7ID = (k, i) => k === 2 && i === 2 ? 'p7-o3' : k === 3 && i === 7 ? 'p7-o4' : `p7-q${k}-${i}`;
+const P7BOX = [[60, 45, 430, 265], [505, 45, 875, 265], [60, 335, 430, 555], [505, 335, 875, 555]];
+const P7PIV = P7BOX.map(([L, T, R, B]) => [L + (R - L) * 7 / 18, B - (B - T) * 5.5 / 12]);   // (9, 7.5) on x 2-20, y 2-14
+// Model: point i of every dataset appears at (i + 0.5) x 0.25 s
+const P7PTS = w0film6(2900, (f, fp) => ({ show: w0crossed6([...Array(11)].map((_, i) => ({ i, t: (i + 0.5) / 11.6 }))
+  .flatMap(o => [0, 1, 2, 3].map(k => ({ id: P7ID(k, o.i), t: o.t }))), fp, f) }));
+// Derive: each line starts 30 deg off and settles onto y = 3 + 0.5x like a damped pointer
+const P7SETTLE = w0film6(2400, f => { const a = 30 * Math.exp(-3 * f) * Math.cos(3 * Math.PI * f) * (1 - f), o = {};
+  P7PIV.forEach(([cx, cy], k) => o[`p7-lg${k + 1}`] = { cx, cy, at: a, still: true }); return { orbit: o }; });
 scene('p7', {
   build(h) {
     const x123 = [10, 8, 13, 9, 11, 14, 6, 4, 12, 7, 5];
@@ -2954,14 +3523,15 @@ scene('p7', {
       ['III', '9.00', '7.50', '4.12', '0.816', 'y = 3.00 + 0.500x'], ['IV', '9.00', '7.50', '4.12', '0.817', 'y = 3.00 + 0.500x']];
     rows.forEach((r, i) => { const t = h.text(null, 80, 170 + 75 * i, row(...r), i ? 'c-text mono' : 'c-muted mono', T); t.style.fontSize = '24px'; t.style.whiteSpace = 'pre'; });
     // four panels with the same axes
-    const boxes = [[60, 45, 430, 265], [505, 45, 875, 265], [60, 335, 430, 555], [505, 335, 875, 555]];
+    const boxes = P7BOX;
     boxes.forEach((bx, k) => {
       const ax = h.axes({ x: [2, 20], y: [2, 14], box: bx, xt: 4, yt: 4 });
       svg.lastElementChild.previousElementSibling.id = `p7-ax${k + 1}`;    // the axes group, so that it can be shown
       h.text(`p7-nm${k + 1}`, bx[0] + 14, bx[1] + 28, ['I', 'II', 'III', 'IV'][k], 'c-muted it');
       const g = h.group(`p7-pts${k + 1}`);
-      XS[k].forEach((x, i) => h.circle(k === 2 && i === 2 ? 'p7-o3' : k === 3 && i === 7 ? 'p7-o4' : null, ax.X(x), ax.Y(YS[k][i]), 6.5, 'k-fill c-concept', g));
-      h.curve(`p7-l${k + 1}`, ax, x => 3 + 0.5 * x, 2, 20, 'k-stroke c-concept');
+      XS[k].forEach((x, i) => h.circle(P7ID(k, i), ax.X(x), ax.Y(YS[k][i]), 6.5, 'k-fill c-concept', g));
+      // the common fit line, in a group that turns about (mean x, mean y) = (9, 7.5) while it settles (P7SETTLE)
+      h.curve(`p7-l${k + 1}`, ax, x => 3 + 0.5 * x, 2, 20, 'k-stroke c-concept', h.group(`p7-lg${k + 1}`));
       h.text(`p7-lb${k + 1}`, bx[2] - 12, bx[3] - 14, ['linear', 'curved', 'outlier', 'lever point'][k], 'c-ask', null, 'end');
       if (k === 2) {
         h.curve('p7-l3b', ax, x => 4.01 + 0.345 * x, 2, 20, 'k-stroke c-ok');
@@ -2973,10 +3543,12 @@ scene('p7', {
     { stage: 'Setup', show: 'p7-tbl',
       ask: 'Same mean, variance, correlation and fit for all four. Do the four datasets follow the same law?' },
     { stage: 'Model', hide: 'p7-tbl', show: ['p7-ax1', 'p7-ax2', 'p7-ax3', 'p7-ax4', 'p7-nm1', 'p7-nm2', 'p7-nm3', 'p7-nm4', 'p7-pts1', 'p7-pts2', 'p7-pts3', 'p7-pts4'],
+      wait: 700, after: P7PTS,
       tex: '$\\texttt{groupby("dataset")}$: four groups of $11$ points',
       note: 'Five numbers per row become eleven points per panel.' },
-    { stage: 'Derive', draw: ['p7-l1', 'p7-l2', 'p7-l3', 'p7-l4'], dur: 1400,
-      tex: ['$\\bar x = 9.00,\\ \\bar y = 7.50,\\ r = 0.816$ (IV: $0.817$)', 'The same line $y = 3.00 + 0.500x$ on every panel'] },
+    { stage: 'Derive', show: ['p7-l1', 'p7-l2', 'p7-l3', 'p7-l4'], orbit: Object.fromEntries(P7PIV.map(([cx, cy], k) => [`p7-lg${k + 1}`, { cx, cy, at: 30, still: true }])), dur: 400, wait: 300, after: P7SETTLE,
+      tex: ['$\\bar x = 9.00,\\ \\bar y = 7.50,\\ r = 0.816$ (IV: $0.817$)', 'The same line $y = 3.00 + 0.500x$ on every panel'],
+      note: 'Each line turns about $(\\bar x, \\bar y)$ and settles.' },
     { stage: 'Result', clear: true, ask: null, show: ['p7-lb1', 'p7-lb2', 'p7-lb3', 'p7-lb4'], mark: { 'p7-o4': 'ask' },
       box: 'Four different relations: only I is a straight-line law',
       note: 'IV: ten points at $x = 8$, one at $x = 19$.' },
@@ -3001,6 +3573,10 @@ const VX = tau => vL + (vR - vL) * LG(tau) / LG(2000), VY = c => vB - (vB - vT) 
 const chi2 = tau => { let sa = 0, sb = 0; t.forEach((ti, i) => { const f = Math.exp(-ti / tau), w = 1 / Math.max(N[i], 1); sa += w * N[i] * f; sb += w * f * f; });
   const A = sa / sb; return t.reduce((s, ti, i) => s + (N[i] - A * Math.exp(-ti / tau)) ** 2 / Math.max(N[i], 1), 0); };
 const P8ROLL = [VX(215.5) - VX(200), VY(chi2(215.5)) - VY(chi2(200))];
+// Setup: the 31 bins arrive at their real times, 900 s played in 6 s (150 times faster); the clock counts along
+const P8BINS = w0film6(6000, (f, fp) => { const T = 905 * f - 2, Tp = 905 * fp - 2;
+  return { show: w0crossed6(t.map((ti, i) => ({ id: `p8-n${i}`, t: ti })), Tp, T),
+    count: { 'p8-clk': { to: 30 * Math.floor(Math.max(0, Math.min(900, T)) / 30), pre: 't = ', suf: ' s' } } }; });
 scene('p8', {
   build(h) {
     const V = h.group('p8-val');
@@ -3027,7 +3603,15 @@ scene('p8', {
     [0, 500, 1000].forEach(n => { h.line(null, L - 8, DY(n), L, DY(n), 'k-axis', D); h.text(null, L - 12, DY(n) + 6, String(n), 'k-tick', D, 'end'); });
     h.line(null, L, B, R, B, 'k-axis', D); h.line(null, L, T, L, B, 'k-axis', D);
     h.text(null, R - 4, B - 14, 't (s)', 'c-muted it', D, 'end'); h.text(null, L + 16, T + 14, 'N', 'c-muted it', D);
-    N.forEach((n, i) => { const s = Math.sqrt(n); h.line(null, DX(t[i]), DY(n - s), DX(t[i]), DY(n + s), 'k-thin c-muted', D); h.circle(null, DX(t[i]), DY(n), 5.5, 'k-fill c-concept', D); });
+    // one bar per 30 s bin, with its sqrt(N) error bar and point; P8BINS reveals them in (scaled) time
+    N.forEach((n, i) => { const s = Math.sqrt(n), g = h.group(`p8-n${i}`, null, D);
+      h.rect(null, DX(t[i]) - 8, DY(n), 16, B - DY(n), 'k-soft', g);
+      h.line(null, DX(t[i]), DY(n - s), DX(t[i]), DY(n + s), 'k-thin c-muted', g); h.circle(null, DX(t[i]), DY(n), 5.5, 'k-fill c-concept', g); });
+    h.text('p8-clk', R - 10, T + 22, 't = 0 s', 'c-muted mono', D, 'end');
+    // the no-p0 model, A = 1045, tau = 1 s: it is gone before the first bin
+    let z = ''; for (let i = 0; i <= 200; i++) { const x = i < 100 ? 0.08 * i : 8 + 892 * (i - 100) / 100; z += (i ? 'L' : 'M') + DX(x).toFixed(1) + ',' + DY(1045 * Math.exp(-x)).toFixed(1); }
+    h.path('p8-bad', z, 'k-stroke c-trap', D);
+    h.tag('p8-badl', DX(0), DY(1045), 'model with τ = 1 s', 'c-trap', 'e', D, 42);
     let f = ''; for (let i = 0; i <= 180; i++) { const x = 5 * i; f += (i ? 'L' : 'M') + DX(x).toFixed(1) + ',' + DY(1018 * Math.exp(-x / 215.5)).toFixed(1); }
     h.path('p8-fit', f, 'k-stroke c-ok', D);
     // bottom, Check: the same counts on a log axis; a straight line through ln N
@@ -3050,14 +3634,15 @@ scene('p8', {
     h.tag('p8-trapl', DX(30), 500, 'model: 9.8×10⁻¹¹', 'c-trap', 'ne', G);
   },
   steps: [
-    { stage: 'Setup', show: 'p8-lin',
+    { stage: 'Setup', show: 'p8-lin', wait: 600, after: P8BINS,
+      note: 'One bin every $30\\ \\text{s}$, played 150 times faster.',
       ask: 'Fit $N = A\\,e^{-t/\\tau}$ to the 31 counts with $\\texttt{curve\\_fit(model, t, N)}$ and no $p_0$. What $\\tau$ does it return?' },
     { stage: 'Model', show: 'p8-val', draw: 'p8-valley', dur: 1400,
       tex: '$\\chi^2$ as a function of $\\tau$: a valley',
       note: 'Without $p_0$ the search starts at $A = 1$, $\\tau = 1\\ \\text{s}$.' },
     { stage: 'Model', show: ['p8-b1', 'p8-b1lab'],
       tex: 'The ball starts at $\\tau = 1\\ \\text{s}$, on the flat plateau' },
-    { stage: 'Derive', hide: 'p8-b1lab', show: ['p8-stuck', 'p8-sig'], mark: { 'p8-b1': 'trap' },
+    { stage: 'Derive', hide: 'p8-b1lab', show: ['p8-stuck', 'p8-sig', 'p8-badl'], draw: 'p8-bad', dur: 1200, mark: { 'p8-b1': 'trap' },
       tex: '$e^{-30/1} \\approx 0$: flat ground, the gradient is $0$',
       note: 'The ball does not move. $\\tau = 1.000\\ \\text{s}$, $\\sigma = \\texttt{inf}$, OptimizeWarning.' },
     { stage: 'Derive', show: ['p8-b2', 'p8-b2lab'],
