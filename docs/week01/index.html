@@ -832,12 +832,12 @@ print(np.nonzero(counts)[0], (counts == c2).all())</pre>
 </section>
 
 <!-- L28 · scene -->
-<section class="slide" data-track="lecture" data-section="Part 4 · A spectrum is an array of counters" data-time="26 min" data-title="Net counts: window minus side bands" data-scene="l28">
+<section class="slide" data-track="lecture" data-section="Part 4 · A spectrum is an array of counters" data-time="26 min" data-title="Signal in a peak: sidebands" data-scene="l28">
   <span class="kicker">Part 4 · A spectrum is an array of counters</span>
-  <h2>Net counts in a peak window: window minus side bands</h2>
+  <h2>Signal in a peak: $S = N_{\text{SR}} - \hat B$, with the background from the sidebands</h2>
   <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
   <div class="rail"></div>
-  <aside class="notes"><p>Ask before the result: "is √100 the error of 100 net counts?" Expected: "yes". The lab P8 repeats this on new data and checks it by simulation.</p><p>Spectrum segment with 10 keV bins (illustrative): window 950–1050 keV holds 400 counts; side bands 850–950 and 1050–1150 keV (total width twice the window) hold 600. B = 600/2 = 300, net = 100, σ² = 400 + 600/4 = 550, σ = 23.5, 4.3 σ. Check: all quantities are counts; σ² adds the variance of the window and of the scaled background. The trap σ = √100 = 10 gives "10 σ" and is crossed out.</p></aside>
+  <aside class="notes"><p>Ask before the result: "is √S = 10 the error of S = 100?" Expected: "yes". The lab P8 repeats this on new data and checks it by simulation.</p><p>Spectrum segment with 10 keV bins (illustrative): signal region (SR) 950–1050 keV holds N_SR = 400 counts; sidebands (SB) 850–950 and 1050–1150 keV (total width τ = 2 times the SR) hold N_SB = 600. B̂ = N_SB/τ = 300, S = N_SR − B̂ = 100, σ_S² = N_SR + N_SB/τ² = 400 + 150 = 550, σ_S = 23.5, Z = S/σ_S = 4.3. Check: all quantities are counts; σ_S² adds the variance of N_SR and of the scaled background B̂. The trap σ = √S = √100 = 10 gives "10 σ" and is crossed out.</p></aside>
 </section>
 
 <!-- L29 · recap -->
@@ -1345,14 +1345,15 @@ print(round(a, 4), round(b, 1), round(a * c_x + b, 1))</pre>
 <section class="slide" data-track="lab" data-section="Problem 8 · Is the bump real?" data-time="14 min" data-title="Problem 8: question">
   <span class="kicker">Problem 8 · Is the bump real?</span>
   <h2>A small bump above the background: is it real?</h2>
-  <div class="q">A peak window holds 1150 counts. Two side bands of twice the window's width hold 2000 counts together (illustrative). What are the net counts and how many $\sigma$ is the bump?</div>
+  <div class="q">The signal region of a small peak holds $N_{\text{SR}} = 1150$ counts. Two sidebands of total width $\tau = 2$ times the signal region hold $N_{\text{SB}} = 2000$ counts (illustrative). What is the signal $S$ and how many $\sigma$ is the bump?</div>
   <div class="cols">
     <div class="card amber"><span class="tag predict">Predict · 2 min</span><p style="margin-top:10px">Compute by hand first (2 min), then in code.</p>
-      <p class="step" style="margin-top:10px"><b>Most predict:</b> "net 150, error $\sqrt{150} \approx 12$, so $12\,\sigma$: a sure peak".</p></div>
+      <p class="step" style="margin-top:10px"><b>Most predict:</b> "$S = 150$, error $\sqrt{150} \approx 12$, so $12\,\sigma$: a sure peak".</p></div>
     <div class="card"><span class="tag setup">Givens</span><ul style="margin-top:10px">
-      <li>Background in the window $B = \text{side}/2$</li>
-      <li>$\sigma_B = \sqrt{\text{side}}/2$</li>
-      <li>$\sigma_\text{net}^2 = N_\text{window} + \sigma_B^2$</li></ul></div>
+      <li>Background in the signal region $\hat B = N_{\text{SB}}/\tau$</li>
+      <li>$\sigma_B = \sqrt{N_{\text{SB}}}/\tau$</li>
+      <li>$\sigma_S^2 = N_{\text{SR}} + \sigma_B^2$</li>
+      <li>Significance $Z = S/\sigma_S$</li></ul></div>
   </div>
   <aside class="notes"><p>Students compute by hand first (2 min), then in code. Look for students who use √150.</p></aside>
 </section>
@@ -1363,35 +1364,35 @@ print(round(a, 4), round(b, 1), round(a * c_x + b, 1))</pre>
   <h2>The background fluctuates too</h2>
   <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
   <div class="rail"></div>
-  <aside class="notes"><p>Pause before σ_net and ask which counts fluctuate. Expected wrong answer: "only the net counts". Show the simulated histogram (log scale): 22 of 200 000 background-only runs reach 150. The bin-by-bin spectrum is illustrative; only the window and side-band totals are the problem's numbers. Transition: wrap-up, count your correct predictions.</p></aside>
+  <aside class="notes"><p>Pause before σ_S and ask which counts fluctuate. Expected wrong answer: "only the signal". Show the simulated histogram (log scale): 22 of 200 000 background-only runs reach 150. The bin-by-bin spectrum is illustrative; only the signal-region and sideband totals are the problem's numbers. Transition: wrap-up, count your correct predictions.</p></aside>
 </section>
 
 <!-- W31 · type: walkthrough -->
 <section class="slide" data-track="lab" data-section="Problem 8 · Is the bump real?" data-time="14 min" data-title="Problem 8: walkthrough">
   <span class="kicker">Problem 8 · Walkthrough</span>
-  <h2>Net 150 ± 40.6 counts: 3.7 σ, not 12</h2>
+  <h2>S = 150 ± 40.6 counts: Z = 3.7, not 12</h2>
   <div class="cols">
     <div class="stack">
-      <div class="step"><span class="tag setup">Setup</span><span style="font-size:22px;margin-left:10px">$N_\text{window} = 1150$; side bands $2000$ over twice the width</span></div>
-      <div class="step"><span class="tag model">Model</span><span style="font-size:22px;margin-left:10px">Poisson: $\sigma = \sqrt N$ for each count; $B$ scales the side bands by $\tfrac12$, so $\sigma_B = \sqrt{2000}/2 = 22.4$</span></div>
-      <div class="step"><span class="tag">Derive</span><span style="font-size:22px;margin-left:10px">net $= 1150 - 1000 = 150$; $\sigma_\text{net} = \sqrt{1150 + 500} = \sqrt{1650} = 40.6$</span></div>
-      <div class="step"><span class="tag result">Result</span><div class="res" style="margin-top:6px;padding:8px 18px"><p style="font-size:22px">net $= 150 \pm 40.6$ counts: $3.7\,\sigma$</p></div></div>
+      <div class="step"><span class="tag setup">Setup</span><span style="font-size:22px;margin-left:10px">$N_{\text{SR}} = 1150$; $N_{\text{SB}} = 2000$ over $\tau = 2$ times the width</span></div>
+      <div class="step"><span class="tag model">Model</span><span style="font-size:22px;margin-left:10px">Poisson: $\sigma = \sqrt N$ for each count; $\hat B$ scales the sidebands by $1/\tau$, so $\sigma_B = \sqrt{2000}/2 = 22.4$</span></div>
+      <div class="step"><span class="tag">Derive</span><span style="font-size:22px;margin-left:10px">$S = 1150 - 1000 = 150$; $\sigma_S = \sqrt{1150 + 500} = \sqrt{1650} = 40.6$</span></div>
+      <div class="step"><span class="tag result">Result</span><div class="res" style="margin-top:6px;padding:8px 18px"><p style="font-size:22px">$S = 150 \pm 40.6$ counts: $Z = 3.7$</p></div></div>
     </div>
     <div class="stack">
       <div class="step card green" style="padding:14px 22px"><span class="tag check">Check</span><ul style="margin-top:8px">
-        <li style="font-size:19px">Simulation: 200 000 background-only spectra (Poisson 1000 and 2000): 22 of them reach 150 net, a fraction $1.1\times10^{-4}$ ✓</li>
-        <li style="font-size:19px">Independent value: the spread of the simulated net counts is $38.7 = \sqrt{1000 + 500}$, the formula without the signal ✓</li></ul>
-        <div class="res bad" style="margin-top:6px;padding:8px 18px"><p style="font-size:20px">Trap: $\sigma = \sqrt{\text{net}} = 12.2$, giving "$12\,\sigma$": it ignores that the window's 1150 counts and the background both fluctuate ✗</p></div></div>
+        <li style="font-size:19px">Simulation: 200 000 background-only spectra (Poisson 1000 and 2000): 22 of them reach $S \ge 150$, a fraction $1.1\times10^{-4}$ ✓</li>
+        <li style="font-size:19px">Independent value: the spread of the simulated $S$ is $38.7 = \sqrt{1000 + 500}$, the formula without the signal ✓</li></ul>
+        <div class="res bad" style="margin-top:6px;padding:8px 18px"><p style="font-size:20px">Trap: $\sigma = \sqrt{S} = 12.2$, giving "$Z = 12$": it ignores that $N_{\text{SR}} = 1150$ and the background estimate both fluctuate ✗</p></div></div>
     </div>
   </div>
   <div class="cols w64" style="grid-template-columns:2.6fr 1fr;gap:20px">
-    <pre>N_win, N_side = 1150, 2000           # side bands: twice the window width
-B = N_side / 2; sB = N_side**0.5 / 2
-net, s_net = N_win - B, (N_win + sB**2)**0.5
-print(net, round(s_net, 1), round(net / s_net, 1))
+    <pre>N_SR, N_SB, tau = 1150, 2000, 2      # tau: sideband width / signal-region width
+B = N_SB / tau; sB = N_SB**0.5 / tau
+S, sS = N_SR - B, (N_SR + sB**2)**0.5
+print(S, round(sS, 1), round(S / sS, 1))
 rng = np.random.default_rng(405)
 fake = rng.poisson(1000, 200_000) - rng.poisson(2000, 200_000) / 2
-print((fake &gt;= net).mean(), round(fake.std(), 1))</pre>
+print((fake &gt;= S).mean(), round(fake.std(), 1))</pre>
     <pre class="out step">150.0 40.6 3.7
 0.00011 38.7</pre>
   </div>
@@ -1404,7 +1405,7 @@ print((fake &gt;= net).mean(), round(fake.std(), 1))</pre>
   <h2>How long until 5 σ?</h2>
   <div class="cols">
     <div class="card amber"><p>If the bump is real, all counts grow in proportion to the measuring time. How many times longer must you measure to reach $5\,\sigma$?</p></div>
-    <div class="card blue"><h3>Hints</h3><ul><li>net $\propto t$ and $\sigma \propto \sqrt t$</li><li>So the significance $\propto \sqrt t$</li></ul></div>
+    <div class="card blue"><h3>Hints</h3><ul><li>$S \propto t$ and $\sigma_S \propto \sqrt t$</li><li>So $Z \propto \sqrt t$</li></ul></div>
   </div>
   <div class="step"><span class="tag result">Answer</span><div class="res" style="margin-top:8px"><p>$(5/3.69)^2 = 1.83$ times longer</p></div></div>
   <aside class="notes"><p>Scaling with √t is the most useful rule of counting experiments. Common slip: answering 5/3.69 = 1.36.</p></aside>
@@ -1423,7 +1424,7 @@ print((fake &gt;= net).mean(), round(fake.std(), 1))</pre>
     <tr><td>5</td><td>$-999$ averaged</td><td>count of rows</td></tr>
     <tr><td>6</td><td>std instead of std err</td><td>intercept</td></tr>
     <tr><td>7</td><td>$E \propto$ channel</td><td>a second line</td></tr>
-    <tr><td>8</td><td>$\sqrt{\text{net}}$</td><td>simulation</td></tr>
+    <tr><td>8</td><td>$\sigma = \sqrt{S}$</td><td>simulation</td></tr>
   </table>
   <div class="card blue"><p>Runtime → Restart session and run all; save; count your correct predictions.</p></div>
   <aside class="notes"><p>Ask two students which trap caught them. Next week: Week 2, central tendency and dispersion.</p></aside>
@@ -2769,9 +2770,9 @@ scene('l24', {
   ],
 });
 
-/* L28 · net counts in a peak window. Illustrative spectrum segment, 10 keV bins, 800-1200 keV.
-   Window 950-1050 keV = 400 counts; side bands 850-950 + 1050-1150 keV (total width 2x window) = 600 counts.
-   numbers.py: B = 300, net = 100 +/- 23.5 -> 4.3 sigma. */
+/* L28 · signal in a peak. Illustrative spectrum segment, 10 keV bins, 800-1200 keV.
+   Signal region (SR) 950-1050 keV: N_SR = 400; sidebands (SB) 850-950 + 1050-1150 keV (tau = 2): N_SB = 600.
+   numbers.py: B_hat = 300, S = 100 +/- 23.5 -> Z = 4.3. */
 scene('l28', {
   build(h) {
     const C = [41, 22, 36, 32, 41, 48, 27, 35, 24, 27, 22, 30, 22, 24, 41, 41, 34, 24, 59, 60,
@@ -2780,51 +2781,51 @@ scene('l28', {
     h.text(null, 880, 592, 'E (keV)', 'c-muted it', null, 'end');
     const T = ax.Y(90), B0 = ax.Y(0);
     // regions
-    h.rect('l28-win', ax.X(950), T, 100 * ax.sx, B0 - T, 'k-area c-ask');
-    const sb = h.group('l28-side', 'c-muted');
+    h.rect('l28-sr', ax.X(950), T, 100 * ax.sx, B0 - T, 'k-area c-ask');
+    const sb = h.group('l28-sb', 'c-muted');
     h.rect(null, ax.X(850), T, 100 * ax.sx, B0 - T, 'k-area c-muted', sb);
     h.rect(null, ax.X(1050), T, 100 * ax.sx, B0 - T, 'k-area c-muted', sb);
-    // net area: counts above the background level (30 per bin) inside the window
+    // signal area: counts above the background level (30 per bin) inside the SR
     let d = `M${ax.X(950)},${ax.Y(30)}`;
     for (let i = 15; i < 25; i++) { const y = ax.Y(Math.max(30, C[i])); d += ` L${ax.X(800 + 10 * i)},${y} L${ax.X(810 + 10 * i)},${y}`; }
-    h.path('l28-net', d + ` L${ax.X(1050)},${ax.Y(30)} Z`, 'k-area c-ok');
+    h.path('l28-sig-area', d + ` L${ax.X(1050)},${ax.Y(30)} Z`, 'k-area c-ok');
     // spectrum as a step outline
     let s = `M${ax.X(800)},${ax.Y(C[0])}`;
     C.forEach((n, i) => { s += ` L${ax.X(800 + 10 * i)},${ax.Y(n)} L${ax.X(810 + 10 * i)},${ax.Y(n)}`; });
     h.path('l28-spec', s, 'k-stroke c-concept');
-    // background level under the window
+    // background level under the SR
     h.line('l28-bl', ax.X(950), ax.Y(30), ax.X(1050), ax.Y(30), 'k-dash c-text');
     // labels
-    h.text('l28-wlab', ax.X(1000), ax.Y(80), 'window 400', 'c-ask', null, 'middle');
-    h.text('l28-slab', ax.X(900), ax.Y(80), 'side 300', 'c-muted', null, 'middle');
-    h.text('l28-slab2', ax.X(1100), ax.Y(80), 'side 300', 'c-muted', null, 'middle');
-    h.text('l28-blab', ax.X(1000), ax.Y(12), 'B = 300', 'c-text', null, 'middle');
-    h.text('l28-sig', ax.X(1000), ax.Y(70), '4.3 σ', 'big c-ok', null, 'middle');
+    h.text('l28-srlab', ax.X(1000), ax.Y(80), 'SR 400', 'c-ask', null, 'middle');
+    h.text('l28-slab', ax.X(900), ax.Y(80), 'SB 300', 'c-muted', null, 'middle');
+    h.text('l28-slab2', ax.X(1100), ax.Y(80), 'SB 300', 'c-muted', null, 'middle');
+    h.text('l28-blab', ax.X(1000), ax.Y(12), 'B̂ = 300', 'c-text', null, 'middle');
+    h.text('l28-sig', ax.X(1000), ax.Y(70), 'Z = 4.3', 'big c-ok', null, 'middle');
     const tr = h.text('l28-trap', ax.X(1150), ax.Y(60), '10 σ', 'big c-trap', null, 'middle');
     tr.style.textDecoration = 'line-through';
-    h.text('l28-min', ax.X(900), ax.Y(60), 'window alone ±20', 'small c-ok', null, 'middle');
+    h.text('l28-min', ax.X(1000), ax.Y(84), 'SR alone ±20', 'small c-ok', null, 'middle');
   },
   steps: [
     { stage: 'Setup', draw: 'l28-spec',
       ask: 'A small bump sits on the background. How many counts belong to the peak, and how sure are we?' },
-    { stage: 'Model', show: ['l28-win', 'l28-wlab'],
-      tex: 'Window over the bump: $N_w = 400$ counts (illustrative)' },
-    { stage: 'Model', show: ['l28-side', 'l28-slab', 'l28-slab2'],
-      tex: 'Side bands, total width $2\\times$ the window: $N_s = 600$' },
+    { stage: 'Model', show: ['l28-sr', 'l28-srlab'],
+      tex: 'Signal region (SR) over the bump: $N_{\\text{SR}} = 400$ counts (illustrative)' },
+    { stage: 'Model', show: ['l28-sb', 'l28-slab', 'l28-slab2'],
+      tex: 'Sidebands (SB), total width $\\tau = 2$ times the SR: $N_{\\text{SB}} = 600$' },
     { stage: 'Model', show: ['l28-bl', 'l28-blab'],
-      tex: 'Background under the window: $B = N_s/2 = 300$' },
-    { stage: 'Derive', show: 'l28-net',
-      tex: '$\\text{net} = N_w - B = 400 - 300 = 100$' },
+      tex: 'Background in the SR: $\\hat B = N_{\\text{SB}}/\\tau = 300$' },
+    { stage: 'Derive', show: 'l28-sig-area',
+      tex: '$S = N_{\\text{SR}} - \\hat B = 400 - 300 = 100$' },
     { stage: 'Derive',
-      tex: ['$\\sigma^2 = N_w + N_s/4 = 400 + 150 = 550$', '$\\sigma = \\sqrt{550} = 23.5$ counts'] },
-    { stage: 'Result', clear: true, ask: null, hide: ['l28-wlab', 'l28-slab', 'l28-slab2'], show: 'l28-sig',
-      box: '$\\text{net} = 100 \\pm 23.5$ counts: $100/23.5 = 4.3\\,\\sigma$' },
-    { stage: 'Check', mark: { 'l28-net': 'ok' },
-      ok: 'Units: every quantity is counts; $\\sigma^2$ adds the variance of the window and of the scaled background ($\\tfrac14 N_s$).' },
+      tex: ['$\\sigma_S^2 = N_{\\text{SR}} + N_{\\text{SB}}/\\tau^2 = 400 + 150 = 550$', '$\\sigma_S = \\sqrt{550} = 23.5$ counts'] },
+    { stage: 'Result', clear: true, ask: null, hide: ['l28-srlab', 'l28-slab', 'l28-slab2'], show: 'l28-sig',
+      box: '$S = 100 \\pm 23.5$ counts: $Z = S/\\sigma_S = 4.3$' },
+    { stage: 'Check', mark: { 'l28-sig-area': 'ok' },
+      ok: 'Units: every quantity is counts; $\\sigma_S^2$ adds the variance of $N_{\\text{SR}}$ and of the scaled background $\\hat B$ ($N_{\\text{SB}}/\\tau^2$).' },
     { stage: 'Check', show: 'l28-min',
-      ok: 'Bound: $\\sigma$ cannot be below the window alone, $\\sqrt{400} = 20$; and $23.5 \\gt 20$.' },
+      ok: 'Bound: $\\sigma_S$ cannot be below the SR alone, $\\sqrt{N_{\\text{SR}}} = 20$; and $23.5 \\gt 20$.' },
     { stage: 'Check', show: 'l28-trap',
-      trap: '$\\sigma = \\sqrt{100} = 10$ gives “10 σ”: wrong, the background\'s own error enters too.' },
+      trap: '$\\sigma = \\sqrt{S} = \\sqrt{100} = 10$ gives “10 σ”: wrong, the background\'s own error enters too.' },
   ],
 });
 
@@ -3322,9 +3323,9 @@ scene('p7', {
   ],
 });
 
-/* ===== p8 · window 1150, side bands 2000 (2x width): B = 1000 +/- 22.4, net 150 +/- 40.6 -> 3.7 sigma;
-   200 000 background-only runs: 22 reach 150, spread 38.7; trap sqrt(net) = 12.2.
-   Bin contents are illustrative and keep the problem's totals (side 1000 + 1000, window 1150).
+/* ===== p8 · N_SR = 1150, N_SB = 2000 (tau = 2): B_hat = 1000 +/- 22.4, S = 150 +/- 40.6 -> Z = 3.7;
+   200 000 background-only runs: 22 reach S >= 150, spread 38.7; trap sqrt(S) = 12.2.
+   Bin contents are illustrative and keep the problem's totals (SB 1000 + 1000, SR 1150).
    P8H: histogram of the numbers.py simulation (seed 405), 10-count bins from -200 to 200. */
 const P8B = [196, 207, 190, 211, 196, 221, 240, 247, 226, 216, 204, 193, 209, 198, 196];
 const P8H = [0, 0, 0, 1, 6, 11, 44, 89, 258, 505, 1013, 1773, 3121, 4952, 7468, 10587, 13778, 16706, 18863, 20378, 20519, 19033, 16777, 13553, 10475, 7642, 5032, 3321, 1948, 1067, 596, 271, 111, 58, 22, 16, 2, 4, 0, 0];
@@ -3337,58 +3338,58 @@ scene('p8', {
     let d = '';
     P8B.forEach((c, i) => d += `${i ? 'L' : 'M'}${S.X(i)},${S.Y(c)} L${S.X(i + 1)},${S.Y(c)} `);
     h.path('p8-bars', d, 'k-stroke c-text');
-    h.text('p8-sl', S.X(2.5), 100, 'side 1000', 'c-concept', null, 'middle');
-    h.text('p8-sr', S.X(12.5), 100, 'side 1000', 'c-concept', null, 'middle');
-    h.text('p8-win', S.X(7.5), 60, 'window 1150', 'c-ask', null, 'middle');
-    h.text('p8-netlab', S.X(7.5), 60, 'net 150', 'c-ok', null, 'middle');
+    h.text('p8-sl', S.X(2.5), 100, 'SB 1000', 'c-concept', null, 'middle');
+    h.text('p8-sr', S.X(12.5), 100, 'SB 1000', 'c-concept', null, 'middle');
+    h.text('p8-srlab', S.X(7.5), 60, 'SR 1150', 'c-ask', null, 'middle');
+    h.text('p8-slab', S.X(7.5), 60, 'S = 150', 'c-ok', null, 'middle');
     h.line('p8-lev', S.X(0), S.Y(200), S.X(15), S.Y(200), 'k-dash c-concept');
-    h.text('p8-blab', S.X(7.5), S.Y(140), 'B = 1000', 'c-concept', null, 'middle');
+    h.text('p8-blab', S.X(7.5), S.Y(140), 'B̂ = 1000', 'c-concept', null, 'middle');
     let n = `M${S.X(5)},${S.Y(200)}`;
     P8B.slice(5, 10).forEach((c, i) => n += ` L${S.X(5 + i)},${S.Y(c)} L${S.X(6 + i)},${S.Y(c)}`);
-    h.path('p8-net', n + ` L${S.X(10)},${S.Y(200)} Z`, 'k-area c-ok');
-    // sigma_net from two independent errors, added in quadrature (3 px per count)
+    h.path('p8-sig', n + ` L${S.X(10)},${S.Y(200)} Z`, 'k-area c-ok');
+    // sigma_S from two independent errors, added in quadrature (3 px per count)
     const Q = h.group('p8-q');
     h.line(null, 698, 270, 800, 270, 'k-stroke c-ask', Q);
     h.line(null, 800, 270, 800, 203, 'k-stroke c-concept', Q);
     h.line(null, 698, 270, 800, 203, 'k-stroke c-ok', Q);
     h.tag(null, 749, 270, '√1150', 'c-ask', 's', Q, 10);
-    h.tag(null, 800, 203, 'σ(B) = 22.4', 'c-concept', 'n', Q, 10);
+    h.tag(null, 800, 203, 'σ(B̂) = 22.4', 'c-concept', 'n', Q, 10);
     h.tag(null, 749, 236, '√1650 = 40.6', 'c-ok', 'nw', Q, 10);
-    // background-only simulation: log-scale histogram of the net counts
+    // background-only simulation: log-scale histogram of the fake S
     const X = v => 100 + (v + 200) * 760 / 450, Y = v => 560 - v * 38, H = h.group('p8-hist');
     h.line(null, 100, 560, 860, 560, 'k-axis', H);
     [-200, -100, 0, 100, 200].forEach(v => { h.line(null, X(v), 560, X(v), 568, 'k-axis', H); h.text(null, X(v), 588, String(v).replace('-', '−'), 'k-tick', H, 'middle'); });
-    h.text(null, 860, 548, 'net', 'c-muted it', H, 'end');
+    h.text(null, 860, 548, 'S', 'c-muted it', H, 'end');
     P8H.forEach((c, i) => { if (c && i < 35) h.rect(null, X(-200 + 10 * i) + 1, Y(Math.log10(c)), 760 / 45 - 2, Math.log10(c) * 38, 'k-soft', H); });
     const TL = h.group('p8-tail');
     P8H.forEach((c, i) => { if (c && i >= 35) h.rect(null, X(-200 + 10 * i) + 1, Y(Math.log10(c)), 760 / 45 - 2, Math.max(3, Math.log10(c) * 38), 'k-fill c-ok', TL); });
     h.text('p8-log', 110, 450, 'log scale', 'small c-muted');
     h.text('p8-sp', 110, 420, 'spread 38.7', 'c-concept');
     h.line('p8-cut', X(150), 560, X(150), 385, 'k-dash c-ask');
-    h.tag('p8-cutlab', X(150), 385, 'net = 150', 'c-ask', 'n', null, 10);
+    h.tag('p8-cutlab', X(150), 385, 'S = 150', 'c-ask', 'n', null, 10);
     h.tag('p8-22', X(185), Y(1.6), '22 runs', 'c-ok', 'e', null, 12);
     let gd = '';
     for (let v = -57; v <= 57; v += 1) gd += `${v > -57 ? 'L' : 'M'}${X(v).toFixed(1)},${Y(Math.max(0, Math.log10(65400) - v * v / (2 * 12.2 * 12.2) * Math.LOG10E)).toFixed(1)} `;
     h.path('p8-g12', gd, 'k-stroke c-trap');
-    h.tag('p8-g12lab', X(15), Y(4.3), '√net: 12σ', 'c-trap', 'ne', null, 8);
+    h.tag('p8-g12lab', X(15), Y(4.3), '√S: 12σ', 'c-trap', 'ne', null, 8);
   },
   steps: [
-    { stage: 'Setup', ask: 'The window holds $1150$, the side bands $2000$. How many $\\sigma$ is the bump?' },
+    { stage: 'Setup', ask: '$N_{\\text{SR}} = 1150$, $N_{\\text{SB}} = 2000$. $Z = ?$' },
     { stage: 'Model', draw: 'p8-lev', show: 'p8-blab',
-      tex: ['$B = 2000/2 = 1000$', '$\\sigma_B = \\sqrt{2000}/2 = 22.4$'],
-      note: 'Side bands are twice the window width.' },
-    { stage: 'Derive', show: ['p8-net', 'p8-netlab'], hide: 'p8-win',
-      tex: 'net $= 1150 - 1000 = 150$' },
+      tex: ['$\\hat B = N_{\\text{SB}}/\\tau = 2000/2 = 1000$', '$\\sigma_B = \\sqrt{2000}/2 = 22.4$'],
+      note: 'Sidebands: $\\tau = 2$ times the signal-region width.' },
+    { stage: 'Derive', show: ['p8-sig', 'p8-slab'], hide: 'p8-srlab',
+      tex: '$S = N_{\\text{SR}} - \\hat B = 1150 - 1000 = 150$' },
     { stage: 'Derive', show: 'p8-q', dur: 1000,
-      tex: ['$\\sigma_\\text{net}^2 = N_\\text{window} + \\sigma_B^2$', '$\\sigma_\\text{net} = \\sqrt{1150 + 500} = \\sqrt{1650} = 40.6$'],
-      note: 'Both the window and the background fluctuate.' },
+      tex: ['$\\sigma_S^2 = N_{\\text{SR}} + \\sigma_B^2$', '$\\sigma_S = \\sqrt{1150 + 500} = \\sqrt{1650} = 40.6$'],
+      note: 'Both $N_{\\text{SR}}$ and $\\hat B$ fluctuate.' },
     { stage: 'Result', clear: true, ask: null,
-      box: 'net $= 150 \\pm 40.6$ counts: $3.7\\,\\sigma$' },
+      box: '$S = 150 \\pm 40.6$ counts: $Z = 3.7$' },
     { stage: 'Check', show: ['p8-hist', 'p8-tail', 'p8-log', 'p8-sp', 'p8-cutlab', 'p8-22'], draw: 'p8-cut', dur: 1000,
-      ok: ['200 000 background-only runs: 22 reach 150, a fraction $1.1\\times10^{-4}$.',
-           'Their spread is $38.7 = \\sqrt{1000 + 500}$.'] },
+      ok: ['200 000 background-only runs: 22 reach $S \\ge 150$, a fraction $1.1\\times10^{-4}$.',
+           'Their spread in $S$ is $38.7 = \\sqrt{1000 + 500}$.'] },
     { stage: 'Check', draw: 'p8-g12', show: 'p8-g12lab',
-      trap: '$\\sigma = \\sqrt{\\text{net}} = 12.2$ gives "$12\\,\\sigma$": it ignores that window and background both fluctuate.' },
+      trap: '$\\sigma = \\sqrt{S} = 12.2$ gives "$Z = 12$": it ignores that $N_{\\text{SR}}$ and $\\hat B$ both fluctuate.' },
   ],
 });
 }
