@@ -368,7 +368,7 @@ body.laser-on #laser{display:block}
   <h2>Two programs differ by the order of two lines. Does the mass care?</h2>
   <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
   <div class="rail"></div>
-  <aside class="notes"><p>Display-only code (the full programs, with x, v = 0.10, 0 before each loop, are in the notebook appendix). Show both programs, collect votes (1 min): "same", "A wrong", "B wrong". ω = √(k/m) = 2.0 rad/s, period π s, ωΔt = 0.10. Do not explain yet; L06 derives the factor. Transition: "to see why, look at what a loop actually does".</p></aside>
+  <aside class="notes"><p>Display-only code (the full programs, with x, v = 0.10, 0 before each loop, are in the notebook appendix). Show both programs, collect votes (1 min): "same", "A wrong", "B wrong". ω = √(k/m) = 2.0 rad/s, period π s, ωΔt = 0.10. Do not explain yet; L06 derives the factor. Transition: "to see why, look at what a loop actually does".</p><p>After the boxed result, the table step: the first iterations n = 0..5 (t = 0 … 0.25 s), one row at a time as the loop runs. At n = 1 A and B already differ (x = 0.1000 vs 0.0990: A used the old v = 0). A’s E/E₀ grows exactly ×1.01 per step; B’s only wobbles and stays bounded.</p></aside>
 </section>
 
 <!-- L04 · type: concept -->
@@ -2257,6 +2257,33 @@ scene('l03', {
     h.text('l03-ebl', 884, 566, 'E ×1.00', 'c-ok', null, 'end');
     h.tag('l03-bok', T0 + 380, 515, '0.100 m', 'c-ok', 'n', null, 20);
     h.tag('l03-trap', T1, 172, 'not the same', 'c-trap', 'e');
+    // Result (table): the first loop iterations n = 0..5, on an opaque card over the whole figure (cells sit directly
+    // in the k-panel group, so the drawing underneath counts as covered); values from numbers_out.txt "L03 table"
+    const tab = h.group('l03-tab');
+    h.rect(null, 0, 0, 900, 600, 'k-panel', tab);
+    const CX = [85, 140, 230, 340, 455, 590, 705, 820], RY = [210, 272, 334, 396, 458, 520];
+    const T = (id, x, y, t, c) => h.text(id, x, y, t, c, tab, 'middle');
+    T(null, 340, 50, 'A (Euler)', 'c-trap'); T(null, 340, 80, 'both from the old state', 'c-trap');
+    T(null, 705, 50, 'B (Euler–Cromer)', 'c-ok'); T(null, 705, 80, 'new v first', 'c-ok');
+    ['n', 't (s)', 'x (m)', 'v (m/s)', 'E/E₀', 'x (m)', 'v (m/s)', 'E/E₀'].forEach((t, j) => T(null, CX[j], 140, t, j < 2 ? 'c-text' : j < 5 ? 'c-trap' : 'c-ok'));
+    h.line(null, 185, 98, 510, 98, 'k-thin c-trap', tab);
+    h.line(null, 535, 98, 875, 98, 'k-thin c-ok', tab);
+    h.line(null, 65, 162, 880, 162, 'k-thin c-muted', tab);
+    [180, 522].forEach(x => h.line(null, x, 115, x, 545, 'k-thin c-muted', tab));
+    [['0.00', '0.1000', '0.0000', '1.000', '0.1000', '0.0000', '1.000'],
+     ['0.05', '0.1000', '−0.0200', '1.010', '0.0990', '−0.0200', '0.990'],
+     ['0.10', '0.0990', '−0.0400', '1.020', '0.0970', '−0.0398', '0.981'],
+     ['0.15', '0.0970', '−0.0598', '1.030', '0.0940', '−0.0592', '0.972'],
+     ['0.20', '0.0940', '−0.0792', '1.041', '0.0901', '−0.0780', '0.965'],
+     ['0.25', '0.0900', '−0.0980', '1.051', '0.0853', '−0.0960', '0.959']].forEach((r, i) => {
+      T('l03-r' + i + 'c0', CX[0], RY[i], String(i), 'c-text');
+      r.forEach((v, j) => T('l03-r' + i + 'c' + (j + 1), CX[j + 1], RY[i], v, j === 0 ? 'c-text' : j < 4 ? 'c-trap' : 'c-ok'));
+    });
+    // highlights: the first difference (n = 1, x) and the two energy columns
+    h.rect('l03-h1a', CX[2] - 46, RY[1] - 27, 92, 38, 'k-thin c-ask', tab);
+    h.rect('l03-h1b', CX[5] - 46, RY[1] - 27, 92, 38, 'k-thin c-ask', tab);
+    h.rect('l03-hEa', CX[4] - 42, RY[0] - 32, 84, RY[5] - RY[0] + 44, 'k-thin c-trap', tab);
+    h.rect('l03-hEb', CX[7] - 42, RY[0] - 32, 84, RY[5] - RY[0] + 44, 'k-thin c-ok', tab);
   },
   steps: (() => {
     const P = L03.P, NC = 8, S1 = 90 / 0.10, S10 = 300 / 2.27;
@@ -2268,6 +2295,15 @@ scene('l03', {
       });
       return o;
     };
+    const row = i => [0, 1, 2, 3, 4, 5, 6, 7].map(j => 'l03-r' + i + 'c' + j);
+    const rows = i => {                                       // the loop runs: one row per 0.9 s, then the highlights
+      const s = { show: row(i), dur: 500, wait: 900 };
+      if (i === 1) { s.show = s.show.concat(['l03-h1a', 'l03-h1b']); s.note = '$n = 1$: A: $x = 0.1000$ (old $v = 0$), B: $x = 0.0990$'; }
+      s.after = i < 5 ? rows(i + 1) : { show: ['l03-hEa', 'l03-hEb'], dur: 600,
+        note: 'A: $E/E_0$ $\\times 1.01$ per step; B only wobbles (bounded)' };
+      return s;
+    };
+    const labs = ['l03-ma', 'l03-mb', 'l03-per', 'l03-s10', 'l03-eal', 'l03-ebl'];   // labels under the table card
     return [
       { stage: 'Setup', oscillate: osc(90, 90, true), show: 'l03-x0',
         tex: '$m = 0.50\\ \\text{kg}$, $k = 2.0\\ \\text{N/m}$, released at rest',
@@ -2286,7 +2322,10 @@ scene('l03', {
         tex: '628 steps: A reaches $2.27\\ \\text{m}$ (rescaled), B stays at $0.100\\ \\text{m}$' },
       { stage: 'Result', clear: true, ask: null,
         box: 'A: $2.27\\ \\text{m}$, $22.7\\times$ the start · B: $0.100\\ \\text{m}$' },
-      { stage: 'Check', mark: { 'l03-ea': 'ok', 'l03-eal': 'ok' },
+      { stage: 'Result', show: ['l03-tab'].concat(row(0)), hide: labs,
+        tex: 'First iterations: A’s $x$ uses the old $v$; its energy grows $\\times 1.01$ every step',
+        wait: 900, after: rows(1) },
+      { stage: 'Check', hide: 'l03-tab', show: labs, mark: { 'l03-ea': 'ok', 'l03-eal': 'ok' },
         ok: 'A multiplies the energy by $1 + (\\omega\\Delta t)^2 = 1.01$ every step: $1.01^{628} \\approx e^{6.25} \\approx 517$, amplitude $\\sqrt{517} \\approx 22.7$' },
       { stage: 'Check', mark: { 'l03-bx10': 'ok' }, show: 'l03-bok',
         ok: 'B is back at $0.10\\ \\text{m}$ after every period' },
