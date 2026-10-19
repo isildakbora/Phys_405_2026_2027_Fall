@@ -601,7 +601,7 @@ print(t.shape, t.dtype, t[1] - t[0])</pre>
 <pre class="out step">(11,) float64 0.1</pre>
     </div>
   </div>
-  <div class="card green step"><span class="tag check">Check</span><p style="margin-top:8px">The fixed version of L17: 11 points give 10 intervals of 0.1 s.</p></div>
+  <div class="card green step"><span class="tag check">Check</span><p style="margin-top:8px">The fixed version of Slide 17: 11 points give 10 intervals of 0.1 s.</p></div>
   <aside class="notes"><p>Check shape and dtype first, every time. Arrays are not explained further this week; Week 1 uses them as the columns of a measurement file and as the counters of a spectrum.</p></aside>
 </section>
 
@@ -744,7 +744,7 @@ print(rng.normal(2.006, 0.010, 3).round(4))   # 3 simulated timings, s</pre>
   <h2>A DataFrame is a set of named, typed columns: put the unit in the name</h2>
   <ul>
     <li><span class="key">pd.read_csv</span> turns a file into columns with names and types; rows share one index</li>
-    <li>Put the unit in the name: <span class="key">L_m</span>, <span class="key">T_s</span>, <span class="key">T_C</span> (the L27 file had no unit anywhere)</li>
+    <li>Put the unit in the name: <span class="key">L_m</span>, <span class="key">T_s</span>, <span class="key">T_C</span> (the Slide 27 file had no unit anywhere)</li>
     <li><span class="key">df.dtypes</span> after every read: a number column that shows <span class="key">object</span> holds a stray text entry</li>
   </ul>
   <div class="cols w64">
@@ -1050,7 +1050,7 @@ peak = counts[2:5]
 peak -= 12  # subtract the background
 print(counts)</pre>
       <pre class="out step">[12 15 28 43 26 14 11]</pre></div>
-    <div class="card blue"><h3>Hints</h3><ul><li>A slice is a view (L23).</li><li>The raw spectrum and the view share the same numbers.</li></ul></div>
+    <div class="card blue"><h3>Hints</h3><ul><li>A slice is a view (Slide 23).</li><li>The raw spectrum and the view share the same numbers.</li></ul></div>
   </div>
   <div class="step"><span class="tag result">Answer</span><div class="res" style="margin-top:8px"><p>The raw spectrum now reads $[12, 15, 28, 43, 26, 14, 11]$: its peak was overwritten. With $\texttt{.copy()}$ counts stays $[12, 15, 40, 55, 38, 14, 11]$ and the net peak is $[28, 43, 26]$, $97$ net counts.</p></div></div>
   <aside class="notes"><p>Common slip: thinking NumPy slices copy like list slices do. A second background subtraction on the damaged array would remove the background twice. (Illustrative counts.)</p></aside>
@@ -1125,7 +1125,7 @@ print(D - D.mean(axis=1))</pre>
     <div class="card amber"><span class="tag predict">Predict · 2 min</span><p style="margin-top:10px">Write the first row of the result before you run.</p>
       <p class="step" style="margin-top:10px"><b>Most expect:</b> it works because there is no error; many choose the wrong axis for "per run".</p></div>
     <div class="card"><span class="tag setup">What you have</span>
-      <p style="margin-top:10px">$\texttt{D.shape} = (3, 3)$; $\texttt{D.mean(axis=1)} = [2, 5, 8]$ (one per run); broadcasting aligns shapes from the right (L20).</p></div>
+      <p style="margin-top:10px">$\texttt{D.shape} = (3, 3)$; $\texttt{D.mean(axis=1)} = [2, 5, 8]$ (one per run); broadcasting aligns shapes from the right (Slide 20).</p></div>
   </div>
   <aside class="notes"><p>Ask for the result's first row before running. Expected: [−1, 0, 1].</p></aside>
 </section>
@@ -2963,7 +2963,7 @@ const w0seq4 = fr => fr.reduceRight((n, f) => n ? Object.assign({}, f, { after: 
         box: '$\\tau = 215.5 \\pm 3.4\\ \\text{s}$, $A = 1018 \\pm 10$',
         note: 'Same data, same model: only the start changed.' },
       { stage: 'Check',
-        ok: '$\\chi^2 = 32.4$ for 29 degrees of freedom, the minimum found by hand on L37.' },
+        ok: '$\\chi^2 = 32.4$ for 29 degrees of freedom, the minimum found by hand on Slide 37.' },
       { stage: 'Check', show: ['l38-half', 'l38-halflab'],
         ok: 'Half-life $\\tau \\ln 2 = 149.3\\ \\text{s}$: the counts halve from 1045 near $t = 150\\ \\text{s}$ (512).' },
       { stage: 'Check', hide: ['l38-half', 'l38-halflab'], show: ['l38-b3', 'l38-ring', 'l38-ringlab'], mark: { 'l38-g2': 'faded' },
