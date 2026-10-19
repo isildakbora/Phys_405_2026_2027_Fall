@@ -419,7 +419,7 @@ print(x, round(v, 3))</pre>
     </div>
     <div class="card green step"><span class="tag check">Check</span><ul style="margin-top:8px">
       <li>Limiting case: $\Delta t \to 0$ gives factor 1 (exact physics)</li>
-      <li>At $\omega\Delta t = 0.1$, 628 steps give $1.01^{628} = 517$, the $22.7$ of L03 ($\sqrt{517} = 22.7$)</li></ul></div>
+      <li>At $\omega\Delta t = 0.1$, 628 steps give $1.01^{628} = 517$, the $22.7$ of Slide 3 ($\sqrt{517} = 22.7$)</li></ul></div>
   </div>
   <aside class="notes"><p>Ask before the last line: "what does using the new v buy?" Point out that B is no more expensive than A: same two lines, different order. Name them: A = Euler, B = Euler–Cromer (semi-implicit Euler).</p></aside>
 </section>
@@ -464,7 +464,7 @@ print(x, round(v, 3))</pre>
   <h2>A function turns the loop into an instrument you can test</h2>
   <ul>
     <li><span class="key">def fall_time(h, dt)</span>: inputs are the physics, the return value is the measurement</li>
-    <li>Inside: the loop of L08 plus interpolation back to $y = 0$; call it with smaller and smaller $\Delta t$: it must approach $2.0193\ \text{s}$</li>
+    <li>Inside: the loop of Slide 8 plus interpolation back to $y = 0$; call it with smaller and smaller $\Delta t$: it must approach $2.0193\ \text{s}$</li>
   </ul>
 <pre>def fall_time(h, dt, g=9.81):
     t, y, v = 0.0, h, 0.0
@@ -745,8 +745,8 @@ print(f"g = {g_fit:.2f} ± {dg:.2f} m/s², b = {p[1]*1e3:.1f} mm")</pre>
 <!-- ======================= Part 4 · A spectrum is an array of counters (L23-L28) + Recap (L29) ======================= -->
 
 <!-- L23 · question -->
-<section class="slide" data-track="lecture" data-section="Part 4 · A spectrum is an array of counters" data-time="26 min" data-title="Co-60: how many peaks?">
-  <span class="kicker">Part 4 · A spectrum is an array of counters</span>
+<section class="slide" data-track="lecture" data-section="Part 4 · A spectrum is an array of counters (covered in Week 2)" data-time="26 min" data-title="Co-60: how many peaks?">
+  <span class="kicker">Part 4 · A spectrum is an array of counters <span class="tag model" style="margin-left:10px;padding:0 8px;font-size:11px;line-height:inherit;vertical-align:baseline">Covered in Week 2</span></span>
   <h2>Co-60 emits two gamma lines. How many peaks does the plot show?</h2>
   <div class="q" style="font-size:28px">A detector next to a Co-60 source records 20 000 photon energies (simulated, NaI-like resolution). Co-60 emits gamma rays of 1173 and 1332 keV. You histogram them from 0 to 2000 keV in 10 bins. How many peaks do you see?</div>
   <div class="cols">
@@ -764,8 +764,8 @@ print(f"g = {g_fit:.2f} ± {dg:.2f} m/s², b = {p[1]*1e3:.1f} mm")</pre>
 </section>
 
 <!-- L24 · concept, built as a step scene (storyboard) -->
-<section class="slide" data-track="lecture" data-section="Part 4 · A spectrum is an array of counters" data-time="26 min" data-title="A histogram is an array of counters" data-scene="l24">
-  <span class="kicker">Part 4 · A spectrum is an array of counters</span>
+<section class="slide" data-track="lecture" data-section="Part 4 · A spectrum is an array of counters (covered in Week 2)" data-time="26 min" data-title="A histogram is an array of counters" data-scene="l24">
+  <span class="kicker">Part 4 · A spectrum is an array of counters <span class="tag model" style="margin-left:10px;padding:0 8px;font-size:11px;line-height:inherit;vertical-align:baseline">Covered in Week 2</span></span>
   <h2>A histogram is an array of counters indexed by the value</h2>
   <div class="scene"><svg class="fig" viewBox="0 0 900 420" style="height:420px"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
   <div class="rail"></div>
@@ -779,8 +779,8 @@ print(np.nonzero(counts)[0], (counts == c2).all())</pre>
 </section>
 
 <!-- L25 · widget -->
-<section class="slide" data-track="lecture" data-section="Part 4 · A spectrum is an array of counters" data-time="26 min" data-title="Explorer: bin width">
-  <span class="kicker">Part 4 · A spectrum is an array of counters · Interactive</span>
+<section class="slide" data-track="lecture" data-section="Part 4 · A spectrum is an array of counters (covered in Week 2)" data-time="26 min" data-title="Explorer: bin width">
+  <span class="kicker">Part 4 · A spectrum is an array of counters · Interactive <span class="tag model" style="margin-left:10px;padding:0 8px;font-size:11px;line-height:inherit;vertical-align:baseline">Covered in Week 2</span></span>
   <h2>Explorer: the bin width decides what you can see</h2>
   <div class="q" style="font-size:30px">Which bin width shows the two Co-60 lines without inventing peaks?</div>
   <div class="cols w46">
@@ -802,13 +802,13 @@ print(np.nonzero(counts)[0], (counts == c2).all())</pre>
 </section>
 
 <!-- L26 · concept -->
-<section class="slide" data-track="lecture" data-section="Part 4 · A spectrum is an array of counters" data-time="26 min" data-title="Every bin carries √N">
-  <span class="kicker">Part 4 · A spectrum is an array of counters</span>
+<section class="slide" data-track="lecture" data-section="Part 4 · A spectrum is an array of counters (covered in Week 2)" data-time="26 min" data-title="Every bin carries √N">
+  <span class="kicker">Part 4 · A spectrum is an array of counters <span class="tag model" style="margin-left:10px;padding:0 8px;font-size:11px;line-height:inherit;vertical-align:baseline">Covered in Week 2</span></span>
   <h2>Every bin carries its own error bar: √N</h2>
   <ul>
     <li>Photons arrive independently: the count in a bin is Poisson distributed</li>
     <li>Standard deviation $\sigma_N = \sqrt{N}$: 100 counts ± 10 (10 %), 10 000 counts ± 100 (1 %)</li>
-    <li>Narrow bins have few counts and large relative errors: that is the noise of L25</li>
+    <li>Narrow bins have few counts and large relative errors: that is the noise of Slide 25</li>
   </ul>
   <div class="res step"><p>$N = 100:\ \ 100 \pm 10\ (10\ \%)$ &nbsp;&nbsp;&nbsp; $N = 10\,000:\ \ 10\,000 \pm 100\ (1\ \%)$</p></div>
   <div class="card green step"><span class="tag check">Check · scaling</span><p style="margin-top:10px">Four times longer measurement → four times $N$ → relative error halves ($\sqrt{4} = 2$).</p></div>
@@ -816,8 +816,8 @@ print(np.nonzero(counts)[0], (counts == c2).all())</pre>
 </section>
 
 <!-- L27 · example -->
-<section class="slide" data-track="lecture" data-section="Part 4 · A spectrum is an array of counters" data-time="26 min" data-title="9 beside 4 is not a peak">
-  <span class="kicker">Part 4 · A spectrum is an array of counters</span>
+<section class="slide" data-track="lecture" data-section="Part 4 · A spectrum is an array of counters (covered in Week 2)" data-time="26 min" data-title="9 beside 4 is not a peak">
+  <span class="kicker">Part 4 · A spectrum is an array of counters <span class="tag model" style="margin-left:10px;padding:0 8px;font-size:11px;line-height:inherit;vertical-align:baseline">Covered in Week 2</span></span>
   <h2>A bin of 9 beside a bin of 4 is not yet a peak</h2>
   <div class="cols">
     <div class="stack">
@@ -832,8 +832,8 @@ print(np.nonzero(counts)[0], (counts == c2).all())</pre>
 </section>
 
 <!-- L28 · scene -->
-<section class="slide" data-track="lecture" data-section="Part 4 · A spectrum is an array of counters" data-time="26 min" data-title="Signal in a peak: sidebands" data-scene="l28">
-  <span class="kicker">Part 4 · A spectrum is an array of counters</span>
+<section class="slide" data-track="lecture" data-section="Part 4 · A spectrum is an array of counters (covered in Week 2)" data-time="26 min" data-title="Signal in a peak: sidebands" data-scene="l28">
+  <span class="kicker">Part 4 · A spectrum is an array of counters <span class="tag model" style="margin-left:10px;padding:0 8px;font-size:11px;line-height:inherit;vertical-align:baseline">Covered in Week 2</span></span>
   <h2>Signal in a peak: $S = N_{\text{SR}} - \hat B$, with the background from the sidebands</h2>
   <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
   <div class="rail"></div>
@@ -1005,7 +1005,7 @@ print(round(x, 2), round(xo + (x - xo) * yo / (yo - y), 2))</pre>
   <div class="q">A $1.0\ \text{m}$ pendulum starts at $\theta_0 = 0.20\ \text{rad}$ at rest. Simulate $20\ \text{s}$ with $\Delta t = 0.01\ \text{s}$ in both orders, A (both updates from the old state) and B (new $\omega$ first). What maximum angle does each show in the last $2\ \text{s}$?</div>
   <div class="cols">
     <div class="card amber"><span class="tag predict">Predict · then code, 5 min</span><p style="margin-top:10px">Write both angles in the Predict cell.</p>
-      <p class="step" style="margin-top:10px"><b>Most say:</b> "both 0.20 rad, $\Delta t = 0.01\ \text{s}$ is small"; some remember L03 and predict growth for A, but not how much.</p></div>
+      <p class="step" style="margin-top:10px"><b>Most say:</b> "both 0.20 rad, $\Delta t = 0.01\ \text{s}$ is small"; some remember Slide 3 and predict growth for A, but not how much.</p></div>
     <div class="card"><span class="tag setup">What you have</span>
       <p style="margin-top:10px">$\dfrac{d\omega}{dt} = -\dfrac{g}{L}\sin\theta$, $\dfrac{d\theta}{dt} = \omega$; 2000 steps; small-angle period $2\pi\sqrt{L/g} = 2.006\ \text{s}$.</p></div>
   </div>
@@ -1124,7 +1124,7 @@ print([round(x, 2) for x in fall(50, 0) + fall(50, 0.004)], round(math.sqrt(2*50
     <div class="card amber"><p>Compute <span class="key">fall(50, 0.004, dt)</span> for $\Delta t = 0.02$, $0.01$ and $0.005\ \text{s}$. How do the landing times change, and what is the ratio of successive differences? What does it tell you about the method?</p></div>
     <div class="card blue"><h3>Hints</h3><ul><li>Print the three times with 4 decimals</li><li>Ratio $= (t_1 - t_2)/(t_2 - t_3)$</li></ul></div>
   </div>
-  <div class="step"><span class="tag result">Answer</span><div class="res" style="margin-top:8px"><p>$3.8861$, $3.8835$, $3.8823\ \text{s}$; ratio $2.00$: first order, as in L13, so the $0.01\ \text{s}$ result is good to about $3\ \text{ms}$</p></div></div>
+  <div class="step"><span class="tag result">Answer</span><div class="res" style="margin-top:8px"><p>$3.8861$, $3.8835$, $3.8823\ \text{s}$; ratio $2.00$: first order, as in Slide 13, so the $0.01\ \text{s}$ result is good to about $3\ \text{ms}$</p></div></div>
   <aside class="notes"><p>The convergence test of L13 on a problem with no exact answer. Common slip: comparing the times with 3.19 s (that is the k = 0 answer).</p></aside>
 </section>
 
@@ -1274,8 +1274,8 @@ std err at 0.20 m: 8.5 ms</pre>
 
 <!-- ======================= Problem 7 · Calibrating a spectrum (W26-W29) ======================= -->
 <!-- W26 · type: problem -->
-<section class="slide" data-track="lab" data-section="Problem 7 · Calibrating a spectrum" data-time="14 min" data-title="Problem 7: question">
-  <span class="kicker">Problem 7 · Calibrating a spectrum</span>
+<section class="slide" data-track="lab" data-section="Problem 7 · Calibrating a spectrum (covered in Week 2)" data-time="14 min" data-title="Problem 7: question">
+  <span class="kicker">Problem 7 · Calibrating a spectrum <span class="tag model" style="margin-left:10px;padding:0 8px;font-size:11px;line-height:inherit;vertical-align:baseline">Covered in Week 2</span></span>
   <h2>A spectrum in channels: what is the unknown peak?</h2>
   <div class="q">A detector spectrum (simulated) is recorded in ADC channels 0–4095. It shows Cs-137 ($661.657\ \text{keV}$), Co-60 ($1173.228$ and $1332.492\ \text{keV}$) and one unknown peak. Calibrate channels to energy with two known lines and identify the unknown.</div>
   <div class="cols">
@@ -1290,8 +1290,8 @@ std err at 0.20 m: 8.5 ms</pre>
 </section>
 
 <!-- W28 · type: animation -->
-<section class="slide" data-track="lab" data-section="Problem 7 · Calibrating a spectrum" data-time="14 min" data-title="Problem 7: step by step" data-scene="p7">
-  <span class="kicker">Problem 7 · Step by step</span>
+<section class="slide" data-track="lab" data-section="Problem 7 · Calibrating a spectrum (covered in Week 2)" data-time="14 min" data-title="Problem 7: step by step" data-scene="p7">
+  <span class="kicker">Problem 7 · Step by step <span class="tag model" style="margin-left:10px;padding:0 8px;font-size:11px;line-height:inherit;vertical-align:baseline">Covered in Week 2</span></span>
   <h2>Channels slide onto the energy axis</h2>
   <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
   <div class="rail"></div>
@@ -1299,8 +1299,8 @@ std err at 0.20 m: 8.5 ms</pre>
 </section>
 
 <!-- W27 · type: walkthrough -->
-<section class="slide" data-track="lab" data-section="Problem 7 · Calibrating a spectrum" data-time="14 min" data-title="Problem 7: walkthrough">
-  <span class="kicker">Problem 7 · Walkthrough</span>
+<section class="slide" data-track="lab" data-section="Problem 7 · Calibrating a spectrum (covered in Week 2)" data-time="14 min" data-title="Problem 7: walkthrough">
+  <span class="kicker">Problem 7 · Walkthrough <span class="tag model" style="margin-left:10px;padding:0 8px;font-size:11px;line-height:inherit;vertical-align:baseline">Covered in Week 2</span></span>
   <h2>Two lines fix gain and offset: the unknown is K-40</h2>
   <div class="cols">
     <div class="stack">
@@ -1329,8 +1329,8 @@ print(round(a, 4), round(b, 1), round(a * c_x + b, 1))</pre>
 </section>
 
 <!-- W29 · type: your-turn -->
-<section class="slide" data-track="lab" data-section="Problem 7 · Calibrating a spectrum" data-time="14 min" data-title="Your turn 7">
-  <span class="kicker">Problem 7 · Your turn</span>
+<section class="slide" data-track="lab" data-section="Problem 7 · Calibrating a spectrum (covered in Week 2)" data-time="14 min" data-title="Your turn 7">
+  <span class="kicker">Problem 7 · Your turn <span class="tag model" style="margin-left:10px;padding:0 8px;font-size:11px;line-height:inherit;vertical-align:baseline">Covered in Week 2</span></span>
   <h2>Could you see Bi-214 next to Cs-137?</h2>
   <div class="cols">
     <div class="card amber"><p>Radon daughters give a Bi-214 line at $609.3\ \text{keV}$. With your calibration, at which channel would it appear? The peak width there is about 22 channels ($\sigma$). Would it be separated from the Cs-137 peak?</p></div>
@@ -1342,8 +1342,8 @@ print(round(a, 4), round(b, 1), round(a * c_x + b, 1))</pre>
 
 <!-- ======================= Problem 8 · Is the bump real? (W30-W33) ======================= -->
 <!-- W30 · type: problem -->
-<section class="slide" data-track="lab" data-section="Problem 8 · Is the bump real?" data-time="14 min" data-title="Problem 8: question">
-  <span class="kicker">Problem 8 · Is the bump real?</span>
+<section class="slide" data-track="lab" data-section="Problem 8 · Is the bump real? (covered in Week 2)" data-time="14 min" data-title="Problem 8: question">
+  <span class="kicker">Problem 8 · Is the bump real? <span class="tag model" style="margin-left:10px;padding:0 8px;font-size:11px;line-height:inherit;vertical-align:baseline">Covered in Week 2</span></span>
   <h2>A small bump above the background: is it real?</h2>
   <div class="q">The signal region of a small peak holds $N_{\text{SR}} = 1150$ counts. Two sidebands of total width $\tau = 2$ times the signal region hold $N_{\text{SB}} = 2000$ counts (illustrative). What is the signal $S$ and how many $\sigma$ is the bump?</div>
   <div class="cols">
@@ -1359,8 +1359,8 @@ print(round(a, 4), round(b, 1), round(a * c_x + b, 1))</pre>
 </section>
 
 <!-- W32 · type: animation -->
-<section class="slide" data-track="lab" data-section="Problem 8 · Is the bump real?" data-time="14 min" data-title="Problem 8: step by step" data-scene="p8">
-  <span class="kicker">Problem 8 · Step by step</span>
+<section class="slide" data-track="lab" data-section="Problem 8 · Is the bump real? (covered in Week 2)" data-time="14 min" data-title="Problem 8: step by step" data-scene="p8">
+  <span class="kicker">Problem 8 · Step by step <span class="tag model" style="margin-left:10px;padding:0 8px;font-size:11px;line-height:inherit;vertical-align:baseline">Covered in Week 2</span></span>
   <h2>The background fluctuates too</h2>
   <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
   <div class="rail"></div>
@@ -1368,8 +1368,8 @@ print(round(a, 4), round(b, 1), round(a * c_x + b, 1))</pre>
 </section>
 
 <!-- W31 · type: walkthrough -->
-<section class="slide" data-track="lab" data-section="Problem 8 · Is the bump real?" data-time="14 min" data-title="Problem 8: walkthrough">
-  <span class="kicker">Problem 8 · Walkthrough</span>
+<section class="slide" data-track="lab" data-section="Problem 8 · Is the bump real? (covered in Week 2)" data-time="14 min" data-title="Problem 8: walkthrough">
+  <span class="kicker">Problem 8 · Walkthrough <span class="tag model" style="margin-left:10px;padding:0 8px;font-size:11px;line-height:inherit;vertical-align:baseline">Covered in Week 2</span></span>
   <h2>S = 150 ± 40.6 counts: Z = 3.7, not 12</h2>
   <div class="cols">
     <div class="stack">
@@ -1400,8 +1400,8 @@ print((fake &gt;= S).mean(), round(fake.std(), 1))</pre>
 </section>
 
 <!-- W33 · type: your-turn -->
-<section class="slide" data-track="lab" data-section="Problem 8 · Is the bump real?" data-time="14 min" data-title="Your turn 8">
-  <span class="kicker">Problem 8 · Your turn</span>
+<section class="slide" data-track="lab" data-section="Problem 8 · Is the bump real? (covered in Week 2)" data-time="14 min" data-title="Your turn 8">
+  <span class="kicker">Problem 8 · Your turn <span class="tag model" style="margin-left:10px;padding:0 8px;font-size:11px;line-height:inherit;vertical-align:baseline">Covered in Week 2</span></span>
   <h2>How long until 5 σ?</h2>
   <div class="cols">
     <div class="card amber"><p>If the bump is real, all counts grow in proportion to the measuring time. How many times longer must you measure to reach $5\,\sigma$?</p></div>
@@ -2737,7 +2737,7 @@ scene('l22', {
       note: 'A dict with five keys; 0.6 m keeps only two trials.' },
     { stage: 'Derive', hide: ['l22-file', 'l22-arr', 'l22-mask', 'l22-dict'], show: ['l22-plot', 'l22-pts', 'l22-means'],
       tex: '$h = \\tfrac12\\, g\\, t^2$: a straight line in $t^2$',
-      note: 'Rings: the five group means of L20. Their standard-error bars (at most 0.44 ms) are smaller than the rings.' },
+      note: 'Rings: the five group means of Slide 20. Their standard-error bars (at most 0.44 ms) are smaller than the rings.' },
     { stage: 'Result', clear: true, ask: null, draw: 'l22-fit', show: 'l22-slope',
       tex: ['$\\footnotesize\\texttt{np.polyfit(t**2, h, 1, cov=True)}$', 'slope $a = 4.90\\ \\text{m/s}^2 = g/2$'],
       box: '$g = 2a = 9.80 \\pm 0.02\\ \\text{m/s}^2$' },
