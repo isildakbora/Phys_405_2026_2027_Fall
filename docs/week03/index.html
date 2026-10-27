@@ -665,15 +665,18 @@ print(round(1 - exp(-1), 4), round(tau * log(2), 3))</pre>
   <h2>Explorer: how many standard deviations hold 95 %?</h2>
   <div class="cols w46">
     <div class="widget">
-      <p class="small">Shaded: the share of a Gaussian within $\pm k\sigma$ of the mean, $P(|z| \le k) = \operatorname{erf}(k/\sqrt2)$.</p>
+      <p class="small">Shaded: the area within $\pm k\sigma$, $P(|z| \le k) = \operatorname{erf}(k/\sqrt2)$. Dots: the 200 readings of Slide 18, green inside the band.</p>
       <label>$k$ (in σ) <input type="range" id="gk-k" min="0.5" max="3.5" step="0.01" value="1"> <b id="gk-kv"></b></label>
-      <div class="readout"><span>$P(|z| \le k)$</span><span id="gk-P"></span></div>
+      <div class="readout"><span>area $P(|z| \le k)$</span><span id="gk-P"></span></div>
+      <div class="readout"><span>readings of Slide 18 inside</span><span id="gk-n"></span></div>
+      <div class="readout"><span>band on the rod</span><span id="gk-mm"></span></div>
       <div id="gk-verdict" class="verdict bad"></div>
+      <p class="small">The verdict uses the area. A share from 200 readings scatters about it by about ±0.015 (at 95 %).</p>
       <p class="small step"><span class="tag predict">Predict</span> Most say $k = 2$, because "two σ is 95 %".</p>
     </div>
     <canvas id="gk-canvas" width="1000" height="560"></canvas>
   </div>
-  <aside class="notes"><p>Start at k = 1 (68.3 %, ✗). Move to k = 2 (95.4 %, ✓). Then k = 1.96 (95.0 %): the exact threshold. The conventional "2σ" is a rounding of 1.96. Transition: "a verdict like this is a test: which 95 % do you mean?".</p></aside>
+  <aside class="notes"><p>Start at k = 1 (68.3 %, ✗; readings 141/200). Move to k = 2 (95.4 %, ✓; readings 189/200). Then k = 1.96 (95.0 %): the exact threshold, a band of 249.02 to 250.98 mm on the rod. The conventional "2σ" is a rounding of 1.96. Ask: at k = 1.96 only 186 of the 200 readings are inside (0.930): is the model wrong? No: a 200-reading share scatters by about √(0.95 × 0.05 / 200) = 0.015, and these readings reach 190/200 only at k = 2.00. The verdict uses the area, the law; the dots are one sample of it. Transition: "a verdict like this is a test: which 95 % do you mean?".</p></aside>
 </section>
 
 <!-- L23 · type: scene (lecture; simulated readings) -->
@@ -1440,24 +1443,31 @@ function drawCD(){
 WIDGETS.push({ sel: '#cd-canvas', draw: drawCD });
 $('#cd-x').oninput = drawCD;
 
-/* L22 · 95 % explorer (ids gk-): share P(|z| <= k) = erf(k / sqrt 2); verdict at 0.95 (k = 1.96). */
+/* L22 · 95 % explorer (ids gk-): share P(|z| <= k) = erf(k / sqrt 2); verdict at 0.95 (k = 1.96).
+   The dots are the 200 readings of Slide 18 (Z18, defined with the scenes; drawGK first runs after they load),
+   stacked in 0.25-sigma bins at 0.02 per sigma each; green inside |z| <= k. Band in mm: 250.0 +- 0.5 k. */
 function erfA(x){                          // Abramowitz-Stegun 7.1.26, |error| < 1.5e-7
   const s = x < 0 ? -1 : 1; x = Math.abs(x); const t = 1 / (1 + 0.3275911 * x);
   const y = 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x);
   return s * y;
 }
 function drawGK(){
-  const k = +$('#gk-k').value, P = erfA(k / Math.SQRT2);
+  const k = +$('#gk-k').value, P = erfA(k / Math.SQRT2), n = Z18.filter(z => Math.abs(z) <= k).length;
   $('#gk-kv').textContent = k.toFixed(2); $('#gk-P').textContent = P.toFixed(4);
+  $('#gk-n').textContent = `${n} / 200 = ${(n / 200).toFixed(3)}`;
+  $('#gk-mm').textContent = `${(250 - 0.5 * k).toFixed(2)} to ${(250 + 0.5 * k).toFixed(2)} mm`;
   const ok = P >= 0.95, v = $('#gk-verdict');
   v.className = 'verdict ' + (ok ? 'ok' : 'bad');
   v.textContent = ok ? '✓ at least 95 % inside ±kσ' : '✗ below 95 %: k must be about 1.96';
   const cv = $('#gk-canvas'), f = frame(cv, { l: 90, r: 30, t: 66, b: 80 }), c = f.c;
-  const S = scaler(f, -4, 4, 0, 0.45), phi = z => Math.exp(-z * z / 2) / Math.sqrt(2 * Math.PI);
-  axes2(f, S, -4, 4, 0, 0.45, 'z = (x − μ)/σ', 'density', [-3, -2, -1, 0, 1, 2, 3], [0.1, 0.2, 0.3, 0.4]);
-  c.fillStyle = ok ? COL.green : COL.blue; c.globalAlpha = 0.35; c.beginPath(); c.moveTo(S.X(-k), S.Y(0));
+  const S = scaler(f, -4, 4, 0, 0.6), phi = z => Math.exp(-z * z / 2) / Math.sqrt(2 * Math.PI);
+  axes2(f, S, -4, 4, 0, 0.45, 'z = (x − μ)/σ', 'density per σ', [-3, -2, -1, 0, 1, 2, 3], [0.1, 0.2, 0.3, 0.4, 0.5, 0.6]);
+  c.fillStyle = COL.blue; c.globalAlpha = 0.25; c.beginPath(); c.moveTo(S.X(-k), S.Y(0));
   for (let i = 0; i <= 200; i++) { const z = -k + 2 * k * i / 200; c.lineTo(S.X(z), S.Y(phi(z))); }
   c.lineTo(S.X(k), S.Y(0)); c.closePath(); c.fill(); c.globalAlpha = 1;
+  const fill = Array(24).fill(0), r = Math.max(4, (S.X(0.25) - S.X(0)) * 0.2);
+  Z18.forEach(z => { const b = Math.floor((z + 3) / 0.25), x = S.X(-3 + 0.25 * b + 0.125), y = S.Y((fill[b]++ + 0.5) * 0.02);
+    c.fillStyle = Math.abs(z) <= k ? COL.green : COL.muted; c.beginPath(); c.arc(x, y, r, 0, 2 * Math.PI); c.fill(); });
   curve(c, S, phi, -4, 4, COL.blue, 4);
   c.font = '20px "Instrument Sans", Arial, sans-serif'; c.fillStyle = COL.ink; c.textAlign = 'right';
   c.fillText('shaded: P(|z| ≤ k)', f.x0 + f.w, 30);
