@@ -638,7 +638,7 @@ print(round(1 - exp(-1), 4), round(tau * log(2), 3))</pre>
   <h2>The bell: 68.3 %, 95.4 % and 99.7 % within 1, 2 and 3 σ</h2>
   <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
   <div class="rail"></div>
-  <aside class="notes"><p>Ask for the 2σ share before shading (expected 90 % or 95 %). The answer 95.4 % will recur in the explorer. Transition: "the explorer finds the k that gives 95 %".</p></aside>
+  <aside class="notes"><p>The dots are the 200 readings of Slide 18, now on a density scale; the stacks scatter about the bell. Ask for the 2σ share before shading (expected 90 % or 95 %). The green count beside the area shows that a finite sample follows the area to within its scatter. The answer 95.4 % will recur in the explorer. Transition: "the explorer finds the k that gives 95 %".</p></aside>
 </section>
 
 <!-- L20 · type: derivation -->
@@ -2171,7 +2171,7 @@ function t3Layout(st){
 
 /* =====================================================================================================
    L18 · 200 repeated readings of one length drop into 0.25σ bins; the share inside ±σ settles at 141/200 (numbers.py L18).
-   L19 · The bell: the shaded band widens ±1σ -> ±2σ -> ±3σ, the share counts 0.6827 -> 0.9545 -> 0.9973 (numbers.py L18, L19).
+   L19 · The bell over the same 200 readings (as a density): the shaded band widens ±1σ -> ±2σ -> ±3σ, the share counts 0.6827 -> 0.9545 -> 0.9973 (numbers.py L18, L19).
    L23 · 2000 simulated standard Gaussian readings rain into 0.5-wide bins from -3 to 3 (numbers.py L23).
    ===================================================================================================== */
 
@@ -2184,11 +2184,14 @@ function film40(ms, fn, fps = 30){
   return s;
 }
 
+// the 200 simulated readings of Slide 18, z = (x - L0)/sigma, 3 dp (numbers.py L18, seed 18); Slide 19 reuses them
+const Z18 = [-0.432,-1.130,0.674,-1.108,2.014,0.924,-0.359,0.571,1.612,2.834,-0.923,1.065,0.518,-0.280,1.092,0.507,1.076,-0.526,-0.002,0.395,0.020,0.017,-0.768,0.126,0.188,-0.061,-0.015,0.696,-0.659,0.697,-0.153,0.056,-0.191,0.899,0.761,0.006,-0.439,1.856,0.539,-1.146,-0.004,-0.112,0.722,-0.227,-0.739,1.338,-1.993,-1.414,-0.523,-0.514,-0.127,-0.011,0.998,-1.520,2.984,0.611,-0.773,-0.571,-0.483,-2.232,0.401,-1.111,-0.542,-1.096,-0.598,0.024,-1.286,1.517,-1.275,-0.498,-0.026,0.621,0.211,0.031,0.485,0.362,-0.981,0.567,-0.666,-1.168,-0.116,-0.528,0.215,0.264,-0.635,0.283,-0.095,-1.663,1.509,-0.043,-0.192,0.813,-1.444,-0.731,0.889,-1.960,-0.903,1.607,0.550,-1.030,0.005,0.695,-0.838,-0.027,0.305,-0.001,1.487,0.073,-0.193,0.187,-0.417,-0.845,-0.270,-0.678,1.815,2.116,-0.403,-2.817,-0.386,0.648,-0.646,0.667,0.619,-0.635,-0.257,-0.995,-0.436,-1.118,-0.541,1.468,-0.320,1.087,0.320,-1.502,-0.100,-0.463,-1.233,-0.473,1.216,1.211,-0.420,-0.721,-0.048,0.335,1.305,-0.586,-0.946,-0.060,-1.991,-0.141,0.414,-1.908,0.879,-0.635,-0.215,-0.291,-0.163,-0.046,-0.615,-2.001,0.853,-0.140,0.513,0.227,1.197,-0.039,-0.542,2.690,1.494,0.857,1.183,1.386,-2.125,-0.552,0.143,0.609,-0.660,0.140,-1.053,-0.296,-1.982,-0.463,1.578,-1.275,0.606,-1.320,-1.082,2.309,-0.898,-0.136,-0.452,-2.768,-0.221,0.643,-1.352,-1.336,-0.904,0.432,-0.954,0.787];
+
 {
   // L18 · repeated readings of one length (true value 250.0 mm, sigma 0.5 mm, illustrative): z = (x - L0)/sigma,
   // 200 simulated values, numbers.py L18 (seed 18). Each reading moves the red marker, then drops as a dot into
   // bins of 0.25 sigma; green dots are inside |z| <= 1.
-  const Z = [-0.43,-1.13,0.67,-1.11,2.01,0.92,-0.36,0.57,1.61,2.83,-0.92,1.07,0.52,-0.28,1.09,0.51,1.08,-0.53,-0.00,0.39,0.02,0.02,-0.77,0.13,0.19,-0.06,-0.01,0.70,-0.66,0.70,-0.15,0.06,-0.19,0.90,0.76,0.01,-0.44,1.86,0.54,-1.15,-0.00,-0.11,0.72,-0.23,-0.74,1.34,-1.99,-1.41,-0.52,-0.51,-0.13,-0.01,1.00,-1.52,2.98,0.61,-0.77,-0.57,-0.48,-2.23,0.40,-1.11,-0.54,-1.10,-0.60,0.02,-1.29,1.52,-1.28,-0.50,-0.03,0.62,0.21,0.03,0.49,0.36,-0.98,0.57,-0.67,-1.17,-0.12,-0.53,0.22,0.26,-0.63,0.28,-0.09,-1.66,1.51,-0.04,-0.19,0.81,-1.44,-0.73,0.89,-1.96,-0.90,1.61,0.55,-1.03,0.00,0.70,-0.84,-0.03,0.30,-0.00,1.49,0.07,-0.19,0.19,-0.42,-0.85,-0.27,-0.68,1.81,2.12,-0.40,-2.82,-0.39,0.65,-0.65,0.67,0.62,-0.64,-0.26,-1.00,-0.44,-1.12,-0.54,1.47,-0.32,1.09,0.32,-1.50,-0.10,-0.46,-1.23,-0.47,1.22,1.21,-0.42,-0.72,-0.05,0.34,1.31,-0.59,-0.95,-0.06,-1.99,-0.14,0.41,-1.91,0.88,-0.63,-0.21,-0.29,-0.16,-0.05,-0.61,-2.00,0.85,-0.14,0.51,0.23,1.20,-0.04,-0.54,2.69,1.49,0.86,1.18,1.39,-2.12,-0.55,0.14,0.61,-0.66,0.14,-1.05,-0.30,-1.98,-0.46,1.58,-1.28,0.61,-1.32,-1.08,2.31,-0.90,-0.14,-0.45,-2.77,-0.22,0.64,-1.35,-1.34,-0.90,0.43,-0.95,0.79];
+  const Z = Z18;
   const phi = z => Math.exp(-z * z / 2) / Math.sqrt(2 * Math.PI);
   const AX = { X: z => 120 + (z + 3) * 740 / 6, Y: c => 520 - c * 345 / 30 };   // the axes box below, in closed form
   const slot = [], fill = Array(24).fill(0);
@@ -2253,19 +2256,28 @@ function film40(ms, fn, fps = 30){
 }
 
 {
+  // L19 · the same 200 readings, now as a density: each dot is 1/(200 x 0.25) = 0.02 per sigma, stacked in 0.25-sigma bins
   const phi = z => Math.exp(-z * z / 2) / Math.sqrt(2 * Math.PI);
   const erf = x => { const t = 1 / (1 + 0.3275911 * x);   // Abramowitz-Stegun 7.1.26 (x >= 0), |error| < 1.5e-7
     return 1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - 0.284496736) * t + 0.254829592) * t * Math.exp(-x * x); };
-  const SX = (860 - 120) / 8;                              // px per sigma (the axes box below; frames are built before build runs)
-  // one frame of the band at half-width k: the clip band, the two edge lines, the k label and the share readout
+  const SX = (860 - 120) / 8, AX = { X: z => 120 + (z + 4) * SX, Y: d => 520 - d * 460 / 0.6 };   // the axes box below
+  const DOT = 1 / (200 * 0.25), fill = Array(24).fill(0);
+  const slot = Z18.map(z => { const b = Math.floor((z + 3) / 0.25); return [AX.X(-3 + 0.25 * b + 0.125), AX.Y((fill[b]++ + 0.5) * DOT)]; });
+  const dots = Z18.map((_, i) => 'l19-d' + i);
+  const inside = k => Z18.filter(z => Math.abs(z) <= k).length;
+  // one frame of the band at half-width k: the clip band, the edge lines, the k label, the area, the readings inside (green)
   const band = k => ({ zone: { 'l19-z': k }, move: { 'l19-eR': [(k - 1) * SX, 0], 'l19-eL': [-(k - 1) * SX, 0] },
-    count: { 'l19-k': { to: k, digits: 1, pre: '±', suf: 'σ' }, 'l19-P': { to: erf(k / Math.SQRT2), digits: 4, pre: 'share ' } } });
-  const widen = (k0, k1, ms) => film40(ms, f => band(k0 + (k1 - k0) * f));
+    mark: Object.fromEntries(dots.map((id, i) => [id, Math.abs(Z18[i]) <= k ? 'ok' : null])),
+    count: { 'l19-k': { to: k, digits: 1, pre: '±', suf: 'σ' }, 'l19-P': { to: erf(k / Math.SQRT2), digits: 4, pre: 'area ' },
+             'l19-c': { to: inside(k), pre: 'readings ', suf: ' / 200' } } });
+  const widen = (k0, k1, ms, last) => film40(ms, f => Object.assign(band(k0 + (k1 - k0) * f), f >= 1 && last ? { tex: last } : {}));
   scene('l19', {
     build(h) {
-      const ax = h.axes({ x: [-4, 4], y: [0, 0.45], box: [120, 60, 860, 520], xt: 1, yt: 0.1, xlabel: '', ylabel: '' });
+      const ax = h.axes({ x: [-4, 4], y: [0, 0.6], box: [120, 60, 860, 520], xt: 1, yt: 1, xlabel: '', ylabel: '' });
+      // density ticks on the left edge: the axis at z = 0 runs through the dots
+      for (let k = 1; k <= 6; k++) { h.line(null, 120, ax.Y(k / 10), 860, ax.Y(k / 10), 'k-grid'); h.text(null, 110, ax.Y(k / 10) + 6, (k / 10).toFixed(1), 'k-tick', null, 'end'); }
       h.text('l19-xl', 860, 580, 'z = (x − μ)/σ', 'c-muted', null, 'end');
-      h.text('l19-yl', 120, 40, 'density', 'c-muted');
+      h.text('l19-yl', 120, 40, 'density per σ', 'c-muted');
       // the area under the bell, seen only through the band |z| < k (the zone rect lives inside a clipPath)
       let d = `M${ax.X(-4)},${ax.Y(0)}`;
       for (let i = 0; i <= 400; i++) { const z = -4 + 8 * i / 400; d += `L${ax.X(z).toFixed(1)},${ax.Y(phi(z)).toFixed(1)}`; }
@@ -2273,26 +2285,32 @@ function film40(ms, fn, fps = 30){
       const z = h.zone('l19-z', ax, 1, 40, ax.Y(0), 0); z.removeAttribute('clip-path'); z.setAttribute('rx', 0);
       const cp = document.createElementNS(SVGNS, 'clipPath'); cp.id = 'l19-cp';
       area.parentNode.appendChild(cp); cp.appendChild(z); area.setAttribute('clip-path', 'url(#l19-cp)');
-      h.curve('l19-curve', ax, phi, -4, 4, 'k-stroke c-concept');
-      h.line('l19-eL', ax.X(-1), ax.Y(0), ax.X(-1), ax.Y(0.2), 'k-dash c-ask');
-      h.line('l19-eR', ax.X(1), ax.Y(0), ax.X(1), ax.Y(0.2), 'k-dash c-ask');
-      h.text('l19-k', ax.X(0.12), ax.Y(0.1), '±1.0σ', 'c-ask');
-      h.text('l19-P', ax.X(2.95), ax.Y(0.40), 'share 0.6827', 'c-ask mono', null, 'middle');
-      h.text('l19-s1', ax.X(-2.95), ax.Y(0.40), '1σ: 68.3 %', 'c-ok', null, 'middle');
-      h.text('l19-s2', ax.X(-2.95), ax.Y(0.35), '2σ: 95.4 %', 'c-ok', null, 'middle');
-      h.text('l19-s3', ax.X(-2.95), ax.Y(0.30), '3σ: 99.7 %', 'c-ok', null, 'middle');
-      h.text('l19-90', ax.X(2.95), ax.Y(0.34), 'not 90 % ✗', 'c-trap', null, 'middle');
+      Z18.forEach((_, i) => h.circle(dots[i], slot[i][0], slot[i][1], 5, 'k-fill c-concept'));
+      h.curve('l19-curve', ax, phi, -4, 4, 'k-stroke c-ask');
+      h.line('l19-eL', ax.X(-1), ax.Y(0), ax.X(-1), ax.Y(0.35), 'k-dash c-ask');
+      h.line('l19-eR', ax.X(1), ax.Y(0), ax.X(1), ax.Y(0.35), 'k-dash c-ask');
+      h.text('l19-k', ax.X(2.95), ax.Y(0.55), '±1.0σ', 'c-ask', null, 'middle');
+      h.text('l19-P', ax.X(2.95), ax.Y(0.50), 'area 0.6827', 'c-ask mono', null, 'middle');
+      h.text('l19-c', ax.X(2.95), ax.Y(0.45), 'readings 141 / 200', 'c-ok mono', null, 'middle');
+      h.text('l19-s1', ax.X(-2.95), ax.Y(0.55), '1σ: 68.3 %', 'c-ok', null, 'middle');
+      h.text('l19-s2', ax.X(-2.95), ax.Y(0.50), '2σ: 95.4 %', 'c-ok', null, 'middle');
+      h.text('l19-s3', ax.X(-2.95), ax.Y(0.45), '3σ: 99.7 %', 'c-ok', null, 'middle');
+      h.text('l19-90', ax.X(2.95), ax.Y(0.39), 'not 90 % ✗', 'c-trap', null, 'middle');
     },
     steps: [
-      { stage: 'Setup', draw: 'l19-curve', ask: 'What share of readings lies within 1σ? within 2σ? within 3σ?' },
-      { stage: 'Model', show: ['l19-area', 'l19-eL', 'l19-eR', 'l19-k', 'l19-P'],
-        tex: ['Standardise: $z = (x - \\mu)/\\sigma$', 'The bell is the same shape for every $\\sigma$; band $|z| \\le 1$: $P = 0.6827$'] },
-      { stage: 'Derive', tex: 'Band $|z| \\le 2$: $P = 0.9545$', after: widen(1, 2, 2400) },
-      { stage: 'Derive', tex: 'Band $|z| \\le 3$: $P = 0.9973$', after: widen(2, 3, 2000) },
+      { stage: 'Setup', show: dots, draw: 'l19-curve',
+        ask: 'The 200 readings of Slide 18: what share lies within 1σ? within 2σ? within 3σ?',
+        tex: 'Each dot is $1/(200 \\times 0.25) = 0.02$ per σ: the stacks are on the scale of the bell' },
+      Object.assign(band(1), { stage: 'Model', show: ['l19-area', 'l19-eL', 'l19-eR', 'l19-k', 'l19-P', 'l19-c'],
+        tex: ['Standardise: $z = (x - \\mu)/\\sigma$; the bell is the same shape for every $\\sigma$',
+              'Band $|z| \\le 1$: area $0.6827$; readings $141/200 = 0.705$'] }),
+      { stage: 'Derive', tex: 'Widen the band to $|z| \\le 2$', after: widen(1, 2, 2400, 'Area $0.9545$; readings $189/200 = 0.945$') },
+      { stage: 'Derive', tex: 'Widen the band to $|z| \\le 3$', after: widen(2, 3, 2000, 'Area $0.9973$; readings $200/200$') },
       { stage: 'Result', clear: true, ask: null, box: '68.3 % within 1σ, 95.4 % within 2σ, 99.7 % within 3σ',
         after: widen(3, 1, 1800) },
       { stage: 'Check', show: ['l19-s1', 'l19-s2', 'l19-s3'],
-        ok: ['The three shares increase and stay below 1', 'Tail beyond 3σ: $1 - 0.9973 = 0.0027$'] },
+        ok: ['Readings against areas: $0.705$ vs $0.683$, $0.945$ vs $0.954$, $1.000$ vs $0.997$; each gap is below the scatter $\\sqrt{p(1-p)/200}$',
+             'Tail beyond 3σ: $1 - 0.9973 = 0.0027$, about 0.5 of 200 readings: none seen'] },
       { stage: 'Check', show: 'l19-90', mark: { 'l19-P': 'trap' }, trap: 'The 1σ share is 68 %, not 90 %' },
     ],
   });
