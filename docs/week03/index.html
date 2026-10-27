@@ -623,18 +623,13 @@ print(round(1 - exp(-1), 4), round(tau * log(2), 3))</pre>
 
 <!-- ===== Part 4 · The Gaussian: measurement errors (L18–L25) ===== -->
 
-<!-- L18 · type: question -->
-<section class="slide" data-track="lecture" data-section="Part 4 · The Gaussian: measurement errors" data-time="32 min" data-title="Within one sigma: 90 %?">
+<!-- L18 · type: scene (lecture; simulated readings) -->
+<section class="slide" data-track="lecture" data-section="Part 4 · The Gaussian: measurement errors" data-time="32 min" data-title="Within one sigma: 90 %?" data-scene="l18">
   <span class="kicker">Part 4 · The Gaussian: measurement errors</span>
   <h2>A Gaussian measurement error: what fraction of readings lies within ±σ?</h2>
-  <div class="q">A length measurement has Gaussian scatter of width $\sigma$ about the true value. What fraction of repeated readings lies within $\pm\sigma$ of it?</div>
-  <div class="cols">
-    <div class="card amber"><span class="tag predict">Predict · vote, 30 s</span>
-      <p style="margin-top:10px">About 90 %, because a measurement is "almost always" within one standard deviation.</p></div>
-    <div class="card green step"><span class="tag check">Settles</span>
-      <p style="margin-top:8px">The fraction is the area under the bell between $-\sigma$ and $+\sigma$: $P(|z| \le 1) = \operatorname{erf}(1/\sqrt2) = 0.6827$, that is 68.3 %.</p></div>
-  </div>
-  <aside class="notes"><p>Vote first (30 s). The 68 % rule is taught as a fact to be computed, not memorised; Problem 6 shows what happens for other intervals. Transition: "the bell has the same shape for every σ: standardise, then count".</p></aside>
+  <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
+  <div class="rail"></div>
+  <aside class="notes"><p>Vote first (30 s): most say about 90 %, because a measurement is "almost always" within one standard deviation. The rod is illustrative (250.0 mm, σ = 0.5 mm) and the 200 readings are simulated. Step 3 runs slowly: let them call "in" or "out" for the first readings. After 20 readings the share is 0.60, after 200 it is 0.705: a finite sample scatters about 0.683 by about 0.03. The last step widens the band until 90 % is inside: ±1.64σ. Problem 6 shows other intervals. Transition: "the bell has the same shape for every σ: standardise, then count".</p></aside>
 </section>
 
 <!-- L19 · type: scene (lecture) -->
@@ -2175,6 +2170,7 @@ function t3Layout(st){
 }
 
 /* =====================================================================================================
+   L18 · 200 repeated readings of one length drop into 0.25σ bins; the share inside ±σ settles at 141/200 (numbers.py L18).
    L19 · The bell: the shaded band widens ±1σ -> ±2σ -> ±3σ, the share counts 0.6827 -> 0.9545 -> 0.9973 (numbers.py L18, L19).
    L23 · 2000 simulated standard Gaussian readings rain into 0.5-wide bins from -3 to 3 (numbers.py L23).
    ===================================================================================================== */
@@ -2186,6 +2182,74 @@ function film40(ms, fn, fps = 30){
   const n = Math.max(1, Math.round(ms / 1000 * fps)); let s = null;
   for (let i = n; i >= 1; i--) { const f = Object.assign({ dur: 1, wait: ms / n }, fn(i / n, (i - 1) / n)); if (s) f.after = s; s = f; }
   return s;
+}
+
+{
+  // L18 · repeated readings of one length (true value 250.0 mm, sigma 0.5 mm, illustrative): z = (x - L0)/sigma,
+  // 200 simulated values, numbers.py L18 (seed 18). Each reading moves the red marker, then drops as a dot into
+  // bins of 0.25 sigma; green dots are inside |z| <= 1.
+  const Z = [-0.43,-1.13,0.67,-1.11,2.01,0.92,-0.36,0.57,1.61,2.83,-0.92,1.07,0.52,-0.28,1.09,0.51,1.08,-0.53,-0.00,0.39,0.02,0.02,-0.77,0.13,0.19,-0.06,-0.01,0.70,-0.66,0.70,-0.15,0.06,-0.19,0.90,0.76,0.01,-0.44,1.86,0.54,-1.15,-0.00,-0.11,0.72,-0.23,-0.74,1.34,-1.99,-1.41,-0.52,-0.51,-0.13,-0.01,1.00,-1.52,2.98,0.61,-0.77,-0.57,-0.48,-2.23,0.40,-1.11,-0.54,-1.10,-0.60,0.02,-1.29,1.52,-1.28,-0.50,-0.03,0.62,0.21,0.03,0.49,0.36,-0.98,0.57,-0.67,-1.17,-0.12,-0.53,0.22,0.26,-0.63,0.28,-0.09,-1.66,1.51,-0.04,-0.19,0.81,-1.44,-0.73,0.89,-1.96,-0.90,1.61,0.55,-1.03,0.00,0.70,-0.84,-0.03,0.30,-0.00,1.49,0.07,-0.19,0.19,-0.42,-0.85,-0.27,-0.68,1.81,2.12,-0.40,-2.82,-0.39,0.65,-0.65,0.67,0.62,-0.64,-0.26,-1.00,-0.44,-1.12,-0.54,1.47,-0.32,1.09,0.32,-1.50,-0.10,-0.46,-1.23,-0.47,1.22,1.21,-0.42,-0.72,-0.05,0.34,1.31,-0.59,-0.95,-0.06,-1.99,-0.14,0.41,-1.91,0.88,-0.63,-0.21,-0.29,-0.16,-0.05,-0.61,-2.00,0.85,-0.14,0.51,0.23,1.20,-0.04,-0.54,2.69,1.49,0.86,1.18,1.39,-2.12,-0.55,0.14,0.61,-0.66,0.14,-1.05,-0.30,-1.98,-0.46,1.58,-1.28,0.61,-1.32,-1.08,2.31,-0.90,-0.14,-0.45,-2.77,-0.22,0.64,-1.35,-1.34,-0.90,0.43,-0.95,0.79];
+  const phi = z => Math.exp(-z * z / 2) / Math.sqrt(2 * Math.PI);
+  const AX = { X: z => 120 + (z + 3) * 740 / 6, Y: c => 520 - c * 345 / 30 };   // the axes box below, in closed form
+  const slot = [], fill = Array(24).fill(0);
+  Z.forEach(z => { const b = Math.floor((z + 3) / 0.25); slot.push([AX.X(-3 + 0.25 * b + 0.125), AX.Y(fill[b] + 0.5)]); fill[b]++; });
+  const dots = Z.map((_, i) => 'l18-d' + i), K90 = 1.645;
+  const tally = n => { let k = 0; for (let i = 0; i < n; i++) if (Math.abs(Z[i]) <= 1) k++; return k; };
+  const readout = n => ({ 'l18-N': { to: n, pre: 'readings ' }, 'l18-k': { to: tally(n), pre: 'inside ±σ ' },
+    'l18-sh': { to: n ? tally(n) / n : 0, digits: n < 50 ? 2 : 3, pre: 'share ' } });
+  // one by one: in each reading's slice the marker slides to the reading, then the probe falls into its bin
+  const oneByOne = (n1, ms, last) => film40(ms, f => {
+    const r = Math.min(n1 - 1, Math.floor(f * n1)), u = f * n1 - r, [x, y] = slot[r], done = f >= 1 ? n1 : r;
+    const py = u < 0.35 ? 124 : 124 + (y - 124) * ((u - 0.35) / 0.65) ** 2;
+    return Object.assign({ show: dots.slice(0, done), move: { 'l18-m': [AX.X(Z[r]) - AX.X(0), 0], 'l18-p': [x, f >= 1 ? y : py] }, count: readout(done) },
+      f >= 1 ? { tex: last } : {});
+  });
+  // fast: many readings per frame, the marker jumps to the latest one
+  const rain = (n0, n1, ms, last) => film40(ms, f => {
+    const n = Math.round(n0 + (n1 - n0) * f);
+    return Object.assign({ show: dots.slice(0, n), move: { 'l18-m': [AX.X(Z[n - 1]) - AX.X(0), 0] }, count: readout(n) }, f >= 1 ? { tex: last } : {});
+  });
+  const edge = dots.filter((_, i) => Math.abs(Z[i]) > 1 && Math.abs(Z[i]) <= K90);
+  scene('l18', {
+    build(h) {
+      const ax = h.axes({ x: [-3, 3], y: [0, 30], box: [120, 175, 860, 520], xt: 1, yt: 100, xlabel: '', ylabel: '' });
+      h.text('l18-xl', 860, 585, 'z = (x − L₀)/σ', 'c-muted', null, 'end');
+      h.text('l18-rl', 60, 58, 'rod, true length L₀ = 250.0 mm', 'c-muted');
+      h.rect('l18-rod', 60, 80, AX.X(0) - 60, 28, 'k-fill c-muted');
+      h.zone('l18-z', ax, 1, 175, 520);
+      h.tag('l18-lm', ax.X(-1), 230, '−σ', 'c-ok', 'w');
+      h.tag('l18-lp', ax.X(1), 230, '+σ', 'c-ok', 'e');
+      h.tag('l18-l0', ax.X(0), 150, 'L₀', 'c-muted', 'w');
+      Z.forEach((z, i) => h.circle(dots[i], slot[i][0], slot[i][1], 5, 'k-fill ' + (Math.abs(z) <= 1 ? 'c-ok' : 'c-concept')));
+      h.curve('l18-bell', ax, z => 200 * 0.25 * phi(z), -3, 3, 'k-stroke c-ask');
+      h.line('l18-m', AX.X(0), 72, AX.X(0), 124, 'k-stroke c-ask');
+      h.circle('l18-p', 0, 0, 6, 'k-fill c-ask');
+      h.text('l18-N', 130, 150, 'readings 0', 'c-text mono');
+      h.text('l18-k', 520, 150, 'inside ±σ 0', 'c-ok mono');
+      h.text('l18-sh', 745, 150, 'share 0', 'c-ask mono');
+      h.tag('l18-l90', ax.X(K90), 300, '90 % needs ±1.64σ', 'c-trap', 'e');
+    },
+    steps: [
+      { stage: 'Setup', show: ['l18-rod', 'l18-rl', 'l18-m'],
+        ask: 'One rod, measured again and again. What share of the readings lies within ±σ of the true length?',
+        note: 'Vote first: about 90 %?' },
+      { stage: 'Model', show: ['l18-z', 'l18-lm', 'l18-lp', 'l18-l0', 'l18-N', 'l18-k', 'l18-sh'],
+        tex: ['Each reading: $x = L_0 + \\varepsilon$, error $\\varepsilon$ Gaussian with width $\\sigma = 0.5$ mm',
+              'Inside: $|x - L_0| \\le \\sigma$, that is $|z| \\le 1$'] },
+      { stage: 'Derive', show: 'l18-p', tex: 'The first 20 readings, one at a time: in or out?',
+        after: oneByOne(20, 11000, 'After 20: 12 inside, share 0.60') },
+      { stage: 'Derive', hide: 'l18-p', tex: '180 more readings',
+        after: rain(20, 200, 6000, 'After 200: 141 inside, share 0.705; the dots pile into a bell') },
+      { stage: 'Result', clear: true, ask: null, draw: 'l18-bell',
+        box: 'The share inside ±σ is the area under the bell between −σ and +σ: $0.6827$',
+        note: '200 readings gave $141/200 = 0.705$ (simulated)' },
+      { stage: 'Check', ok: ['$0.705 - 0.683 = 0.022$, less than the scatter $\\sqrt{p(1-p)/200} = 0.033$ of a 200-reading share',
+                             'Readings outside ±3σ: none of 200 (expected 0.5)'] },
+      { stage: 'Check', zone: { 'l18-z': K90 }, show: 'l18-l90', hide: ['l18-lm', 'l18-lp'], mark: Object.fromEntries(edge.map(id => [id, 'ok'])),
+        count: { 'l18-k': { to: 181, pre: 'inside ±1.64σ ' }, 'l18-sh': { to: 0.905, digits: 3, pre: 'share ' } },
+        trap: '90 % within ±σ ✗: 90 % needs ±1.64σ (here 181/200 = 0.905)' },
+    ],
+  });
 }
 
 {
