@@ -641,43 +641,22 @@ print(round(1 - exp(-1), 4), round(tau * log(2), 3))</pre>
   <aside class="notes"><p>The dots are the 200 readings of Slide 18, now on a density scale; the stacks scatter about the bell. Ask for the 2σ share before shading (expected 90 % or 95 %). The green count beside the area shows that a finite sample follows the area to within its scatter. The answer 95.4 % will recur in the explorer. Transition: "the explorer finds the k that gives 95 %".</p></aside>
 </section>
 
-<!-- L20 · type: derivation -->
-<section class="slide" data-track="lecture" data-section="Part 4 · The Gaussian: measurement errors" data-time="32 min" data-title="Standardise first">
+<!-- L20 · type: scene (lecture; the readings of Slide 18) -->
+<section class="slide" data-track="lecture" data-section="Part 4 · The Gaussian: measurement errors" data-time="32 min" data-title="Standardise first" data-scene="l20">
   <span class="kicker">Part 4 · The Gaussian: measurement errors</span>
   <h2>Standardise first: every Gaussian reduces to one table in $z$</h2>
-  <div class="cols w64">
-    <div class="stack" style="gap:10px">
-      <div class="step"><span class="eq">Gaussian density with mean $\mu$ and width $\sigma$: $f(x) = \dfrac{1}{\sigma\sqrt{2\pi}}\,e^{-(x-\mu)^2/2\sigma^2}$</span></div>
-      <div class="step"><span class="eq">standardise: $z = (x - \mu)/\sigma$, so $f$ becomes the standard Gaussian in $z$</span></div>
-      <div class="step"><span class="eq">the band $\mu - k\sigma \le x \le \mu + k\sigma$ is the band $|z| \le k$</span></div>
-      <div class="step"><span class="eq">probability: $P(|z| \le k) = \operatorname{erf}(k/\sqrt2)$</span></div>
-      <div class="step"><span class="eq">for $k = 1$: $\operatorname{erf}(0.7071) = 0.6827$</span></div>
-    </div>
-    <div class="card green step"><span class="tag check">Check</span><ul style="margin-top:8px">
-      <li>Simpson's rule on $[-1, 1]$ of the standard Gaussian gives 0.6827 (numbers.py), agreeing with erf without using it</li></ul></div>
-  </div>
-  <aside class="notes"><p>The identity $P(|z| \le k) = \operatorname{erf}(k/\sqrt2)$ is quoted, not derived here; say so. The check is numerical integration, which agrees to four digits. Transition: "a narrow bell is tall: can its height exceed one?".</p></aside>
+  <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
+  <div class="rail"></div>
+  <aside class="notes"><p>The dots are the 200 readings of Slide 18. Nothing moves when we standardise: only the numbers on the axes change, first by subtracting μ = 250.0 mm, then by dividing by σ = 0.5 mm. Follow reading 5: 251.01 mm, 1.01 mm, z = 2.01. The same 141 readings stay inside the band. The identity $P(|z| \le k) = \operatorname{erf}(k/\sqrt2)$ is quoted, not derived; Simpson’s rule checks it. Transition: "the heights changed when we divided by σ: can a height exceed one?".</p></aside>
 </section>
 
-<!-- L21 · type: concept (with code) -->
-<section class="slide" data-track="lecture" data-section="Part 4 · The Gaussian: measurement errors" data-time="32 min" data-title="A density above one is allowed">
+<!-- L21 · type: scene (lecture; the readings of Slide 18) -->
+<section class="slide" data-track="lecture" data-section="Part 4 · The Gaussian: measurement errors" data-time="32 min" data-title="A density above one is allowed" data-scene="l21">
   <span class="kicker">Part 4 · The Gaussian: measurement errors</span>
-  <h2>A narrow Gaussian peaks above one per millimetre, and that is allowed</h2>
-  <div class="cols">
-    <div class="stack">
-      <div class="card blue"><ul>
-        <li>Peak density of a Gaussian: $f(\mu) = 1/(\sigma\sqrt{2\pi})$, in units of 1/[x]</li>
-        <li>A length gauge with $\sigma = 2$ mm: $f(\mu) = 0.1995$ per mm; a micrometer with $\sigma = 0.1$ mm: $f(\mu) = 3.9894$ per mm (illustrative)</li>
-        <li>Both put 68.3 % of the readings within $\pm\sigma$: the area, not the height, is the probability</li></ul></div>
-<pre>from math import sqrt, pi
-for sigma in (2.0, 0.1):                   # mm
-    print(sigma, round(1 / (sigma * sqrt(2 * pi)), 4))</pre>
-<pre class="out step">2.0 0.1995
-0.1 3.9894</pre>
-    </div>
-    <div class="card green step"><span class="tag check">Check</span><p style="margin-top:8px">Units: $(1/\text{mm}) \times \text{mm}$ is dimensionless; a height of 3.99 per mm times a width of about 0.25 mm near the peak gives about 1, the size of a probability (the same lesson as the uniform density of Slide 12).</p></div>
-  </div>
-  <aside class="notes"><p>Ask: "the micrometer's density is 3.99 at the centre: is the model broken?" Expected: "yes, above one". The density carries units; only its area is a probability. Transition: "how many standard deviations hold 95 %? Explore the widget".</p></aside>
+  <h2>A density can exceed one: it is a share per unit length</h2>
+  <div class="scene"><svg class="fig" viewBox="0 0 900 600"></svg><div class="panel"><div class="ask"></div><div class="deriv"></div></div></div>
+  <div class="rail"></div>
+  <aside class="notes"><p>Ask first: "1.16 is above one: is the model broken?" Expected: "yes". The column holds 29 of 200 readings, a share of 0.145, spread over 0.125 mm. Changing the unit of length changes the height (11.6 per cm, 0.00116 per μm) but never height × width. The bell itself peaks at 0.80 per mm; this sample’s tallest column overshoots it by chance. Transition: "how many standard deviations hold 95 %? Explore the widget".</p></aside>
 </section>
 
 <!-- L22 · type: widget -->
@@ -2172,6 +2151,8 @@ function t3Layout(st){
 /* =====================================================================================================
    L18 · 200 repeated readings of one length drop into 0.25σ bins; the share inside ±σ settles at 141/200 (numbers.py L18).
    L19 · The bell over the same 200 readings (as a density): the shaded band widens ±1σ -> ±2σ -> ±3σ, the share counts 0.6827 -> 0.9545 -> 0.9973 (numbers.py L18, L19).
+   L20 · Standardise the same readings: tick labels mm -> x - mu -> z, heights per mm -> per sigma (numbers.py L20).
+   L21 · The tallest column: height = share / width in mm, cm, um; height x width = 0.145 (numbers.py L21).
    L23 · 2000 simulated standard Gaussian readings rain into 0.5-wide bins from -3 to 3 (numbers.py L23).
    ===================================================================================================== */
 
@@ -2312,6 +2293,129 @@ const Z18 = [-0.432,-1.130,0.674,-1.108,2.014,0.924,-0.359,0.571,1.612,2.834,-0.
         ok: ['Readings against areas: $0.705$ vs $0.683$, $0.945$ vs $0.954$, $1.000$ vs $0.997$; each gap is below the scatter $\\sqrt{p(1-p)/200}$',
              'Tail beyond 3σ: $1 - 0.9973 = 0.0027$, about 0.5 of 200 readings: none seen'] },
       { stage: 'Check', show: 'l19-90', mark: { 'l19-P': 'trap' }, trap: 'The 1σ share is 68 %, not 90 %' },
+    ],
+  });
+}
+
+// Slides 20 and 21 reuse the readings of Slide 18 on one geometry: z in [-3, 3] across [120, 860] px, height 0..0.6 per sigma
+// across [520, 60] px. stack18 puts each reading in its 0.25-sigma bin; one dot is 1/(200 x 0.25) = 0.02 per sigma.
+const G18 = { X: z => 120 + (z + 3) * 740 / 6, Y: d => 520 - d * 460 / 0.6 };
+const stack18 = () => { const fill = Array(24).fill(0);
+  return Z18.map(z => { const b = Math.floor((z + 3) / 0.25); return [G18.X(-3 + 0.25 * b + 0.125), G18.Y((fill[b]++ + 0.5) * 0.02), b]; }); };
+// a row of tick labels (x along the bottom, or y up the left edge) built as one group, so a unit change is one fade
+const ticks18 = (h, id, axis, labels) => {
+  const g = h.group(id);
+  labels.forEach((s, i) => axis === 'x' ? h.text(null, G18.X(i - 3), 546, s, 'k-tick', g, 'middle')
+                                         : h.text(null, 110, G18.Y((i + 1) / 10) + 6, s, 'k-tick', g, 'end'));
+  return g;
+};
+// swap one label group for another: the old one slides down and fades, the new one fades in where it was built
+const swap18 = (outIds, inIds) => ({ hide: outIds, move: Object.assign(Object.fromEntries(outIds.map(i => [i, [0, 22]])),
+  Object.fromEntries(inIds.map(i => [i, [0, 0]]))), show: inIds });
+const phi18 = z => Math.exp(-z * z / 2) / Math.sqrt(2 * Math.PI);
+const grid18 = (h, pre) => {
+  const ax = h.axes({ x: [-3, 3], y: [0, 0.6], box: [120, 60, 860, 520], xt: 10, yt: 1, xlabel: '', ylabel: '' });
+  for (let z = -3; z <= 3; z++) if (z) h.line(null, G18.X(z), 60, G18.X(z), 520, 'k-grid');
+  for (let k = 1; k <= 6; k++) h.line(null, 120, G18.Y(k / 10), 860, G18.Y(k / 10), 'k-grid');
+  return ax;
+};
+
+{
+  // L20 · standardise: the same picture, relabelled. x (mm) -> x - mu (mm) -> z; heights per mm -> per sigma (x 0.5 mm).
+  // Reading 5 (index 4, x = 251.01 mm) is followed through (numbers.py L20).
+  const slot = stack18(), dots = Z18.map((_, i) => 'l20-d' + i);
+  const inMark = Object.fromEntries(dots.filter((_, i) => Math.abs(Z18[i]) <= 1).map(id => [id, 'ok']));
+  const [rx, ry] = slot[4];
+  scene('l20', {
+    build(h) {
+      const ax = grid18(h);
+      ticks18(h, 'l20-xa', 'x', ['248.5', '249.0', '249.5', '250.0', '250.5', '251.0', '251.5']);
+      ticks18(h, 'l20-xb', 'x', ['−1.5', '−1.0', '−0.5', '0', '0.5', '1.0', '1.5']);
+      ticks18(h, 'l20-xc', 'x', ['−3', '−2', '−1', '0', '1', '2', '3']);
+      ticks18(h, 'l20-ya', 'y', ['0.2', '0.4', '0.6', '0.8', '1.0', '1.2']);
+      ticks18(h, 'l20-yb', 'y', ['0.1', '0.2', '0.3', '0.4', '0.5', '0.6']);
+      h.text('l20-ta', 860, 585, 'reading x (mm)', 'c-muted', null, 'end');
+      h.text('l20-tb', 860, 585, 'x − μ (mm)', 'c-muted', null, 'end');
+      h.text('l20-tc', 860, 585, 'z = (x − μ)/σ', 'c-muted', null, 'end');
+      h.text('l20-ua', 120, 40, 'density per mm', 'c-muted');
+      h.text('l20-ub', 120, 40, 'density per σ', 'c-muted');
+      h.zone('l20-z', ax, 1, 60, 520);
+      Z18.forEach((_, i) => h.circle(dots[i], slot[i][0], slot[i][1], 5, 'k-fill c-concept'));
+      h.curve('l20-bell', ax, phi18, -3, 3, 'k-stroke c-ask');
+      h.circle('l20-ring', rx, ry, 11, 'k-stroke c-ask');
+      h.text('l20-r', rx, G18.Y(0.25), 'x = 251.01 mm', 'c-ask mono', null, 'middle');
+    },
+    steps: [
+      { stage: 'Setup', show: [...dots, 'l20-xa', 'l20-ya', 'l20-ta', 'l20-ua'], draw: 'l20-bell',
+        ask: 'Slide 18 read the rod in mm; the table of the bell is in z. How do we get from one to the other?',
+        tex: '$f(x) = \\dfrac{1}{\\sigma\\sqrt{2\\pi}}\\,e^{-(x-\\mu)^2/2\\sigma^2}$ with $\\mu = 250.0$ mm, $\\sigma = 0.5$ mm' },
+      { stage: 'Model', show: ['l20-z', 'l20-ring', 'l20-r'], mark: inMark,
+        tex: 'Band 249.5 to 250.5 mm: 141 readings inside; reading 5 is $x = 251.01$ mm' },
+      Object.assign(swap18(['l20-xa', 'l20-ta'], ['l20-xb', 'l20-tb']), { stage: 'Derive',
+        count: { 'l20-r': { to: 1.01, digits: 2, pre: 'x − μ = ', suf: ' mm' } },
+        tex: 'Subtract $\\mu$: every reading moves by $-250.0$ mm; the band is $|x - \\mu| \\le 0.5$ mm' }),
+      Object.assign(swap18(['l20-xb', 'l20-tb', 'l20-ya', 'l20-ua'], ['l20-xc', 'l20-tc', 'l20-yb', 'l20-ub']), { stage: 'Derive',
+        count: { 'l20-r': { to: 2.01, digits: 2, pre: 'z = ' } },
+        tex: ['Divide by $\\sigma = 0.5$ mm: $z = (x - \\mu)/\\sigma$, the band is $|z| \\le 1$',
+              'Heights times $\\sigma$: the peak $0.798$ per mm becomes $0.399$ per σ'] }),
+      { stage: 'Result', clear: true, ask: null,
+        box: 'Every Gaussian becomes the same bell in $z$: $P(|z| \\le k) = \\operatorname{erf}(k/\\sqrt2)$, and $k = 1$ gives $0.6827$' },
+      { stage: 'Check', mark: { 'l20-r': 'ok' },
+        ok: ['The same 141 readings are inside before and after: standardising moves no reading across the band edge',
+             'Simpson’s rule on $[-1, 1]$ gives $0.6827$ without using erf'] },
+    ],
+  });
+}
+
+{
+  // L21 · a density is a share per unit length. The tallest column of the readings (bin 11: z in [-0.25, 0), 29 of 200)
+  // has height share / width: 1.16 per mm, 11.6 per cm, 0.00116 per um; height x width stays 0.145 (numbers.py L21).
+  const slot = stack18(), dots = Z18.map((_, i) => 'l21-d' + i), B = 11;
+  const col = dots.filter((_, i) => slot[i][2] === B), N = col.length;
+  const fade = Object.fromEntries(dots.map(id => [id, col.includes(id) ? 'ask' : 'faded']));
+  const top = G18.Y(N * 0.02), xL = G18.X(-0.25), xR = G18.X(0);
+  const unit = (u, w, wd, hgt, hd) => ({ count: { 'l21-w': { to: w, digits: wd, pre: 'width ', suf: ' ' + u },
+    'l21-h': { to: hgt, digits: hd, pre: 'height ', suf: ' per ' + u } } });
+  scene('l21', {
+    build(h) {
+      const ax = grid18(h);
+      ticks18(h, 'l21-xa', 'x', ['248.5', '249.0', '249.5', '250.0', '250.5', '251.0', '251.5']);
+      ticks18(h, 'l21-xb', 'x', ['24.85', '24.90', '24.95', '25.00', '25.05', '25.10', '25.15']);
+      ticks18(h, 'l21-xc', 'x', ['248 500', '249 000', '249 500', '250 000', '250 500', '251 000', '251 500']);
+      ticks18(h, 'l21-ya', 'y', ['0.2', '0.4', '0.6', '0.8', '1.0', '1.2']);
+      ticks18(h, 'l21-yb', 'y', ['2', '4', '6', '8', '10', '12']);
+      ticks18(h, 'l21-yc', 'y', ['0.0002', '0.0004', '0.0006', '0.0008', '0.0010', '0.0012']);
+      h.text('l21-ta', 860, 585, 'reading x (mm)', 'c-muted', null, 'end');
+      h.text('l21-tb', 860, 585, 'reading x (cm)', 'c-muted', null, 'end');
+      h.text('l21-tc', 860, 585, 'reading x (μm)', 'c-muted', null, 'end');
+      h.text('l21-ua', 120, 40, 'density per mm', 'c-muted');
+      h.text('l21-ub', 120, 40, 'density per cm', 'c-muted');
+      h.text('l21-uc', 120, 40, 'density per μm', 'c-muted');
+      Z18.forEach((_, i) => h.circle(dots[i], slot[i][0], slot[i][1], 5, 'k-fill c-concept'));
+      h.curve('l21-bell', ax, phi18, -3, 3, 'k-stroke c-muted');
+      const br = h.group('l21-br', 'c-ask');
+      h.line(null, xL, top - 14, xR, top - 14, 'k-stroke', br);
+      h.line(null, xL, top - 22, xL, top - 6, 'k-stroke', br); h.line(null, xR, top - 22, xR, top - 6, 'k-stroke', br);
+      h.text('l21-w', xL - 12, top - 8, 'width 0.125 mm', 'c-ask mono', null, 'end');
+      h.text('l21-h', xR + 14, top + 20, 'height 1.16 per mm', 'c-ask mono');
+      h.text('l21-s', xR + 14, top + 52, 'share 29/200 = 0.145', 'c-ok mono');
+    },
+    steps: [
+      { stage: 'Setup', show: [...dots, 'l21-xa', 'l21-ya', 'l21-ta', 'l21-ua', 'l21-h'], draw: 'l21-bell', mark: fade,
+        ask: 'The tallest column of Slide 18’s readings reaches 1.16 per mm. Is that a probability above 1?' },
+      { stage: 'Model', show: ['l21-br', 'l21-w', 'l21-s'],
+        tex: ['The column holds 29 of the 200 readings: share $0.145$',
+              'Its width is $0.125$ mm, so its height is $0.145 / 0.125\\ \\text{mm} = 1.16$ per mm'] },
+      Object.assign(swap18(['l21-xa', 'l21-ya', 'l21-ta', 'l21-ua'], ['l21-xb', 'l21-yb', 'l21-tb', 'l21-ub']), unit('cm', 0.0125, 4, 11.6, 1),
+        { stage: 'Derive', tex: 'Read the same rod in cm: width $0.0125$ cm, height $11.6$ per cm; height × width $= 0.145$' }),
+      Object.assign(swap18(['l21-xb', 'l21-yb', 'l21-tb', 'l21-ub'], ['l21-xc', 'l21-yc', 'l21-tc', 'l21-uc']), unit('μm', 125, 0, 0.00116, 5),
+        { stage: 'Derive', tex: 'In μm: width $125$ μm, height $0.00116$ per μm; height × width $= 0.145$' }),
+      Object.assign(swap18(['l21-xc', 'l21-yc', 'l21-tc', 'l21-uc'], ['l21-xa', 'l21-ya', 'l21-ta', 'l21-ua']), unit('mm', 0.125, 3, 1.16, 2),
+        { stage: 'Result', clear: true, ask: null,
+          box: 'A density is a share per unit length: its height depends on the unit; only height × width, an area, is a probability' }),
+      { stage: 'Check', mark: { 'l21-s': 'ok' },
+        ok: ['Units: $(1/\\text{mm}) \\times \\text{mm}$ has no unit, as a probability must',
+             'A finer instrument, $\\sigma = 0.1$ mm, peaks at $1/(\\sigma\\sqrt{2\\pi}) = 3.99$ per mm; its total area is still 1'] },
     ],
   });
 }
