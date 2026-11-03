@@ -1866,8 +1866,7 @@ const P4L = [0.0001, 0.0036, 0.0486, 0.2916, 0.6561], MU4L = 3.6;      // number
     },
     steps: [
       { stage: 'Setup', show: ['l03-rod'],
-        ask: 'Four layers, each fires with efficiency 0.9 (illustrative). Where does the hit-count distribution balance?',
-        note: 'Vote: at 4, the tallest bar, or lower?' },
+        ask: 'Four layers, each fires with efficiency 0.9 (illustrative). Where does the hit-count distribution balance?' },
       Object.assign(at(4), { stage: 'Model', show: ['l03-f', 'l03-tq', 'l03-ml'],
         tex: ['Each bar is a mass $P(k)$ at position $k$ on a rod', 'Torque about a fulcrum at $c$: $\\sum_k (k - c)\\,P(k)$'] }),
       { stage: 'Derive', tex: 'Slide the fulcrum: torque $-0.40$ at $c = 4$, $+0.60$ at $c = 3$',
@@ -1907,8 +1906,7 @@ const P4L = [0.0001, 0.0036, 0.0486, 0.2916, 0.6561], MU4L = 3.6;      // number
       h.text('l05-v', 860, 548, 'Var 0.00 hits²', 'c-ok mono', null, 'end');
     },
     steps: [
-      { stage: 'Setup', ask: 'The rod of Slide 3 balances at μ = 3.60. Which bar contributes most to the spread?',
-        note: 'Vote: the heaviest bar (4 hits)?' },
+      { stage: 'Setup', ask: 'The rod of Slide 3 balances at μ = 3.60. Which bar contributes most to the spread?' },
       { stage: 'Model', show: 'l05-v',
         tex: ['Each mass $P(k)$ sits at an arm $k - \\mu$', 'It adds $P(k)\\,(k - \\mu)^2$, like $m\\,r^2$ in a moment of inertia'] },
       { stage: 'Derive', tex: 'The five terms move into one bar', after: then4(fill, { tex: 'Terms: 0.0013, 0.024, 0.124, 0.105, 0.105' }) },
@@ -1947,8 +1945,7 @@ const P4L = [0.0001, 0.0036, 0.0486, 0.2916, 0.6561], MU4L = 3.6;      // number
     },
     steps: [
       { stage: 'Setup', show: ['l07-la', 'l07-lb', 'l07-a', 'l07-b'], move: { 'l07-a': [0, Y(0) - Y(A)], 'l07-b': [0, Y(0) - Y(B)] }, dur: 1,
-        ask: 'The telescope again. Is the average of the squares, E[K²], equal to the square of the average, (E[K])²?',
-        note: 'Vote: the same or different?' },
+        ask: 'The telescope again. Is the average of the squares, E[K²], equal to the square of the average, (E[K])²?' },
       { stage: 'Model', tex: ['$E[K^2] = \\sum k^2 P(k) = 0 + 0.0036 + 0.194 + 2.624 + 10.498$', '$(E[K])^2 = 3.60^2$'] },
       { stage: 'Derive', tex: 'The two bars rise',
         after: then4(grow([['l07-a', Y(0) - Y(A)], ['l07-b', Y(0) - Y(B)]], 1800),
@@ -1994,8 +1991,7 @@ const P4L = [0.0001, 0.0036, 0.0486, 0.2916, 0.6561], MU4L = 3.6;      // number
     },
     steps: [
       { stage: 'Setup', draw: ['l09-A', 'l09-B'],
-        ask: 'Spectrum A: energy loss in a thin layer. Spectrum B: a photopeak with a leakage tail (illustrative shapes). Same mean, same σ: the same distribution?',
-        note: 'Vote: the same or different?' },
+        ask: 'Spectrum A: energy loss in a thin layer. Spectrum B: a photopeak with a leakage tail (illustrative shapes). Same mean, same σ: the same distribution?' },
       { stage: 'Model', show: ['l09-ra', 'l09-rb'], tex: 'Both: mean 100 keV and σ 10 keV' },
       { stage: 'Derive', show: ['l09-fa', 'l09-fb'], tex: 'The two balance points meet at 100 keV',
         after: then4(meet, { show: ['l09-mean', 'l09-pa', 'l09-pb', 'l09-tal', 'l09-tbl'], draw: ['l09-ta', 'l09-tb'],
@@ -2040,8 +2036,7 @@ const P4L = [0.0001, 0.0036, 0.0486, 0.2916, 0.6561], MU4L = 3.6;      // number
     },
     steps: [
       { stage: 'Setup', draw: 'l13-exp', show: ['l13-tau', 'l13-taul'],
-        ask: 'Muon decay times have skewness +2: the long tail is on the right. Are most decays later than the mean life τ?',
-        note: 'Vote: most later, most earlier, or half and half?' },
+        ask: 'Muon decay times have skewness +2: the long tail is on the right. Are most decays later than the mean life τ?' },
       { stage: 'Model', show: ['l13-nb', 'l13-na'], tex: '1000 simulated decays arrive one by one; the counter splits them at τ' },
       { stage: 'Derive', show: [...Array(POOL)].map((_, k) => 'l13-d' + k), tex: 'The decays fall into 0.5 μs bins',
         after: then4(rain, { hide: [...Array(POOL)].map((_, k) => 'l13-d' + k), tex: '618 before τ, 382 after (simulated)' }) },
@@ -2164,8 +2159,7 @@ const P4L = [0.0001, 0.0036, 0.0486, 0.2916, 0.6561], MU4L = 3.6;      // number
       h.text('l18-sd', 600, 210, 'σ of total = 1 MeV', 'c-muted mono');
     },
     steps: [
-      { stage: 'Setup', ask: 'Each hit deposits an energy with an exponential spread, mean 1 MeV, skewness 2 (illustrative). For a shower of 64 hits, is the total still skewed like one hit?',
-        note: 'Vote: still skewed, or a bell?' },
+      { stage: 'Setup', ask: 'Each hit deposits an energy with an exponential spread, mean 1 MeV, skewness 2 (illustrative). For a shower of 64 hits, is the total still skewed like one hit?' },
       { stage: 'Model', show: ['l18-n', 'l18-sk', 'l18-sd'], tex: 'Histogram of 5000 simulated totals, drawn in units of its own σ around its own mean',
         after: morph(-1, 0, 1500) },
       { stage: 'Derive', tex: 'Add more hits per shower: n = 4, 16, 64',
@@ -2198,8 +2192,7 @@ const P4L = [0.0001, 0.0036, 0.0486, 0.2916, 0.6561], MU4L = 3.6;      // number
       h.tag('l21-big', X(L.big[0]), Y(1.5), 'one value of 864', 'c-trap', 'nw');
     },
     steps: [
-      { stage: 'Setup', ask: 'A resonance line shape (Breit–Wigner: a Cauchy curve of half-width 1) and a Gaussian of σ = 1. Draw 2000 values from each and keep a running mean. Do both settle at 0?',
-        note: 'Vote: both settle, only the Gaussian, neither?' },
+      { stage: 'Setup', ask: 'A resonance line shape (Breit–Wigner: a Cauchy curve of half-width 1) and a Gaussian of σ = 1. Draw 2000 values from each and keep a running mean. Do both settle at 0?' },
       { stage: 'Model', tex: ['Running mean after $n$ values: $(x_1 + \\dots + x_n)/n$', '2000 simulated values of each (seed 121) arrive'] },
       { stage: 'Derive', draw: ['l21-g', 'l21-c'], show: ['l21-dg', 'l21-dc'], dur: 4200,
         trace: { 'l21-dg': ['l21-g', 5000], 'l21-dc': ['l21-c', 5000] },

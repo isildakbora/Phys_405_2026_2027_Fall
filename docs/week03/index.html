@@ -368,7 +368,7 @@ body.laser-on #laser{display:block}
   <h2>Three detectors, each fires with probability ½. Are the four counts equally likely?</h2>
   <div class="q">Three detectors each fire with probability $\tfrac12$ when a particle passes, independently. The count of detectors that fire is 0, 1, 2 or 3. Are the four counts equally likely?</div>
   <div class="cols">
-    <div class="card amber"><span class="tag predict">Predict · vote, 1 min</span>
+    <div class="card amber"><span class="tag predict">Predict · 1 min</span>
       <p style="margin-top:10px">Yes: four possible counts, so each has probability $\tfrac14$. Or: the middle counts are more likely.</p>
       <p class="step" style="margin-top:10px"><b>Most say:</b> "yes, $\tfrac14$ each".</p></div>
     <div class="stack">
@@ -2225,8 +2225,7 @@ const Z18 = [-0.432,-1.130,0.674,-1.108,2.014,0.924,-0.359,0.571,1.612,2.834,-0.
     },
     steps: [
       { stage: 'Setup', show: ['l18-rod', 'l18-rl', 'l18-m'],
-        ask: 'One rod, measured again and again. What share of the readings lies within ±σ of the true length?',
-        note: 'Vote first: about 90 %?' },
+        ask: 'One rod, measured again and again. What share of the readings lies within ±σ of the true length?' },
       { stage: 'Model', show: ['l18-z', 'l18-lm', 'l18-lp', 'l18-l0', 'l18-N', 'l18-k', 'l18-sh'],
         tex: ['Each reading: $x = L_0 + \\varepsilon$, error $\\varepsilon$ Gaussian with width $\\sigma = 0.5$ mm',
               'Inside: $|x - L_0| \\le \\sigma$, that is $|z| \\le 1$'] },

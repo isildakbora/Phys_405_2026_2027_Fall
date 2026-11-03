@@ -2311,7 +2311,7 @@ scene('l03', {
         ask: 'Two programs step it for 10 periods (628 steps); only the order of two lines differs. What amplitude does each report at the end?' },
       { stage: 'Model', show: ['l03-ma', 'l03-mb'],
         tex: ['A: $\\texttt{x, v = x + v*dt, v - w*w*x*dt}$', 'B: $\\texttt{v = v - w*w*x*dt}$, then $\\texttt{x = x + v*dt}$'],
-        note: 'Typical vote: “both 0.10 m, same equations”' },
+        note: 'Most say: “both 0.10 m, same equations”' },
       { stage: 'Derive', hide: 'l03-x0', oscillate: osc(L03.amp(L03.A, 63) * S1, 90), draw: ['l03-ax1', 'l03-bx1'],
         show: ['l03-ag1', 'l03-as1', 'l03-bg1', 'l03-bs1'], dur: 1600,
         tex: 'One period (63 steps): the swings look almost alike' },
