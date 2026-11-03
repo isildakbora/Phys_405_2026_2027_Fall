@@ -9,6 +9,8 @@
 @media (prefers-color-scheme:dark){:root{--bg:#14131a;--fg:#ecebf2;--mut:#a09eae;--line:#2c2a38;--acc:#ff8a80;--card:#1d1c26;--ok:#7ad69a;--okbg:#16301f;--bad:#ff8a80;--badbg:#3a1d1b;--sel:#2a2836}}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
 main{max-width:760px;margin:0 auto;padding:40px 16px 96px}
+.logo{height:56px;width:auto;display:block;margin:0 0 20px}
+@media (prefers-color-scheme:dark){.logo{filter:brightness(0) invert(1)}}
 h1{font-size:1.7rem;margin:0 0 4px}.sub{color:var(--mut);margin:0 0 20px}
 a{color:var(--acc)}
 .rules{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:0 0 24px}
@@ -41,6 +43,7 @@ button.ghost{background:transparent;color:var(--acc)}
 #score table{border-collapse:collapse;margin-top:8px}
 #score td{padding:2px 14px 2px 0;text-align:left}
 </style></head><body><main>
+<img class="logo" src="logo.svg" alt="Yeditepe University">
 <h1>PHYS 405 Midterm Practice Exam</h1>
 <p class="sub">Computerized Data Analysis · Weeks 1–5 · Prof. Dr. Bora Işıldak · Yeditepe University · 2026 Fall</p>
 <div class="rules"><b>Instructions</b><ul>
